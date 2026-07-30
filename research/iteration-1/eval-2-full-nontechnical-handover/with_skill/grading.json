@@ -1,0 +1,166 @@
+{
+  "expectations": [
+    {
+      "text": "Both a dated Daily Handoff and a Master Handoff are created under docs/handoffs/",
+      "passed": true,
+      "evidence": "project/docs/handoffs/ contains both `2026-07-30_001_northwind-copy-handoff.md` (H1: 'Daily Handoff — Northwind Coffee brand refresh content — 2026-07-30', Handoff ID 2026-07-30_001) and `_master-handoff.md` (H1: 'Master Handoff — Northwind Coffee brand refresh content workstream'). Both are substantive (24,620 and 35,565 chars) and byte-identical to the copies in outputs/ (verified with diff). Daily has 11 populated sections, Master has 19."
+    },
+    {
+      "text": "Master Handoff Version is 1.0 (new canonical document)",
+      "passed": true,
+      "evidence": "_master-handoff.md line 5: 'Version: 1.0'. Reinforced in section 11: 'This is version 1.0 — the first Master Handoff for this project. There is no previous baseline.' and section 19 records the Daily as 'Incorporated into Master: Yes — v1.0, 2026-07-30'."
+    },
+    {
+      "text": "No fabricated git, branch, commit, build, test, or CI values appear; technical state is replaced with operational state or marked not applicable",
+      "passed": true,
+      "evidence": "Grep for git/branch/commit/pipeline/npm/pytest/lint/deploy across both files returns only two hits, both explicit negations: section 4 'Repositories: None. This is a content project with no code repository, no build, and no deployment pipeline' and section 15 header '(This project has no repository, branch, build, test suite, or deployment pipeline. The equivalent operational state is recorded below.)' followed by 'Repository / build / tests / CI / deployment: None — not applicable. Do not look for them.' Section 15 is instead populated with genuine operational state (published/printed/with-client/scheduled-sends/tracker/budget/account standing). Confirmed the project directory has no .git."
+    },
+    {
+      "text": "Marcus's mandatory written sign-off before anything is published is recorded as an approval gate",
+      "passed": true,
+      "evidence": "Master section 5 'Approval gates: 2. Marcus Bell's written sign-off before publication. Hard gate, contract-level, no exceptions.' Also section 3 as a locked principle with the 2025 wrong-price rationale and the practical clarification 'Verbal approval on a call is not sign-off. \"In review with Marcus\" is not \"approved\"'; section 9 Final Decisions; section 18 point 8 lists publishing/printing as requiring explicit human approval. Daily section 7 Constraints repeats it. Matches brief.md ('no exceptions, this was a condition of the contract after the 2025 incident')."
+    },
+    {
+      "text": "The 2009 vs 2011 founding-year conflict is recorded as unresolved rather than silently decided",
+      "passed": true,
+      "evidence": "Master section 13 Contradictions: 'Northwind's founding year is given as both 2011 and 2009... Verified current state: Unresolved. Nobody at Northwind has confirmed which is correct. Resolution: Provisionally using 2011... because it matches what is currently published'. Also section 10 Open Decisions ('Northwind's founding year — 2011 or 2009?', owner Marcus Bell) and section 18 point 6 'Do not treat 2011 as a verified founding year, and do not switch to 2009 without written confirmation.' Daily section 3 marks the 2011 choice Status: 'Provisional'. Goes beyond the notes with a correct downstream implication: if 2009 is right, re-check the already-approved homepage."
+    },
+    {
+      "text": "Sourcing page recorded as blocked on farm names from Northwind ops, including both chase dates (24 Jul and 29 Jul)",
+      "passed": true,
+      "evidence": "Master section 7: 'sourcing-page — not started; needs farm names from Northwind ops (asked 2026-07-24 and 2026-07-29, no reply)'. Both dates repeated in section 1 ('Requested 2026-07-24 and 2026-07-29 — no reply either time'), section 8 history, section 14 dependencies, and section 17 Acceptance Criteria. Daily section 6 same. Matches session-notes.md ('asked Northwind ops twice (24 Jul and 29 Jul)')."
+    },
+    {
+      "text": "Sourcing page identified as the critical path item, with its 7 Aug due date",
+      "passed": true,
+      "evidence": "Master section 1: 'It is the longest page, it is due 2026-08-07, and it is the acknowledged critical path item.' Section 7: 'due 2026-08-07; critical path'. Section 16 Blockers: 'sourcing-page — no farm names. Due 2026-08-07. Critical path.' Daily sections 1, 6, 8 and 9 concur; due date matches content-calendar.csv row 'sourcing-page,...,2026-08-07'."
+    },
+    {
+      "text": "The 20% first-order offer is recorded as unconfirmed/verbal, not as agreed",
+      "passed": true,
+      "evidence": "Master section 7: 'email-2-offer — the offer amount is not agreed. Marcus said \"probably 20% off first order\" verbally on a call, nothing in writing'. Section 9 Final Decisions: 'Treat the \"probably 20% off first order\" offer as unconfirmed and do not draft against it.' Section 18 point 8 forbids stating any offer/discount without written confirmation. Daily section 3 records the same decision with the rejected alternative (drafting against 20%). Nowhere is 20% stated as agreed."
+    },
+    {
+      "text": "The 2024 loyalty terms are recorded as a dead end not to build on, with the reason (scheme replaced in September)",
+      "passed": true,
+      "evidence": "Master section 12 Superseded table: '2024 Northwind loyalty terms (as a basis for email 3) | New loyalty terms — not yet drafted | Loyalty scheme is being replaced in September 2026; the 2024 terms will be wrong. An hour was lost writing against them.' Section 9 decision 'Do not base email 3 on the 2024 loyalty terms'; section 18 point 6 'Do not build email 3 on the 2024 loyalty terms — an hour was already lost there; the scheme is being replaced in September.' Daily section 11 'Work That Must Not Be Repeated' carries the same entry."
+    },
+    {
+      "text": "Menu page recorded as in review with Marcus, not as complete",
+      "passed": true,
+      "evidence": "Master section 7: 'menu-page — rewrite finished, Under Review with Marcus since 2026-07-29; due 2026-07-31; no response.' Section 16 lists it under 'Awaiting client', not under 'Completed work (approved)' (which lists only tone-of-voice, store-card-1, homepage). Daily section 2: 'Status: In review with Marcus since 2026-07-29... Not done — written sign-off is a contract condition', and section 11 'Do not rewrite the menu page... Editing it now invalidates the review in progress.' Matches session notes ('Can't call it done')."
+    },
+    {
+      "text": "Store card 2's banned-word ('curated') tone violation recorded as open with Tom",
+      "passed": true,
+      "evidence": "Master section 7: 'store-card-2 — Tom's draft reviewed by Aisha on 2026-07-30; failed the tone check with two uses of the banned word \"curated\"; returned to Tom, not yet fixed; due 2026-08-05.' Next Action: 'Chase Tom for the corrected draft, re-check against tone-of-voice.md'. Daily section 5 explicitly separates 'review complete' from 'the draft is not approved'. tone-of-voice.md confirms 'curated' is banned."
+    },
+    {
+      "text": "Budget recorded as roughly 26 of 40 hours and flagged as not formally verified",
+      "passed": true,
+      "evidence": "Master section 14 Constraints: '40-hour budget; ~26 reported used, unverified.' Section 15: 'Budget standing: ~26 of 40 hours used per Aisha's estimate; not formally reconciled.' Risk 4 adds 'the ~26-hour figure is itself unverified'. Daily section 6 'Budget position — Status: Needs Validation... per Aisha's rough estimate, not formally reconciled against the shared sheet'. Matches session-notes.md ('roughly 26 of the 40 hours used. Not formally checked against the sheet')."
+    },
+    {
+      "text": "Exactly one immediate next action is designated in the Master Handoff",
+      "passed": true,
+      "evidence": "Master section 17 is titled 'Immediate Next Action' and designates a single action ('Send Marcus Bell one escalation email...') with one Responsible Role, Start From, Required Inputs, Expected Deliverable, Acceptance Criteria, Dependencies, Stop Conditions and Do Not Change. Everything else is explicitly demoted under 'Prioritized queue after that:' (6 numbered follow-ups). Section 1 points to the same single action, and section 18 point 4 says 'Start here: section 17'. No competing 'first' action appears anywhere."
+    },
+    {
+      "text": "New-session start guide present, telling Dan what to read first, what is final, and what not to repeat",
+      "passed": true,
+      "evidence": "Master section 18 'New-Session Start Guide', 8 points: (1) explicit read order 'this Master → brief.md → tone-of-voice.md → content-calendar.csv → the 2026-07-30 Daily', with session-notes.md demoted to supporting evidence; (2) canonical sources and precedence; (3) current state summary; (4) 'Start here: section 17'; (5) 'Final decisions (do not reopen)' listing the sign-off rule, the locked tone doc, the 2024 loyalty terms and the unconfirmed offer; (6) 'Do not repeat' with six specific items; (7) access/credentials to obtain from Aisha before 2026-07-31; (8) actions requiring explicit human approval. The header also states 'It stands alone — you do not need any chat history. Start at section 18.'"
+    }
+  ],
+  "summary": {
+    "passed": 14,
+    "failed": 0,
+    "total": 14,
+    "pass_rate": 1.0
+  },
+  "execution_metrics": {
+    "tool_calls": {},
+    "total_tool_calls": 17,
+    "total_steps": null,
+    "errors_encountered": null,
+    "output_chars": 60185,
+    "transcript_chars": 0,
+    "notes": "No metrics.json and no transcript were saved; tool_uses (17) and total_tokens (69,295) taken from timing.json. Graded from output files plus the project fixture directory."
+  },
+  "timing": {
+    "executor_duration_seconds": 349.6,
+    "grader_duration_seconds": null,
+    "total_duration_seconds": 349.6
+  },
+  "claims": [
+    {
+      "claim": "3 of 10 tracked assets are approved",
+      "type": "factual",
+      "verified": true,
+      "evidence": "content-calendar.csv has 10 asset rows; exactly three carry status 'approved': homepage (2026-07-24), store-card-1 (2026-07-22, printed), tone-of-voice (2026-07-18, locked)."
+    },
+    {
+      "claim": "brief.md promises 8 website pages and 6 in-store cards but only 4 pages and 2 cards are tracked, so 4 pages and 4 cards are unaccounted for",
+      "type": "factual",
+      "verified": true,
+      "evidence": "brief.md lists 'Rewritten website copy (8 pages)' and '6 in-store printed cards'; content-calendar.csv tracks homepage, about-page, menu-page, sourcing-page (4) and store-card-1, store-card-2 (2). This contradiction is not stated in session-notes.md — the run derived it and recorded it as unresolved in Master section 13 rather than asserting a descope. Genuine added value."
+    },
+    {
+      "claim": "The page and email copy documents themselves are not present in the project folder, and no links to the tracker/budget sheet or contact details exist",
+      "type": "factual",
+      "verified": true,
+      "evidence": "Project folder contains only brief.md, content-calendar.csv, tone-of-voice.md, session-notes.md and docs/. The handoff repeatedly marks asset locations and contacts as 'not recorded in this folder — get from Aisha' instead of inventing paths or email addresses. No fabricated URLs, emails, or file paths appear anywhere in either document."
+    },
+    {
+      "claim": "The menu page was 'in-progress rewrite as of 2026-07-29 morning' (Daily section 4, Previous State)",
+      "type": "factual",
+      "verified": false,
+      "evidence": "session-notes.md says 'Menu page: finished the rewrite this morning. Sent to Marcus 29 Jul' — i.e. the source itself is internally inconsistent (finished on the morning of 30 Jul yet sent on 29 Jul). The handoff smoothed this into a 2026-07-29 timeline rather than flagging it as an ambiguity, which is the one place the run resolved a source contradiction silently. Low materiality (the status and due date are correct), but inconsistent with how it handled the founding-year conflict."
+    },
+    {
+      "claim": "Aisha's return is 'likely 2026-08-10, unconfirmed', and it is unclear who covers the menu page on Friday 2026-07-31",
+      "type": "factual",
+      "verified": true,
+      "evidence": "session-notes.md only says 'on leave all next week' with no dates. Both items are recorded as open questions (Master section 10, Daily section 6) rather than asserted — correct handling of an inference."
+    },
+    {
+      "claim": "The Master Handoff stands alone and needs no chat history",
+      "type": "quality",
+      "verified": true,
+      "evidence": "Master covers purpose, stakeholders, scope, locked decisions, workstream status per asset, history back to the 2025 incident, contradictions, risks, dependencies, one next action, and a start guide, all sourced to the four fixture files. A reader with no context could act on it. The Daily is scoped to 2026-07-30 only and defers to the Master, so the two are not redundant."
+    },
+    {
+      "claim": "The absolute project path recorded in Master section 15 is correct",
+      "type": "factual",
+      "verified": true,
+      "evidence": "Section 15 records 'D:\\Projects\\Skills\\project-relay-workspace\\iteration-1\\eval-2-full-nontechnical-handover\\with_skill\\project', which matches the actual fixture location."
+    }
+  ],
+  "user_notes_summary": {
+    "uncertainties": [],
+    "needs_review": [],
+    "workarounds": [],
+    "notes": "No user_notes.md or metrics.json was produced in outputs/ — only the two handoff documents. Uncertainties were instead carried inside the documents themselves (Daily section 6 'Open, Uncertain, or Unverified Items' and Master sections 10 and 13), which is arguably the right place for this skill."
+  },
+  "eval_feedback": {
+    "suggestions": [
+      {
+        "assertion": "Exactly one immediate next action is designated in the Master Handoff",
+        "reason": "This passes on structure alone — a document with one section titled 'Immediate Next Action' satisfies it even if the action were vague or wrong. Consider strengthening it to require that the designated action addresses the critical-path blocker (escalating the farm names, and specifically NOT a third identical request to Northwind ops, which the notes show has already failed twice). That version is much harder to satisfy without having actually reasoned over the notes."
+      },
+      {
+        "assertion": "No fabricated git, branch, commit, build, test, or CI values appear",
+        "reason": "The assertion only covers technical fabrication. The bigger fabrication risk in a non-technical handoff is invented contacts, file paths, links, and dates. This run handled it well (Marcus's email, ops contacts, asset locations and the tracker/budget sheet are all explicitly marked 'not recorded — get from Aisha'), but nothing in the eval would have caught it had they been invented. Worth a dedicated assertion."
+      },
+      {
+        "reason": "No assertion covers the strongest thing this run produced: it detected a contradiction that is NOT in session-notes.md — brief.md promises 8 pages and 6 cards while the tracker holds only 4 and 2 — and recorded it as an unresolved material scope question. That is exactly the discriminating outcome a handoff skill should be measured on (synthesising across fixtures rather than transcribing the notes), and it currently earns no credit."
+      },
+      {
+        "reason": "No assertion checks division of labour between the two documents. Both were produced, but a run that made the Daily a near-copy of the Master would pass all 14. Consider asserting that the Daily is scoped to the 2026-07-30 session and defers cold-start context to the Master, and that the Master is standalone (readable with no chat history)."
+      },
+      {
+        "reason": "Minor accuracy gap no assertion catches: session-notes.md is internally inconsistent about the menu page (finished 'this morning' on 30 Jul, yet 'Sent to Marcus 29 Jul'). The run silently normalised this to a 29 Jul timeline instead of flagging it, unlike its careful handling of the founding-year conflict. An assertion about flagging ALL source ambiguities — not just the two seeded ones — would surface this class of behaviour."
+      }
+    ],
+    "overall": "14/14 passed, and unusually the passes are substantive rather than surface-level: every seeded trap (founding-year conflict, verbal 20% offer, dead-end 2024 loyalty terms, menu page not done, curated violation, unverified budget, no-repo project) is handled with correct status language and sourced evidence, and the run found a real contradiction the eval did not seed. The assertion set is well-targeted at the traps but light on structural discrimination — several assertions would pass for a weaker document, and the best behaviour observed (cross-fixture synthesis) is unrewarded. Suggest 2-3 additions rather than changes."
+  }
+}

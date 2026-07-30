@@ -1,0 +1,188 @@
+{
+  "expectations": [
+    {
+      "text": "docs/handoffs/_master-handoff.md is updated in place and no new versioned master file (e.g. _master-handoff-v3.md, -final.md) is created",
+      "passed": true,
+      "evidence": "project/docs/handoffs/ contains exactly three files: _master-handoff.md, 2026-07-22_001_signup-handoff.md, 2026-07-28_001_spec-move-handoff.md. `git status --short` in the project shows only ' M docs/handoffs/_master-handoff.md' -- one modified file, no untracked additions. The canonical path is unchanged and the header still reads 'Canonical File: docs/handoffs/_master-handoff.md'. (outputs/ contains a duplicate copy at outputs/_master-handoff.md, byte-identical to outputs/docs/handoffs/_master-handoff.md and to the file in the project -- a harness collection artifact, not a new versioned master inside the repo.)"
+    },
+    {
+      "text": "Version field incremented above 2.0",
+      "passed": true,
+      "evidence": "Header reads 'Version: 3.0' (was 'Version: 2.0'), plus an added 'Supersedes: v2.0 (2026-07-24)' line."
+    },
+    {
+      "text": "Last Updated field changed from 2026-07-24",
+      "passed": true,
+      "evidence": "Header reads 'Last Updated: 2026-07-30' (matches the run date)."
+    },
+    {
+      "text": "The localStorage session-storage decision is no longer presented as a current Final/locked decision",
+      "passed": true,
+      "evidence": "The v2.0 entry 'Decision: Session tokens are stored in browser localStorage and attached as a bearer header ... Status: Final' is gone from section 3. Every remaining mention frames it as dead: section 12 lists 'localStorage session token + bearer header (2026-07-20)' as Superseded; section 8 history says '2026-07-20 - localStorage chosen for session storage (later reversed)'; section 18 item 6 says 'above all do not re-propose localStorage for session storage. It was formally rejected on 2026-07-28 with written security sign-off.' Section 3's cookie decision explicitly states 'Do not use localStorage. Do not send a bearer header from the SPA.'"
+    },
+    {
+      "text": "The httpOnly cookie decision is recorded as the current approach, with rationale",
+      "passed": true,
+      "evidence": "Section 3 (Locked Principles and Decisions): 'Decision: The session JWT is stored in an httpOnly, secure, sameSite=lax cookie... Rationale: third-party analytics scripts run on marketing pages; a token in localStorage is readable by any injected script, which makes any XSS equivalent to account takeover.' Includes Options considered, Rejected alternatives, Date 2026-07-28, Status Final, Approval source 'Sam (security) + Priya (engineering), written sign-off in AUTH-201', Supersedes, and Consequence. Repeated with Impact in section 9, and section 5 records the transport change."
+    },
+    {
+      "text": "The conflict between the Master's localStorage decision and the 2026-07-28 Daily is explicitly recorded or resolved, not silently overwritten",
+      "passed": true,
+      "evidence": "Section 13 (was 'None recorded.') now opens with: 'Contradiction: v2.0 section 3 recorded localStorage session storage as Final; the 2026-07-28 handoff records httpOnly cookies as Final. Resolution: the cookie decision wins. It is later, it has security sign-off, and it explicitly names the localStorage decision as superseded. localStorage is dead and must not be re-proposed.' Also surfaced in section 11 item 1 and in the Executive Summary ('the session storage decision was **reversed**')."
+    },
+    {
+      "text": "Sources of Truth lists docs/SPEC.md instead of docs/SPEC-v1.md",
+      "passed": true,
+      "evidence": "Section 6 row: '| API spec | docs/SPEC.md | Endpoint and auth contract, session cookie contract, error envelope | Diego's team | Current |', plus a tombstone row '| API spec (old) | docs/SPEC-v1.md | - | - | Deleted 2026-07-28, do not cite |'. The stale path was also repointed everywhere else it appeared in v2.0 (section 7 'Relevant Sources: src/auth/session.ts, docs/SPEC.md'; section 18 step 1 'Read this document, then docs/SPEC.md. Do not look for docs/SPEC-v1.md; it was deleted.'). Verified against the repo: docs/SPEC.md exists and is tracked; docs/SPEC-v1.md does not exist."
+    },
+    {
+      "text": "Superseded/Replaced table gains an entry for docs/SPEC-v1.md -> docs/SPEC.md",
+      "passed": true,
+      "evidence": "Section 12 row: '| docs/SPEC-v1.md | docs/SPEC.md | Diego's team restructured the spec, version suffix dropped | 2026-07-28 |'. The table grew from 1 row to 5, retaining the original 'per-app SCSS variables | packages/tokens' row."
+    },
+    {
+      "text": "Incorporated Daily Handoffs table lists the 2026-07-28 handoff",
+      "passed": true,
+      "evidence": "Section 19 row added: '| 2026-07-28 | 2026-07-28_001_spec-move-handoff.md | API spec relocation, session storage decision reversal | Yes (v3.0) |'. Filename matches the actual file in docs/handoffs/."
+    },
+    {
+      "text": "Stale Immediate Next Action (signup email verification) is replaced with a current one",
+      "passed": true,
+      "evidence": "Section 17 now reads 'Immediate Next Action: implement cookie-based session issuing in src/auth/session.ts, so a signed session JWT is set as a cookie using the existing `COOKIE_NAME` and `COOKIE_OPTS`...' with matching Start From, Acceptance Criteria, and Stop Conditions. Matches the Daily's 'Next Action: implement cookie-based session issuing in src/auth/session.ts'. The displaced action was not simply deleted: section 11 item 5 records the change and section 14 keeps it as 'Deferred item: signup email verification. Was the v2.0 next action, never started, displaced by the storage reversal. Owner Priya.'"
+    },
+    {
+      "text": "The design tokens locked decision from v2.0 is preserved",
+      "passed": true,
+      "evidence": "Section 3 first entry is carried over verbatim: 'Decision: Design tokens live in packages/tokens and are the only source of colour and spacing values. No hard-coded hex in components.' with unchanged Rationale, Date 2026-05-12, Status Final, Approval source 'Priya + design review', Supersedes 'per-app SCSS variables'. Also still in section 6, section 8 history, section 12, and section 18 item 6 ('Do not repeat: the design token consolidation')."
+    },
+    {
+      "text": "The src/legacy/ freeze decision from v2.0 is preserved",
+      "passed": true,
+      "evidence": "Section 3 second entry carried over verbatim: 'Decision: src/legacy/ is frozen. No refactors, no renames, no \"tidying\". Rationale: a cleanup in March 2026 broke billing for two days. Date: 2026-03-30, Status: Final, Approval source: Priya.' Reinforced in section 2 out-of-scope, section 8 history, section 7 ('src/legacy/ is frozen; removal scheduled Q4 2026'), and section 17 'Do Not Change: src/legacy/'."
+    },
+    {
+      "text": "The constraint that only Priya has staging/production database access is preserved",
+      "passed": true,
+      "evidence": "Kept in both original places: section 5 'Access restriction: only Priya has staging and production database access.' and section 14 'Constraint: only Priya can touch staging/production databases.'"
+    },
+    {
+      "text": "CSRF protection appears as an open item introduced by the cookie decision",
+      "passed": true,
+      "evidence": "Section 10 gains a second open decision: 'Decision Needed: CSRF strategy for the cookie approach -- Why It Matters: the httpOnly cookie decision removed the implicit CSRF protection that a bearer header provided. Without a strategy, the cookie work cannot pass security review.' with Options, Required Evidence, Owner 'Sam (security) with Diego (API)', Trigger 'before cookie session issuing reaches staging', 'Status: Open. Nothing implemented.' Causal link also stated in section 3 ('Consequence: ... CSRF protection is now required'), section 5, section 11 item 2 ('created directly by the storage reversal'), section 14 risk, and the header status line 'blocked on CSRF strategy and session TTL'."
+    }
+  ],
+  "summary": {
+    "passed": 14,
+    "failed": 0,
+    "total": 14,
+    "pass_rate": 1.0
+  },
+  "execution_metrics": {
+    "tool_calls": {},
+    "total_tool_calls": 12,
+    "total_steps": null,
+    "errors_encountered": 0,
+    "output_chars": 16020,
+    "transcript_chars": 0,
+    "notes": "No metrics.json and no transcript were saved. tool_uses (12) and total_tokens (40783) taken from timing.json. Baseline v2.0 master was 6601 chars; the updated master is 16020 chars."
+  },
+  "timing": {
+    "executor_duration_seconds": 144.7,
+    "grader_duration_seconds": null,
+    "total_duration_seconds": 144.7,
+    "total_tokens": 40783
+  },
+  "claims": [
+    {
+      "claim": "Commit reference corrected from 7c21ab4 to a3549a9; branch feat/auth-rebuild is level with master with no divergent commits",
+      "type": "factual",
+      "verified": true,
+      "evidence": "git log --oneline -> 'a3549a9 baseline'. git rev-parse master feat/auth-rebuild -> both a3549a9945bda6b836b6b0d36ce6e5791aba1d70. Branch is feat/auth-rebuild."
+    },
+    {
+      "claim": "src/auth/session.ts exports issueSession, readSession, COOKIE_NAME and COOKIE_OPTS matching the approved cookie attributes, but nothing yet attaches the cookie to a response",
+      "type": "factual",
+      "verified": true,
+      "evidence": "session.ts contains `export async function issueSession`, `export async function readSession`, `export const COOKIE_NAME = \"relay_session\"` and `export const COOKIE_OPTS = { httpOnly: true, sameSite: \"lax\", secure: true, path: \"/\" }`. issueSession returns Promise<string> (a bare token), and there is no response/Set-Cookie handling anywhere in the file."
+    },
+    {
+      "claim": "Session TTL is hard-coded to a provisional 12h in src/auth/session.ts (TTL_SECONDS = 60 * 60 * 12) with a comment marking it provisional; it must not be read as the decision",
+      "type": "factual",
+      "verified": true,
+      "evidence": "session.ts lines: '// TTL is provisional - waiting on product decision.' followed by 'const TTL_SECONDS = 60 * 60 * 12;'. Exact constant name and expression quoted correctly."
+    },
+    {
+      "claim": "Key dependency versions: react 18.3.1, jose 5.9.6",
+      "type": "factual",
+      "verified": true,
+      "evidence": "package.json dependencies: {\"react\": \"18.3.1\", \"jose\": \"5.9.6\"}. The `jose` decision's 'Impact: dependency added to package.json (jose 5.9.6)' is also correct."
+    },
+    {
+      "claim": "2026-07-24_001_tokens-handoff.md is listed as incorporated in v2.0 but is not present in docs/handoffs/",
+      "type": "factual",
+      "verified": true,
+      "evidence": "git ls-files shows only 2026-07-22_001_signup-handoff.md, 2026-07-28_001_spec-move-handoff.md and _master-handoff.md under docs/handoffs/. The v2.0 table did list the tokens handoff. Correctly flagged as a low-risk unresolved discrepancy in section 13 rather than silently dropped or invented."
+    },
+    {
+      "claim": "v2.0 points new sessions at src/auth/signup.ts but the only file under src/auth/ is session.ts, so signup code may not exist on this branch",
+      "type": "factual",
+      "verified": true,
+      "evidence": "src/auth/ contains only session.ts. v2.0 section 17 said 'Start From: src/auth/signup.ts'. The handoff records this as needing confirmation with Priya rather than asserting signup is missing or asserting it exists."
+    },
+    {
+      "claim": "docs/SPEC-v1.md was deleted and docs/SPEC.md is the current API contract",
+      "type": "factual",
+      "verified": true,
+      "evidence": "docs/SPEC.md exists and its own first lines read 'Supersedes docs/SPEC-v1.md, which was deleted on 2026-07-28.' No SPEC-v1.md in the tree or in git ls-files."
+    },
+    {
+      "claim": "Login flow has slipped twice / two consecutive sessions intended to start it and did not",
+      "type": "factual",
+      "verified": true,
+      "evidence": "Supported by the fixtures: the 2026-07-22 Daily's next action was 'decide session storage approach before building login', and the 2026-07-28 Daily says 'Intended: start the login flow ... Not completed: any login code.' v2.0 also listed login as 'In Progress'; the update reclassifies it as Not Started, which is the more accurate reading."
+    },
+    {
+      "claim": "Build/test/CI status could not be verified this session; last known values retained and labelled",
+      "type": "process",
+      "verified": true,
+      "evidence": "Section 15 marks these 'not verified this session' rather than copying v2.0's bare 'passing'. Consistent with the environment (no node_modules present, no test run possible). This is an honest downgrade rather than a stale carry-forward."
+    },
+    {
+      "claim": "Nothing from v2.0 that was still valid was lost in the rewrite",
+      "type": "quality",
+      "verified": true,
+      "evidence": "Section-by-section comparison against the pristine v2.0: all 19 sections retained; purpose/stakeholders/success criteria, both surviving locked decisions, the jose final decision, the session TTL open decision (with its full option set and evidence requirement), the rate-limit risk, the Priya DB constraint, the Diego dependency, backup verified 2026-07-20, migration 001/002 state, and both prior Daily rows are all present. The only v2.0 content removed is the localStorage decision, which is deliberately superseded and recorded in sections 8, 11, 12, 13 and 18. No unsupported facts were introduced -- every specific claim I spot-checked against the repo held."
+    }
+  ],
+  "user_notes_summary": {
+    "uncertainties": [
+      "No user_notes.md was written by the executor. The handoff itself carries two self-flagged uncertainties in section 13: the missing 2026-07-24_001_tokens-handoff.md file, and the missing src/auth/signup.ts despite signup being recorded as complete."
+    ],
+    "needs_review": [
+      "Section 13 asks for confirmation from Priya on whether signup code exists on this branch."
+    ],
+    "workarounds": []
+  },
+  "eval_feedback": {
+    "suggestions": [
+      {
+        "assertion": "docs/handoffs/_master-handoff.md is updated in place and no new versioned master file (e.g. _master-handoff-v3.md, -final.md) is created",
+        "reason": "The outputs directory contains a second copy at outputs/_master-handoff.md alongside outputs/docs/handoffs/_master-handoff.md. They are byte-identical here so I judged it a harness collection artifact, but a grader working from outputs alone could reasonably read it either way. Consider having the harness collect only the repo-relative tree, or making the assertion explicitly about the project directory."
+      },
+      {
+        "assertion": "Stale Immediate Next Action (signup email verification) is replaced with a current one",
+        "reason": "This passes if the next action is merely different. A run that deleted email verification without a trace would pass, as would one that invented an unrelated next action. Worth tightening to: the new next action matches the Daily's ('cookie-based session issuing in src/auth/session.ts') AND signup email verification is retained somewhere as deferred rather than dropped. This run did both, but the assertion doesn't distinguish it from a lossy rewrite."
+      },
+      {
+        "reason": "No assertion penalises fabricated state. The updated handoff makes many verifiable claims that v2.0 did not (commit a3549a9, jose 5.9.6, TTL_SECONDS = 60*60*12, COOKIE_NAME/COOKIE_OPTS, 'nothing attaches the cookie to a response'). All of them check out here, but a run that invented plausible technical state would score 14/14. An assertion like 'technical/operational state claims are consistent with the repo (commit, branch, dependency versions)' would be highly discriminating and is cheap to verify."
+      },
+      {
+        "reason": "No assertion covers the two genuine gaps this run caught: the 2026-07-24 tokens Daily listed as incorporated but absent from docs/handoffs/, and src/auth/signup.ts missing despite signup being 'complete and approved'. Both are detectable only by actually reading the fixture tree, and surfacing them is arguably the strongest signal of real work in this output. Consider adding one assertion for 'discrepancies between the Master's claims and the actual repo state are flagged rather than propagated'."
+      },
+      {
+        "reason": "No assertion checks that still-valid v2.0 content survived beyond the three specific items in expectations 11-13. The session TTL open decision (with its options, required evidence, owner Sam and 'before staging deploy' trigger), the undocumented-rate-limits risk, the Diego dependency, and the migration 001/002 state are all preservation targets a lossy rewrite would drop. A single 'the section 10 session TTL open decision survives with owner and trigger intact' assertion would add real coverage."
+      }
+    ],
+    "overall": "The assertion set is well-aimed at the hard parts of this eval -- it separately tests correction (7, 8), supersession (4, 5), conflict surfacing (6), and preservation (11, 12, 13), which is exactly the right decomposition for a cumulative-update task. Main gaps: nothing punishes fabricated technical state, nothing rewards catching repo-vs-document discrepancies, and expectation 10 is satisfiable by a lossy rewrite. Note this is the without_skill arm and it scored 14/14 with high-quality work, so the set may have limited headroom to discriminate between arms; the suggested additions would help."
+  }
+}

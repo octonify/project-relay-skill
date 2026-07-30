@@ -1,0 +1,205 @@
+{
+  "expectations": [
+    {
+      "text": "Both a dated Daily Handoff and a Master Handoff are created under docs/handoffs/",
+      "passed": true,
+      "evidence": "project/docs/handoffs/ contains `_master-handoff.md` (titled 'Master Handoff — Northwind Coffee brand refresh content workstream', 'Document Type: Master Handoff') and `2026-07-30_001_menu-about-handoff.md` (titled 'Daily Handoff — ... — 2026-07-30', 'Handoff ID: 2026-07-30_001'). Both are substantive, not stubs (20,499 and 15,580 chars). Identical copies exist in outputs/."
+    },
+    {
+      "text": "Master Handoff Version is 1.0 (new canonical document)",
+      "passed": true,
+      "evidence": "_master-handoff.md line 5: 'Version: 1.0'. Line 11 confirms intent: 'First edition of this document.' Line 9 declares 'Canonical File: `docs/handoffs/_master-handoff.md`'."
+    },
+    {
+      "text": "No fabricated git, branch, commit, build, test, or CI values appear; technical state is replaced with operational state or marked not applicable",
+      "passed": true,
+      "evidence": "A regex sweep for git/branch/commit/sha/CI/pipeline/npm/pytest/lint/deploy/build across both documents returned only three hits, all correct negations or unrelated: line 83 '**No repository, build, or deployment exists.** This is a content project; the working files are documents.'; line 240 (in section 13) '**Repository / build / deployment:** none — content project.'; and one incidental 'Do not build on the 2024 loyalty terms'. Section 13 is titled 'Operational State (2026-07-30)' and carries published/with-client/with-colleague/scheduled-sends/budget instead of technical state. No fabricated hashes, branches, or test results anywhere."
+    },
+    {
+      "text": "Marcus's mandatory written sign-off before anything is published is recorded as an approval gate",
+      "passed": true,
+      "evidence": "Master section 5 'Workflow and Approval Gates' → 'Approval gates: 1. **Marcus Bell's written sign-off is mandatory before publication of anything.** This is the project's hard safety rail'. Also section 3 as a locked decision with rationale ('Contract condition, imposed after a 2025 incident in which a price was published incorrectly') and 'Verbal approval is not sign-off'; and section 16.8 'Requires explicit human approval — no exceptions: publishing or printing **anything**.' Matches brief.md."
+    },
+    {
+      "text": "The 2009 vs 2011 founding-year conflict is recorded as unresolved rather than silently decided",
+      "passed": true,
+      "evidence": "Master section 11 'Contradictions and Resolution': 'Conflicting sources: The live Northwind website says **2011**; the deck Marcus sent says **2009**. **Verified current state: Unresolved.** Nobody at Northwind has confirmed which is correct. Interim handling: The About page founder story uses **2011** ... This is a provisional working choice, not a resolution.' Also section 9 as an Open Decision with owner (Marcus Bell) and deadline, and Daily section 3 marks the decision 'Provisional'."
+    },
+    {
+      "text": "Sourcing page recorded as blocked on farm names from Northwind ops, including both chase dates (24 Jul and 29 Jul)",
+      "passed": true,
+      "evidence": "Master line 25: 'The **Sourcing page** cannot be started without the real farm names from Northwind ops. Two requests (2026-07-24, 2026-07-29) went unanswered.' Repeated in section 7 ('blocked on farm names from Northwind ops (requested 2026-07-24 and 2026-07-29, no reply)') and Daily section 6 ('Northwind ops asked twice (2026-07-24 and 2026-07-29), no reply'). Both dates preserved (normalised to ISO from the notes' '24 Jul and 29 Jul')."
+    },
+    {
+      "text": "Sourcing page identified as the critical path item, with its 7 Aug due date",
+      "passed": true,
+      "evidence": "Master line 25: 'It is the longest page and it is due **2026-08-07**. This is the critical path.' Section 7 repeats: '`sourcing-page` — **not started**, due **2026-08-07** ... Longest page; critical path.' Daily section 6: 'This is the critical path item.' Due date matches content-calendar.csv row `sourcing-page,Aisha,not started,2026-08-07`."
+    },
+    {
+      "text": "The 20% first-order offer is recorded as unconfirmed/verbal, not as agreed",
+      "passed": true,
+      "evidence": "Master section 7: '`email-2-offer` — **Blocked** ... The offer amount is not agreed. Marcus said \"probably 20% off first order\" verbally on a call; nothing in writing. Do not write against that figure.' Section 16.6: 'Do not write Email 2 against **\"20% off\"** — verbal only, unconfirmed.' Daily section 3 records the explicit decision to treat it as unconfirmed."
+    },
+    {
+      "text": "The 2024 loyalty terms are recorded as a dead end not to build on, with the reason (scheme replaced in September)",
+      "passed": true,
+      "evidence": "Master section 8: 'An hour was lost drafting the loyalty email against the 2024 loyalty terms before Marcus mentioned the scheme is being replaced in September. **The 2024 terms are a dead basis for Email 3.**' Section 10 Superseded table row: '2024 loyalty scheme terms | New terms, **not yet drafted** | The loyalty scheme is being replaced in September 2026 (per Marcus)'. Section 16.6 and Daily section 11 both carry the do-not-repeat instruction with the reason."
+    },
+    {
+      "text": "Menu page recorded as in review with Marcus, not as complete",
+      "passed": true,
+      "evidence": "Master section 7: '`menu-page` — rewrite finished, **with Marcus since 2026-07-29 awaiting sign-off**, due 2026-07-31. No response yet.' Daily section 2: 'Status: In review — **not approved**. No response from Marcus as of 2026-07-30.' Master section 13 lists it under 'With the client'. Nowhere is it counted among the completed items (section 14 'Completed: homepage, store card 1, tone-of-voice one-pager')."
+    },
+    {
+      "text": "Store card 2's banned-word ('curated') tone violation recorded as open with Tom",
+      "passed": true,
+      "evidence": "Master section 7: '`store-card-2` — Tom's draft was reviewed on 2026-07-30 and **returned to him**: it used \"curated\" twice, which the locked tone of voice bans. Due 2026-08-05, fix not yet received.' Next Action: 'Chase Tom for the corrected draft'. Daily sections 2, 4 and 6 record it as 'Waiting for Input (Tom)', and section 11 says do not re-review the current draft."
+    },
+    {
+      "text": "Budget recorded as roughly 26 of 40 hours and flagged as not formally verified",
+      "passed": true,
+      "evidence": "Master section 12: 'roughly **26 of 40 hours used** as of 2026-07-30, leaving ~14 hours. The figure is an estimate and has **not** been reconciled against the shared sheet.' Section 13: 'Budget: ~26 / 40 hours used (unreconciled estimate).' Daily section 6 lists it under 'Needs Validation'. Matches session-notes.md 'roughly 26 of the 40 hours used. Not formally checked against the sheet.'"
+    },
+    {
+      "text": "Exactly one immediate next action is designated in the Master Handoff",
+      "passed": true,
+      "evidence": "Master section 15 'Immediate Next Action' designates a single action: 'Escalate the Sourcing page farm names to Marcus Bell in writing', with Responsible/Start From/Required Inputs/Expected Deliverable/Acceptance Criteria/Stop Conditions. Everything else is explicitly demoted under 'Prioritized queue after that' (5 items). Section 1 names the same single action ('Immediate next action: Escalate the farm names request to Marcus Bell — see section 15'), and section 16.4 points to section 15 — no competing designation."
+    },
+    {
+      "text": "New-session start guide present, telling Dan what to read first, what is final, and what not to repeat",
+      "passed": true,
+      "evidence": "Master section 16 'New-Session Start Guide' — 'For Dan, or anyone taking this over cold'. (1) read order: 'this file → `brief.md` → `content-calendar.csv` → `tone-of-voice.md`', noting session-notes.md is superseded; (5) 'Final decisions (do not reopen): the written-sign-off rule; the locked tone of voice'; (6) 'Do not repeat:' with six concrete items (2024 loyalty terms, 20% offer, re-requesting farm names from ops, re-reviewing Tom's draft, redoing homepage/store card 1/tone-of-voice). Also adds (7) access Dan must obtain from Aisha and (8) human-approval gate. All three required elements present."
+    },
+    {
+      "text": "Daily and Master combined are at most 20,000 characters (the source project files total 2,971; iteration-1 produced 60,185)",
+      "passed": false,
+      "evidence": "Measured combined character count is 36,079 — 80% over the 20,000 cap. _master-handoff.md = 20,499 chars (20,641 bytes UTF-8); 2026-07-30_001_menu-about-handoff.md = 15,580 chars (15,686 bytes). The Master alone exceeds the cap for both documents. This is an improvement on iteration-1's 60,185 (a 40% reduction) but is still a clear fail against a strict cap. Source fixtures total 2,971 chars, so the output is ~12x the input."
+    },
+    {
+      "text": "The Daily is not a near-duplicate of the Master - each fact appears in one document unless the repetition is load-bearing for safe continuation",
+      "passed": false,
+      "evidence": "Verbatim overlap is low (8.1% of the Daily's 6-gram shingles appear in the Master — the text was paraphrased, not copied), but the fact set is near-fully duplicated. Whole structural blocks are restated in both: the risk register with impact/likelihood/mitigation/owner (Master §12 vs Daily §7 — same four risks: sourcing slip, wrong founding year, budget overrun, client silence); the constraints block including the full tone-of-voice rules (Master §3/§12 vs Daily §7); the next-action block with the same action, start-from, required inputs and stop condition (Master §15 vs Daily §9); the 'do not repeat' list of the same six items (Master §16.6 vs Daily §11); the continuation-sources table (Master §6 vs Daily §10); the approved trio (Master §7/§14 vs Daily §5/§8); the budget position, the copy-document location gap, and the 8-pages-vs-4 scope gap all appear in both. The Daily's genuinely unique content is limited to §1 (session objective) and §4 (previous-state → new-state). Master §16.1 itself tells Dan to read the Daily only 'if you want the detail behind the current blockers', yet the Daily holds little detail the Master lacks. Duplicating a full risk register and constraints block is not load-bearing for safe continuation, and it is a primary driver of the 36,079-char total."
+    },
+    {
+      "text": "No section consists solely of 'N/A', 'None', or placeholder filler - unfilled sections are deleted outright",
+      "passed": true,
+      "evidence": "Every section in both documents carries real content. A regex sweep for standalone 'N/A' / 'None' / 'TBD' / 'placeholder' section bodies returned no hits. Sections that could have been empty are either populated or handled properly: Master §10 'Superseded or Replaced Items' has one real row (2024 loyalty terms); Daily §5 opens 'Nothing was approved this session' but then lists the three inherited approved items with their dates and evidence source. 'None' appears only as an inline data value ('Scheduled sends: none', 'Repository / build / deployment: none'), which is a substantive fact, not filler."
+    },
+    {
+      "text": "Source documents (brief.md, tone-of-voice.md, content-calendar.csv) are referenced rather than restated at length",
+      "passed": true,
+      "evidence": "All three are cited by path throughout and given a dedicated authority table — Master §6 'Sources of Truth' lists each with Location / Purpose / Authority / Status plus a precedence rule, and Daily §10 'Continuation Sources' does the same. Per-section citations are used ('Approval source: `brief.md`', 'Relevant Sources: `content-calendar.csv`, `tone-of-voice.md`', 'per `brief.md`'). Where source content is carried it is short and interpreted rather than dumped: the tone rules (205 chars total in the source) are quoted once in Master §3 and once in Daily §7 as the enforcement standard, and the calendar's rows are re-narrated in Master §7 with added status interpretation (critical path, what is unverified) rather than pasted. No source file is reproduced wholesale in bulk. Note: the document bloat measured in assertion 15 comes from cross-document duplication and elaboration, not from restating sources."
+    }
+  ],
+  "summary": {
+    "passed": 16,
+    "failed": 2,
+    "total": 18,
+    "pass_rate": 0.89
+  },
+  "execution_metrics": {
+    "tool_calls": {},
+    "total_tool_calls": 16,
+    "total_steps": null,
+    "errors_encountered": null,
+    "output_chars": 36079,
+    "transcript_chars": 0,
+    "note": "No metrics.json in outputs_dir and transcript_path was NONE. tool_uses (16) and total_tokens (60,980) taken from timing.json. output_chars is the measured combined character count of the two handoff documents."
+  },
+  "timing": {
+    "executor_duration_seconds": 237.5,
+    "grader_duration_seconds": null,
+    "total_duration_seconds": 237.5
+  },
+  "claims": [
+    {
+      "claim": "brief.md commits to 8 website pages and 6 store cards, but content-calendar.csv tracks only 4 pages and 2 store cards",
+      "type": "factual",
+      "verified": true,
+      "evidence": "Verified against the fixtures. brief.md: 'Rewritten website copy (8 pages)', '6 in-store printed cards'. content-calendar.csv contains 4 page rows (homepage, about-page, menu-page, sourcing-page) and 2 card rows (store-card-1, store-card-2). This scope gap is not mentioned anywhere in session-notes.md — it is a genuine derived finding, correctly flagged as unresolved in Master §2, §9 and §11."
+    },
+    {
+      "claim": "The actual copy documents and email drafts are not in this project folder and no location is recorded anywhere",
+      "type": "factual",
+      "verified": true,
+      "evidence": "Directory listing of the project confirms only brief.md, content-calendar.csv, tone-of-voice.md, session-notes.md and docs/handoffs/. No path or link to copy documents appears in any fixture. Correctly surfaced as a continuity risk with a concrete mitigation (obtain from Aisha before leave)."
+    },
+    {
+      "claim": "All per-asset statuses, owners and due dates carried into the handoffs match content-calendar.csv",
+      "type": "factual",
+      "verified": true,
+      "evidence": "Checked all 10 rows. homepage approved 2026-07-24; about-page draft 2026-08-03; menu-page in review 2026-07-31 'with Marcus since 29 Jul'; sourcing-page not started 2026-08-07 blocked on farm names; store-card-1 approved 2026-07-22 printed; store-card-2 Tom draft 2026-08-05; email-1-welcome draft 2026-08-10; email-2-offer not started 2026-08-12 offer not agreed; email-3-loyalty not started 2026-08-14; tone-of-voice approved 2026-07-18 locked. All reproduced accurately, with dates normalised to ISO."
+    },
+    {
+      "claim": "Dan takes over Monday 2026-08-03 and Aisha is on leave for the whole of that week",
+      "type": "factual",
+      "verified": true,
+      "evidence": "2026-08-03 is confirmed a Monday (2026-07-30 is a Thursday), consistent with session-notes.md 'Handing this to Dan on Monday - I'm on leave all next week'. The derived date is correct, not fabricated. Master §15 queue item 2 also correctly reasons that the menu page's 2026-07-31 (Friday) date 'may already be overdue by Monday'."
+    },
+    {
+      "claim": "Email 1 (welcome) draft completeness is unverified",
+      "type": "quality",
+      "verified": true,
+      "evidence": "Appropriately hedged rather than assumed. Master §7: 'status `draft` in the tracker ... Not worked on during the 2026-07-30 session; how complete the draft is has not been verified.' session-notes.md indeed says nothing about Email 1, so the hedge is correct."
+    },
+    {
+      "claim": "'Factual sourcing rule (learned, applies from now on): Treat a written answer from Marcus as authoritative over the live website, and the live website over the pitch deck.'",
+      "type": "factual",
+      "verified": false,
+      "evidence": "This source-precedence hierarchy appears in no input file. It is invented by the executor and presented in Master §5 as an established project rule ('learned, applies from now on'). It also implicitly pre-resolves the 2009/2011 conflict in favour of 2011 by rule, which sits awkwardly beside §11's correct 'Unresolved' verdict. Same failure class as fabricating technical state, but assertion 3 covers only git/build/CI values. Master §6's 'Precedence when sources conflict' paragraph is similarly invented, though it is more defensible as handoff-internal navigation guidance."
+    },
+    {
+      "claim": "'2026-07-22 / 2026-07-24 — Store card 1 approved and printed; homepage signed off. These are the only fully closed deliverables.' (Master §8)",
+      "type": "factual",
+      "verified": false,
+      "evidence": "Internally inconsistent with the same document. Master §7 states 'Tone of voice — Current Status: **Complete.** Approved 2026-07-18 and locked' and §14 lists 'Completed: homepage, store card 1, tone-of-voice one-pager.' There are three closed deliverables, not two. Minor, but it is a factual contradiction inside the canonical document."
+    },
+    {
+      "claim": "'Client silence during handover week — both open client questions sit with unresponsive parties' (Master §12)",
+      "type": "factual",
+      "verified": false,
+      "evidence": "Imprecise. The documents themselves record four open client questions (farm names, founding year, Email 2 offer amount, new loyalty terms date), not two. Master §15 queue item 1 correctly says 'One message, four asks'. Cosmetic inconsistency only."
+    },
+    {
+      "claim": "The handoff documents contain no fabricated technical state despite the skill's usual git/build orientation",
+      "type": "process",
+      "verified": true,
+      "evidence": "Confirmed by regex sweep across both documents — the only occurrences of repository/build/deployment vocabulary are explicit negations. The skill correctly substituted a domain-appropriate 'Operational State' section (published/live, with the client, with a colleague, scheduled sends, budget) for the technical-state section."
+    },
+    {
+      "claim": "Outputs in outputs/ are identical to the files written into the project",
+      "type": "process",
+      "verified": true,
+      "evidence": "`diff -q` between outputs/ and project/docs/handoffs/ reported no differences for either file. The executor wrote to the project location and mirrored to outputs/."
+    }
+  ],
+  "user_notes_summary": {
+    "uncertainties": [],
+    "needs_review": [],
+    "workarounds": [],
+    "note": "No user_notes.md was produced in outputs_dir, and transcript_path was NONE, so grading rests entirely on the output files and the input fixtures."
+  },
+  "eval_feedback": {
+    "suggestions": [
+      {
+        "assertion": "The Daily is not a near-duplicate of the Master - each fact appears in one document unless the repetition is load-bearing for safe continuation",
+        "reason": "This is the right thing to test but it is not operationalised, and a naive text-similarity check would give the wrong answer. Verbatim 6-gram overlap here is only 8.1% because the executor paraphrased, yet essentially every substantive fact in the Daily is restated in the Master. Consider replacing it with structural sub-checks a grader can verify mechanically, e.g. 'the risk register with impact/likelihood/mitigation appears in exactly one document', 'the constraints block appears in exactly one document', 'the do-not-repeat list appears in exactly one document', 'the next-action block appears in exactly one document'. Those four alone would have caught the ~16,000 chars of redundancy."
+      },
+      {
+        "reason": "No assertion covers fabricated non-technical content. Assertion 3 is scoped to git/branch/commit/build/test/CI, so it passed cleanly while the Master invented a source-precedence rule ('a written answer from Marcus beats the live website, which beats the pitch deck') that exists in no input and is presented as an established project rule. A general assertion such as 'no rule, decision, or policy is stated as established unless traceable to a source file' would catch this class, which is arguably more dangerous in a content project than a fake commit hash."
+      },
+      {
+        "reason": "Nothing rewards the strongest thing this run produced: it derived, unprompted, that brief.md promises 8 pages and 6 cards while content-calendar.csv tracks only 4 and 2, and correctly flagged the gap as unresolved with a budget implication. That is a real handoff-quality signal absent from the session notes, and it is currently invisible to the score."
+      },
+      {
+        "assertion": "No section consists solely of 'N/A', 'None', or placeholder filler - unfilled sections are deleted outright",
+        "reason": "Low discrimination — any executor producing prose at all will pass it, and it passed here trivially. The real failure mode this seems aimed at is verbose sections that say nothing rather than sections that literally say 'N/A'. Consider reframing toward information density, or fold it into the size cap which already applies the pressure."
+      },
+      {
+        "assertion": "Master Handoff Version is 1.0 (new canonical document)",
+        "reason": "Trivially satisfiable by writing one line, and it would pass on an otherwise empty document. Worth pairing with a check that the version is consistent with the incorporation log (here Master §17 correctly records the Daily as 'Incorporated into Master: Yes — v1.0, 2026-07-30')."
+      }
+    ],
+    "overall": "The assertion set is well-targeted and discriminating on the substance dimension — all 12 content-fidelity assertions passed on genuine evidence, and the two size/redundancy assertions correctly caught the remaining defect. The gaps are: assertion 16 is semantically correct but not mechanically verifiable, fabrication is only policed on technical values, and the run's best output (the derived scope conflict) is unrewarded."
+  }
+}

@@ -1,0 +1,176 @@
+{
+  "expectations": [
+    {
+      "text": "Creates exactly one dated Daily Handoff file under docs/handoffs/ matching YYYY-MM-DD_NNN_<scope>-handoff.md",
+      "passed": false,
+      "evidence": "No docs/handoffs/ directory exists. `find . -iname \"*handoff*\"` in the project returns only ./HANDOFF.md at the repo root. The handoff was written as project/HANDOFF.md (5131 bytes) with no date, no NNN sequence number, and no scope in the filename. docs/ contains only ARCHITECTURE.md."
+    },
+    {
+      "text": "Login form is listed as validated, citing Priya's manual browser check as the evidence",
+      "passed": true,
+      "evidence": "HANDOFF.md under `src/auth/login-form.tsx`: \"**Verification status: manually accepted by Priya.** She ran the dev server, entered a bad email and saw the error, entered a valid one and saw it post. She explicitly said she's happy with the form — treat it as done and don't rework it unprompted.\" This matches the transcript exactly (Priya: \"loaded the dev server, typed a bad email, got the error... I'm happy with the form\") and the evidence is correctly attributed to a manual check, not to tests."
+    },
+    {
+      "text": "Session tests are NOT listed as done or validated; they appear as not written / open",
+      "passed": true,
+      "evidence": "HANDOFF.md for session.ts: \"**Verification status: none.** No tests exist; this has only been exercised indirectly by the login form posting successfully.\" The \"Start here tomorrow\" section is \"Write the vitest coverage for `src/auth/session.ts` and `src/auth/login-form.tsx`\", explicitly noting it \"got bumped mid-session\". Tests also appear as an open item in the ownership table (\"Tests, CSRF handling | us | now\"). No claim of passing tests anywhere; grep confirms no test files were created."
+    },
+    {
+      "text": "httpOnly cookie decision recorded with its rationale (third-party analytics scripts / XSS exposure)",
+      "passed": true,
+      "evidence": "HANDOFF.md \"Decisions locked in (do not relitigate)\": \"**Session storage = JWT in an httpOnly cookie.** Closed. ... Rejected because the marketing pages carry third-party analytics scripts, so any XSS anywhere in the app would hand those scripts a bearer token and become full account takeover.\" The same rationale is repeated in CLAUDE.md and docs/ARCHITECTURE.md, which was updated from its stale \"under active decision\" wording."
+    },
+    {
+      "text": "localStorage named explicitly as the rejected option for session storage",
+      "passed": true,
+      "evidence": "HANDOFF.md: \"The alternative considered was JWT in `localStorage`. Rejected because...\" CLAUDE.md: \"Do not propose or switch to `localStorage`/bearer-token storage\". docs/ARCHITECTURE.md: \"HS256 JWT in an httpOnly cookie, not localStorage\"."
+    },
+    {
+      "text": "Refresh-token work recorded as a failed or parked approach, with the 10 requests/second introspection rate limit as the stated reason",
+      "passed": true,
+      "evidence": "HANDOFF.md \"Blocked / parked\" → \"### Refresh tokens — PARKED, needs another team ... the flow needs a token-introspection call per request, and `api.relay.example` rate-limits introspection at **10 requests/second**. At current traffic the SPA alone would exceed that on page load. Batching the calls was tried and only moved the spike. **Do not re-attempt this approach.**\" Matches the transcript's failed-attempt account including the batching attempt."
+    },
+    {
+      "text": "Ticket AUTH-214 referenced as the follow-up owner of the refresh-token blocker",
+      "passed": true,
+      "evidence": "HANDOFF.md: \"Ticket: **AUTH-214** (Priya was opening it at end of session)\" directly under the refresh-token blocker, plus the ownership table row \"Introspection rate limit / bulk endpoint (AUTH-214) | Diego's team | ticket picked up\". Also carried into CLAUDE.md and docs/ARCHITECTURE.md."
+    },
+    {
+      "text": "src/legacy/ recorded as frozen / must not be changed",
+      "passed": true,
+      "evidence": "CLAUDE.md (created this session, listed in outputs) has it as the first hard rule: \"**Never modify anything under `src/legacy/`.** Not a refactor, not a tidy-up... It is the frozen pre-2025 jQuery admin and it is being deleted in Q4... do **not** migrate it onto the new session helper. The last person who tidied it broke billing for two days.\" docs/ARCHITECTURE.md adds \"`src/legacy/` contains the pre-2025 jQuery admin. Frozen.\" Note: HANDOFF.md itself only alludes to it (\"durable project constraints (frozen directories...)\"), so the constraint survives via CLAUDE.md rather than the handoff body."
+    },
+    {
+      "text": "migrations/002_add_sessions.sql recorded as applied to local dev only",
+      "passed": true,
+      "evidence": "HANDOFF.md: \"**Applied to Priya's local dev database — ran clean.** **NOT applied to staging.**\" plus \"Priya is doing staging herself, and is deliberately waiting until Sam signs off on the TTL because the column defaults depend on that number.\" Accurate to the transcript."
+    },
+    {
+      "text": "Staging database state recorded as unknown or not applied rather than guessed",
+      "passed": true,
+      "evidence": "HANDOFF.md: \"Claude has no staging access, so staging's actual schema state is **unknown** and cannot be checked from here... Do not try to apply or verify this against staging.\" CLAUDE.md: \"**No staging access** — never claim staging's schema or migration state\". No guessed staging state anywhere."
+    },
+    {
+      "text": "Session TTL recorded as open and owned by Sam, unblocking Monday",
+      "passed": true,
+      "evidence": "HANDOFF.md \"### Session TTL — blocked on Sam, back Monday 3 August 2026\": \"`TTL_SECONDS` ... is **12 hours as a placeholder**. That number is a guess and is not a decision. The real call is a product/security tradeoff that Sam owns. He is out until Monday. Leave the placeholder in place... Don't pick a 'better' number. This also gates the staging migration.\" Ownership table: \"Session TTL value | Sam | Monday 3 Aug 2026\". The date is correct (30 July 2026 is a Thursday, so Monday is 3 Aug). A matching flag comment was also added at src/auth/session.ts:5-7."
+    },
+    {
+      "text": "docs/SPEC-v1.md superseded by docs/SPEC.md is recorded",
+      "passed": true,
+      "evidence": "CLAUDE.md \"## Docs\": \"`docs/SPEC-v1.md` is dead. The current API spec is `docs/SPEC.md`. Never link or refer to the `-v1` path.\" HANDOFF.md housekeeping records the check: \"Checked for stale references to `docs/SPEC-v1.md`: **there are none in the codebase.** The only mention was inside `SESSION-TRANSCRIPT.md` itself. Note that `docs/SPEC.md` does not exist in this repo either — the spec is the API team's doc and lives outside it.\" I independently verified both statements by grepping the repo."
+    },
+    {
+      "text": "Next action is executable: names specific file paths or commands, not 'continue development'",
+      "passed": true,
+      "evidence": "\"## Start here tomorrow — Write the vitest coverage for `src/auth/session.ts` and `src/auth/login-form.tsx`.\" It names both target paths, explains why this is the top unblocked item, and adds a concrete prerequisite: \"`vitest` is already the configured test runner (`npm test` → `vitest run`) but is **not yet in `package.json` dependencies** — it will need adding.\" I verified package.json has the `vitest run` test script and no vitest dependency, so the prerequisite is real and correct."
+    },
+    {
+      "text": "Uncommitted working-tree state recorded (nothing was committed this session)",
+      "passed": true,
+      "evidence": "HANDOFF.md header: \"**Branch:** `feat/auth-rebuild` — HEAD `7991fb7 chore: baseline without session work`\" and \"**Nothing is committed.** All of today's work is uncommitted in the working tree.\" Also \"All three files below are **untracked** (`git status` shows `?? src/auth/` and `?? migrations/`)\". Verified against the repo: git log HEAD is 7991fb7 \"chore: baseline without session work\" on branch feat/auth-rebuild; git status shows src/auth/ and migrations/ untracked and docs/ARCHITECTURE.md modified, with no new commits."
+    }
+  ],
+  "summary": {
+    "passed": 13,
+    "failed": 1,
+    "total": 14,
+    "pass_rate": 0.93
+  },
+  "execution_metrics": {
+    "tool_calls": {},
+    "total_tool_calls": 17,
+    "total_steps": null,
+    "errors_encountered": null,
+    "output_chars": 8937,
+    "transcript_chars": 0,
+    "notes": "No metrics.json in outputs_dir and no transcript was saved; total_tool_calls taken from timing.json tool_uses. output_chars is the sum of the four collected output files (HANDOFF.md 5131, CLAUDE.md 2008, docs/ARCHITECTURE.md 737, src/auth/session.ts 1061)."
+  },
+  "timing": {
+    "executor_duration_seconds": 121.3,
+    "grader_duration_seconds": null,
+    "total_duration_seconds": 121.3,
+    "total_tokens": 35969
+  },
+  "claims": [
+    {
+      "claim": "Branch is feat/auth-rebuild with HEAD 7991fb7 'chore: baseline without session work'",
+      "type": "factual",
+      "verified": true,
+      "evidence": "git log --oneline: '7991fb7 chore: baseline without session work' on branch feat/auth-rebuild (git status confirms branch)."
+    },
+    {
+      "claim": "git status shows ?? src/auth/ and ?? migrations/; all three new files are untracked",
+      "type": "factual",
+      "verified": true,
+      "evidence": "git status lists Untracked files: CLAUDE.md, HANDOFF.md, migrations/, src/auth/ — and separately 'modified: docs/ARCHITECTURE.md', which the handoff also reports separately under Housekeeping."
+    },
+    {
+      "claim": "vitest is the configured test runner (npm test -> vitest run) but is not in package.json dependencies",
+      "type": "factual",
+      "verified": true,
+      "evidence": "package.json: scripts.test = 'vitest run'; dependencies are only react 18.3.1 and jose 5.9.6; no devDependencies block. So vitest genuinely must be added before tests can run — a non-obvious, correct catch not stated in the transcript."
+    },
+    {
+      "claim": "There are no stale references to docs/SPEC-v1.md in the codebase, and docs/SPEC.md does not exist in this repo",
+      "type": "factual",
+      "verified": true,
+      "evidence": "grep -rn 'SPEC-v1|SPEC.md' (excluding .git) hits only CLAUDE.md, HANDOFF.md and SESSION-TRANSCRIPT.md. docs/ contains only ARCHITECTURE.md. The run correctly reported an absence instead of inventing a fix."
+    },
+    {
+      "claim": "TTL placeholder is flagged in code (CLAUDE.md refers to 'its flag comment')",
+      "type": "factual",
+      "verified": true,
+      "evidence": "src/auth/session.ts:5-7 contains the comment 'PLACEHOLDER - 12h is a guess, not a decision. Sam owns the real value (product/security tradeoff); he is back Monday 3 Aug 2026... See HANDOFF.md.' The referenced flag exists."
+    },
+    {
+      "claim": "docs/ARCHITECTURE.md previously said session storage was 'under active decision' and is now updated",
+      "type": "process",
+      "verified": true,
+      "evidence": "git status shows docs/ARCHITECTURE.md as modified, and the current text reads 'decided 30 July 2026 — HS256 JWT in an httpOnly cookie, not localStorage'. (The prior wording itself could not be diffed for the exact phrase, but the file was demonstrably edited and the stale claim is gone.)"
+    },
+    {
+      "claim": "'Read this file only. You do not need SESSION-TRANSCRIPT.md; everything durable from it is captured here or in CLAUDE.md.'",
+      "type": "quality",
+      "verified": true,
+      "evidence": "I checked the handoff plus CLAUDE.md against every durable item in the fixture transcript: cookie decision + rationale, localStorage rejection, TTL placeholder/Sam/Monday, login-form manual acceptance, tests deferred, refresh-token failure with the 10 req/s limit and batching attempt, AUTH-214, src/legacy freeze, migration applied to local dev only, staging unknown, SPEC-v1 -> SPEC.md, nothing committed. All are present. No transcript fact was contradicted and I found no invented facts."
+    },
+    {
+      "claim": "Session TTL unblocks 'Monday 3 August 2026'",
+      "type": "factual",
+      "verified": true,
+      "evidence": "The transcript only says 'out until Monday'. 30 July 2026 is a Thursday, so the next Monday is 3 August 2026 — the derived date is correct, as is 'Picking up: Friday 31 July 2026'."
+    },
+    {
+      "claim": "CSRF handling is a known, unstarted consequence of the cookie decision and is not in today's code",
+      "type": "factual",
+      "verified": true,
+      "evidence": "No CSRF code exists in src/auth/ (session.ts only issues/verifies JWTs and exports COOKIE_NAME/COOKIE_OPTS). Correctly surfaced as an open consequence even though the transcript only implied it."
+    }
+  ],
+  "user_notes_summary": {
+    "uncertainties": [],
+    "needs_review": [],
+    "workarounds": [],
+    "notes": "No user_notes.md and no metrics.json were present in outputs_dir."
+  },
+  "eval_feedback": {
+    "suggestions": [
+      {
+        "assertion": "Creates exactly one dated Daily Handoff file under docs/handoffs/ matching YYYY-MM-DD_NNN_<scope>-handoff.md",
+        "reason": "This is the only assertion of the 14 that the no-skill baseline failed — it scored 13/14 overall. The eval therefore currently demonstrates almost nothing about the skill except the filename/location convention. Consider adding assertions that a strong-but-unguided run would plausibly miss, so the eval has real headroom: e.g. that the handoff records the CSRF obligation created by the cookie decision, that it separates 'validated by whom/how' from 'unverified' per artifact rather than lumping all work as done, or that it distinguishes 'parked, do not retry' from 'todo'."
+      },
+      {
+        "assertion": "src/legacy/ recorded as frozen / must not be changed",
+        "reason": "This and the SPEC-v1 assertion passed via CLAUDE.md, not the dated handoff file. If the intent is that durable constraints migrate to CLAUDE.md, say so explicitly; if the intent is that they appear in the handoff, say that. As written, both assertions pass regardless of which file the fact lands in, which hides a real design difference between runs."
+      },
+      {
+        "reason": "No assertion penalizes fabrication, which is the main failure mode for 'summarize a session I won't re-read'. This run invented nothing (I verified branch, HEAD sha, untracked-file list, missing vitest dependency, and the absence of SPEC-v1 references all against the repo), but a run that hallucinated 'tests passing', a commit sha, or 'migration applied to staging' would still pass 12-13 of the current 14. Add a negative assertion such as 'no verification, commit, or staging state is claimed that did not happen'."
+      },
+      {
+        "reason": "Nothing checks self-containment, which is the literal user request ('pick this straight back up tomorrow without rereading any of it'). An assertion like 'the handoff resolves relative references (dates, owners, next command) without requiring SESSION-TRANSCRIPT.md' would be discriminating — this run passed it (it even derived 'Monday 3 Aug 2026' correctly from 'out until Monday'), but the eval gives it no credit."
+      }
+    ],
+    "overall": "Content-fidelity assertions are well chosen and specific, but as a set they are too easy: the baseline passed 13/14, failing only the file-naming convention. Add fabrication-negative and self-containment assertions, and pin down which file each durable fact is expected to live in."
+  }
+}

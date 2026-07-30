@@ -1,0 +1,195 @@
+{
+  "expectations": [
+    {
+      "text": "Both a dated Daily Handoff and a Master Handoff are created under docs/handoffs/",
+      "passed": true,
+      "evidence": "project/docs/handoffs/ contains both `2026-07-30_001_menu-about-pages-handoff.md` (24,462 chars) and `_master-handoff.md` (37,374 chars). Both are substantive, correctly titled ('Daily Handoff — Northwind Coffee brand refresh content — 2026-07-30' and 'Master Handoff — Northwind Coffee brand refresh content'), and the Daily is dated with a sequence ID (2026-07-30_001) plus a topic slug."
+    },
+    {
+      "text": "Master Handoff Version is 1.0 (new canonical document)",
+      "passed": true,
+      "evidence": "_master-handoff.md line 5: 'Version: 1.0'. Reinforced in section 11: 'This is version 1.0 — the first Master Handoff for this project. There is no previous baseline.' and in section 6's source table: 'Current (v1.0, 2026-07-30)'."
+    },
+    {
+      "text": "No fabricated git, branch, commit, build, test, or CI values appear; technical state is replaced with operational state or marked not applicable",
+      "passed": true,
+      "evidence": "No commit hashes, branch names, build IDs or CI results appear anywhere in either document. Section 4: 'Repositories: None. **This is a content project — there is no code repository, no branch, no build, and no deployment pipeline.**' Section 15 is retitled 'Operational State' with the note '(This project has no repository, branch, build, test suite, or deployment pipeline. This section records the equivalent operational reality instead.)' and substitutes genuine operational facts — published/live assets, items with the client awaiting response, outstanding client requests, scheduled sends ('None. No launch email has been scheduled or sent'), tracker state, budget standing, access standing."
+    },
+    {
+      "text": "Marcus's mandatory written sign-off before anything is published is recorded as an approval gate",
+      "passed": true,
+      "evidence": "Master section 5 'Approval gates — the ones that matter': '**Nothing is published without Marcus Bell's written sign-off.** Contract condition after the 2025 published-price error.' Also section 3 as a locked decision with rationale and the note 'Supersedes: Any informal or verbal approval route. **A verbal \"yes\" on a call is not sign-off.**', section 5's workflow step 4 ('**Written sign-off from Marcus.** This is a hard gate'), and section 18.8 as an item requiring explicit human approval. Repeated as a constraint in the Daily section 7."
+    },
+    {
+      "text": "The 2009 vs 2011 founding-year conflict is recorded as unresolved rather than silently decided",
+      "passed": true,
+      "evidence": "Master section 13 Contradictions: 'Northwind's founding year — 2009 vs 2011... Verified current state: **Unresolved.** Nobody has confirmed which is right... Resolution: 2011 is used provisionally in the About page draft and is flagged in the copy... Corrective action required: Get Marcus to confirm before the About page goes for sign-off. **Do not remove the flag from the draft until he has.**' Also Master section 10 as an open decision with owner Marcus Bell and trigger 2026-08-03, and Daily section 3 with 'Status: **Provisional — pending confirmation from Marcus Bell.**'"
+    },
+    {
+      "text": "Sourcing page recorded as blocked on farm names from Northwind ops, including both chase dates (24 Jul and 29 Jul)",
+      "passed": true,
+      "evidence": "Master section 1: 'the **sourcing page** cannot start because Northwind's ops team has not supplied the actual farm names. They were asked on 2026-07-24 and again on 2026-07-29 and have not replied.' Repeated with both dates in Master section 15 ('Farm names — requested from Northwind ops 2026-07-24 and 2026-07-29, no reply') and Daily section 6 ('Northwind ops have been asked twice (2026-07-24 and 2026-07-29) with no reply')."
+    },
+    {
+      "text": "Sourcing page identified as the critical path item, with its 7 Aug due date",
+      "passed": true,
+      "evidence": "Master section 7: 'Blocked: Sourcing page — not started, no farm names from Northwind ops (asked 2026-07-24 and 2026-07-29), due 2026-08-07. **This is the critical path.**' Also section 1: 'It is the longest page, it is due **2026-08-07**, and it is the critical path.' Daily section 6: 'This is the critical path item: it is the longest page and it is due 2026-08-07, during Aisha's leave.'"
+    },
+    {
+      "text": "The 20% first-order offer is recorded as unconfirmed/verbal, not as agreed",
+      "passed": true,
+      "evidence": "Master section 9 Final Decisions: 'Decision: Treat the \"20% off first order\" offer as unconfirmed. Rationale: Verbal only... Impact: Email 2 does not start until the offer is in writing.' Master section 7: 'Marcus said \"probably 20% off first order\" verbally; that is not an agreement.' Master section 17 Do Not Change: 'Do not treat \"probably 20% off first order\" as agreed.' Daily section 6: 'Do not treat 20% as agreed.'"
+    },
+    {
+      "text": "The 2024 loyalty terms are recorded as a dead end not to build on, with the reason (scheme replaced in September)",
+      "passed": true,
+      "evidence": "Master section 3: 'Decision: Do not build the loyalty email on the 2024 loyalty terms. Rationale: The loyalty scheme is being replaced in September and the new terms are not drafted. Copy written against the 2024 terms is wrong on arrival. This was attempted on 2026-07-30 and roughly an hour was discarded.' Also listed under Master section 12 Superseded Items and section 18.6 'Do not repeat', and Daily section 11 'Work That Must Not Be Repeated' with the same reason and the ~1 hour cost."
+    },
+    {
+      "text": "Menu page recorded as in review with Marcus, not as complete",
+      "passed": true,
+      "evidence": "Master section 7 table: 'menu-page | Aisha | in review | 2026-07-31 | With Marcus since 29 Jul, no response'. Master section 17 Do Not Change: 'Do not treat the menu page as done — it has no sign-off.' Daily section 2: 'Status: In review with Marcus Bell since 2026-07-29. **Not approved. Not done.**' The Daily additionally surfaces a real subtlety — the rewrite finished 30 Jul but was sent 29 Jul, so 'it is therefore **unclear whether Marcus is reviewing the final version or an earlier one**.'"
+    },
+    {
+      "text": "Store card 2's banned-word ('curated') tone violation recorded as open with Tom",
+      "passed": true,
+      "evidence": "Master section 7: 'Store card 2 — draft reviewed on 2026-07-30 and returned to Tom because it uses \"curated\" twice, which the locked tone of voice bans. Due 2026-08-05.' Daily section 6: 'Store card 2 fix from Tom — Status: Waiting for Input... Returned to Tom for two uses of the banned word \"curated\". Due 2026-08-05. Not yet fixed.' Next action includes re-checking that 'curated' is gone before it goes to Marcus."
+    },
+    {
+      "text": "Budget recorded as roughly 26 of 40 hours and flagged as not formally verified",
+      "passed": true,
+      "evidence": "Master section 14 Constraints: 'Budget: 40 hours. Roughly 26 used as of 2026-07-30 — **an estimate, not formally checked**. Roughly 14 remaining.' Master section 15: 'Budget standing: ~26 of 40 hours used. **Unverified** — not reconciled against the shared sheet.' Daily section 4: 'Validation: **Not validated** — explicitly \"not formally checked against the sheet\".'"
+    },
+    {
+      "text": "Exactly one immediate next action is designated in the Master Handoff",
+      "passed": true,
+      "evidence": "Master section 17 is singular ('## 17. Immediate Next Action') and designates one action: 'send **one written email to Marcus Bell** containing four numbered asks'. The four asks are contents of a single email, not four actions, and the acceptance criteria enforce that ('One message, not four'). Everything else is explicitly sequenced afterwards under '**Prioritized queue after that (week of 2026-08-03)**'. Section 1 agrees: 'Immediate next action: Escalate to Marcus Bell in one written email... Full detail in section 17.' Minor tension: section 18.4 says 'Before that... get Marcus's, Tom's and Northwind ops' contact details from Aisha', but this is framed as a prerequisite input (also listed under 'Required Inputs' with a 2026-07-31 pre-leave deadline), not a competing next action."
+    },
+    {
+      "text": "New-session start guide present, telling Dan what to read first, what is final, and what not to repeat",
+      "passed": true,
+      "evidence": "Master section 18 'New-Session Start Guide — For Dan, Monday 2026-08-03 — in this order.' Item 1 gives read order (Master, then Daily, then content-calendar.csv, then tone-of-voice.md, brief.md for contract terms, session-notes.md superseded). Item 5 'Final decisions (do not re-open)' lists the written sign-off condition, locked tone of voice, no 2024 loyalty terms, unconfirmed offer. Item 6 'Do not repeat' lists five specific wasted-effort traps including the discarded loyalty draft and the third ops chase. Items 2, 3, 4, 7, 8 add canonical sources, current state, start point, missing access, and human-approval gates."
+    },
+    {
+      "text": "Daily and Master combined are at most 20,000 characters (the source project files total 2,971; iteration-1 produced 60,185)",
+      "passed": false,
+      "evidence": "MEASURED: _master-handoff.md = 37,374 characters (37,588 bytes), 2026-07-30_001_menu-about-pages-handoff.md = 24,462 characters (24,614 bytes). COMBINED = 61,836 characters (62,202 bytes). That is 3.09x the 20,000 cap, over by 41,836 characters, and it is 20.8x the total size of the 2,971-char source project. It is also slightly LARGER than the 60,185 iteration-1 baseline cited in the assertion, so no compression was achieved at all."
+    },
+    {
+      "text": "The Daily is not a near-duplicate of the Master - each fact appears in one document unless the repetition is load-bearing for safe continuation",
+      "passed": false,
+      "evidence": "Extensive non-load-bearing duplication. (a) The next action is stated twice in near-identical prose: Master s17 vs Daily s9 both give the same one-email-to-Marcus with the same four numbered asks, the same 'Start From', the same 'Required Inputs' (Marcus's email address from Aisha before 2026-07-31), the same acceptance criteria, and a 'Do Not Change' list that is 7 bullets in Master s17 and the same 7 bullets in Daily s9. (b) The prioritized follow-on queue is repeated: Master s17's 7 items vs Daily s9's 6 items, items 1-5 essentially verbatim. (c) Risks are duplicated: Daily s7's five risks (sourcing page, email 3, founding year, budget overrun, handover friction) reappear as rows 1-4 and 6 of Master s14's risk table with the same impact/likelihood/mitigation/owner content. (d) The Constraints block (sign-off condition, full tone rules, 40h/~26 used, 2026-09-01 launch, Aisha on leave, store card 1 printed) appears verbatim in both Daily s7 and Master s14. (e) Daily s11 'Work That Must Not Be Repeated' (7 items) is reproduced as Master s18.6 (5 items, same content). (f) Daily s6's open items (deliverable-count mismatch, shared sheet location, contacts, draft locations, menu-page version doubt) all reappear in Master s10/s13/s14. The genuinely Daily-only content (what happened on 30 July) is a small fraction of a 24,462-char document."
+    },
+    {
+      "text": "No section consists solely of 'N/A', 'None', or placeholder filler - unfilled sections are deleted outright",
+      "passed": true,
+      "evidence": "Checked all 19 Master sections and all 11 Daily sections; none is literally an 'N/A'/'None'/TBD stub. Where content is genuinely absent the documents say so with substance: Daily s5 'No new approvals or validations were obtained this session' then lists the pre-existing approvals so Dan does not re-open them; Master s7's tone-of-voice subsection says 'Next Action: None. Do not re-open it — it is now a constraint on everything else.' Closest call is Master s11 'Changes Since the Previous Baseline', which for a v1.0 document is largely a null statement ('There is no previous baseline... Resolved blockers: none.') padded with a blocker list already given elsewhere — retained rather than deleted, but not solely N/A. One 'Reason for precedence: n/a.' line appears inside Master s13's third contradiction, but the surrounding entry is fully filled."
+    },
+    {
+      "text": "Source documents (brief.md, tone-of-voice.md, content-calendar.csv) are referenced rather than restated at length",
+      "passed": false,
+      "evidence": "The sources are referenced AND restated in full. (a) content-calendar.csv (574 chars, 10 rows) is reproduced in Master s7 as a complete 10-row / 5-column table carrying every asset, owner, status, due date and note, plus a per-asset prose restatement immediately below it across four sub-blocks, plus the same statuses again in Master s16 and Daily s8. (b) tone-of-voice.md (205 chars) has its entire substantive rule set quoted verbatim THREE times: Master s3 ('Warm, plain, specific. Second person. Short sentences. **Never** \"artisanal\", \"curated\", or \"journey\". Prices always written as \"GBP 3.20\", never \"3.20 GBP\"'), Master s14 Constraints, and Daily s7 Constraints. (c) brief.md's deliverable list, sign-off condition, budget and client contact are restated in Master s2, s3, s9, s12 and s14 and in Daily s7. The proper reference-style pointers do exist (s6 source table, s10 Continuation Sources), but they sit alongside, not instead of, full restatement — which is a direct contributor to the 61,836-char total."
+    }
+  ],
+  "summary": {
+    "passed": 15,
+    "failed": 3,
+    "total": 18,
+    "pass_rate": 0.83
+  },
+  "execution_metrics": {
+    "tool_calls": {},
+    "total_tool_calls": 17,
+    "total_steps": null,
+    "errors_encountered": 0,
+    "output_chars": 61836,
+    "transcript_chars": 0,
+    "note": "No metrics.json was present in outputs_dir; tool_uses (17) and total_tokens (70,421) taken from timing.json. No transcript was provided — grading is from output files and source fixtures alone."
+  },
+  "timing": {
+    "executor_duration_seconds": 362.2,
+    "grader_duration_seconds": null,
+    "total_duration_seconds": 362.2,
+    "total_tokens": 70421
+  },
+  "claims": [
+    {
+      "claim": "brief.md contracts for 8 website pages and 6 in-store cards, but content-calendar.csv only tracks 4 pages and 2 cards",
+      "type": "factual",
+      "verified": true,
+      "evidence": "brief.md: 'Rewritten website copy (8 pages)' and '6 in-store printed cards'. content-calendar.csv lists homepage, about-page, menu-page, sourcing-page (4 pages) and store-card-1, store-card-2 (2 cards). The discrepancy is real, is not stated in any source file, and was correctly surfaced as an open contradiction in Master s13 with budget implications. This is genuine analysis, not restatement."
+    },
+    {
+      "claim": "The menu page rewrite was finished on the morning of 30 July but the version with Marcus was sent on 29 July, so Marcus may be holding a superseded draft",
+      "type": "factual",
+      "verified": true,
+      "evidence": "session-notes.md: 'Menu page: finished the rewrite this morning. Sent to Marcus 29 Jul, still sitting with him'; content-calendar.csv note 'with Marcus since 29 Jul'. The chronological inconsistency is present in the source and was correctly flagged rather than smoothed over (Daily s2 caveat, Daily s6, Master s13)."
+    },
+    {
+      "claim": "Line-level citations to session-notes.md ('line 5', 'lines 7-9', 'line 18-19', 'line 20') in Daily section 2",
+      "type": "process",
+      "verified": true,
+      "evidence": "Checked against session-notes.md: line 5 is the menu-page bullet, lines 7-9 are the about-page/founding-year bullet, lines 18-19 are the store-card-2 'curated' bullet, line 20 is 'Updated the tracker sheet'. All four citations are accurate."
+    },
+    {
+      "claim": "Master section 1 Executive Summary: 'Three items are approved... One is with the client for review... One is in draft (about page). Four are not started, three of them because the client has not given us information or a decision.'",
+      "type": "factual",
+      "verified": false,
+      "evidence": "CONTRADICTED by content-calendar.csv and by the document's own section 7 table. The CSV has 3 approved, 1 in review, 3 draft (about-page, store-card-2, email-1-welcome), and 3 not started (sourcing-page, email-2-offer, email-3-loyalty). The summary undercounts drafts (1 vs 3) and overcounts not-started (4 vs 3), and its categories total 9 of 10 tracked assets. Section 7's table is correct, so the Master is internally inconsistent in its most-read section — exactly the sort of error a new owner would carry forward."
+    },
+    {
+      "claim": "Store card 1 is physically printed and cannot be revised without a reprint",
+      "type": "factual",
+      "verified": true,
+      "evidence": "content-calendar.csv: 'store-card-1,Tom,approved,2026-07-22,printed'. The 'reprint, not an edit' consequence is a reasonable and useful inference, correctly labelled as a constraint rather than a source fact."
+    },
+    {
+      "claim": "Dan has no recorded contact details for Marcus, Tom or Northwind ops, and the copy drafts and shared budget sheet have no recorded location",
+      "type": "factual",
+      "verified": true,
+      "evidence": "Confirmed by inspecting the project folder: brief.md names Marcus Bell and 'the shared sheet' but gives no email, link, or path; no draft copy files exist in the folder. Correctly identified as a handover gap with a hard deadline (Aisha available only until 2026-07-31)."
+    },
+    {
+      "claim": "Both handoffs avoid inventing any technical/VCS state for a project with no repository",
+      "type": "quality",
+      "verified": true,
+      "evidence": "Full-text scan of both files found no commit hash, branch name, build number, test result, CI status, or deployment reference other than explicit statements that none exist."
+    },
+    {
+      "claim": "The documents are sized appropriately for a handover that Dan can 'just run with on Monday'",
+      "type": "quality",
+      "verified": false,
+      "evidence": "61,836 characters — roughly 15,000+ words across two documents — generated from 2,971 characters of source. Master s18 instructs Dan to 'read this document top to bottom before doing anything', which for a 37,374-char Master plus a 24,462-char Daily is a substantial reading task before any work starts. The volume is expansion, not synthesis: the same next action, risk register, constraint block and do-not-repeat list appear in both files."
+    }
+  ],
+  "user_notes_summary": {
+    "uncertainties": [],
+    "needs_review": [],
+    "workarounds": [],
+    "note": "No user_notes.md was present in outputs_dir."
+  },
+  "eval_feedback": {
+    "suggestions": [
+      {
+        "assertion": "The Daily is not a near-duplicate of the Master - each fact appears in one document unless the repetition is load-bearing for safe continuation",
+        "reason": "This is the most important assertion for judging document design but the most subjective to grade. Consider making it mechanically checkable, e.g. 'the next action, the risk register, the constraints list and the do-not-repeat list each appear in exactly one of the two documents' — those four blocks were duplicated near-verbatim here and are the specific failure mode worth pinning down."
+      },
+      {
+        "reason": "No assertion checks internal consistency against content-calendar.csv. The Master's executive summary miscounts asset statuses (says 1 draft / 4 not started; the CSV has 3 draft / 3 not started, and the summary accounts for only 9 of 10 assets) while the document's own status table is correct. Every content assertion still passed. An assertion like 'asset status counts stated anywhere in either document match content-calendar.csv' would catch a class of error that directly misleads the incoming owner."
+      },
+      {
+        "assertion": "No section consists solely of 'N/A', 'None', or placeholder filler - unfilled sections are deleted outright",
+        "reason": "'Consists solely of' is easy to satisfy by writing a paragraph that says nothing. Master section 11 ('Changes Since the Previous Baseline') is structurally empty for a v1.0 document — 'There is no previous baseline... Resolved blockers: none' — plus a restated blocker list, and it passed. Consider rephrasing to target sections whose content is entirely null-statements or duplicated from elsewhere."
+      },
+      {
+        "assertion": "Source documents (brief.md, tone-of-voice.md, content-calendar.csv) are referenced rather than restated at length",
+        "reason": "Worth tightening with a countable threshold, since the failure here was quantitative: the full tone-of-voice rule set was quoted verbatim three times and the entire CSV reproduced as a table. Something like 'the tone-of-voice rules are written out in full at most once across both documents' would make this unambiguous to grade."
+      },
+      {
+        "assertion": "Exactly one immediate next action is designated in the Master Handoff",
+        "reason": "Passable while still hedging. Here the single action is one email containing four asks, and section 18.4 adds a 'before that, get contact details from Aisha' step. Both readings are defensible. Consider 'the Master names exactly one action, and no other step is described as coming before it' to close the prerequisite loophole."
+      }
+    ],
+    "overall": "The content assertions (3-14) are well-chosen and discriminating — they map to specific traps in session-notes.md (verbal offer, dead-end loyalty terms, unresolved founding year, banned word, unverified budget) that a lazy or hallucinating run would flatten, and this run genuinely handled all of them. The economy assertions (15-18) are where the run failed, and 15 is the strongest assertion in the set because it is objectively measurable and impossible to fake. The gaps are around internal factual consistency, which nothing currently checks."
+  }
+}

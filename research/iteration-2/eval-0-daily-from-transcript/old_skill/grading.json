@@ -1,0 +1,197 @@
+{
+  "expectations": [
+    {
+      "text": "Creates exactly one dated Daily Handoff file under docs/handoffs/ matching YYYY-MM-DD_NNN_<scope>-handoff.md",
+      "passed": true,
+      "evidence": "docs/handoffs/ contains exactly one file: 2026-07-30_001_auth-login-handoff.md. Matches YYYY-MM-DD_NNN_<scope>-handoff.md (date 2026-07-30 correct for the session, sequence 001, scope auth-login). `find project -iname \"*handoff*\"` returns only that file plus the directory. Content is a substantive 11-section handoff, not a stub."
+    },
+    {
+      "text": "Login form is listed as validated, citing Priya's manual browser check as the evidence",
+      "passed": true,
+      "evidence": "Section 5 'Validated or Approved Items': 'Item: Login form behaviour / Validation Method: Manual test by a human / Evidence: Priya ran the dev server, typed an invalid email and saw the error, typed a valid one and saw it post / Result: Accepted by Priya'. Section 2 repeats the quote 'That's fine, I'm happy with the form.' Matches transcript lines 36-37 exactly."
+    },
+    {
+      "text": "Session tests are NOT listed as done or validated; they appear as not written / open",
+      "passed": true,
+      "evidence": "Section 1 'Not completed: Automated tests (vitest) for session.ts and the login form - deliberately deferred mid-session.' Section 5 closes with 'Nothing else is validated. No automated test was written or executed this session; npm test was not run.' Section 6 lists 'Automated tests for session.ts and login-form.tsx - Status: Deferred -> now the next action ... Never written.' Section 4 marks session.ts 'Validation: Not validated. No tests written, no test run.' Nowhere claimed done."
+    },
+    {
+      "text": "httpOnly cookie decision recorded with its rationale (third-party analytics scripts / XSS exposure)",
+      "passed": true,
+      "evidence": "Section 3, first decision: 'Store the session as an httpOnly cookie, not a JWT in localStorage. Rationale: Third-party analytics scripts run on the marketing pages; any XSS would turn a JS-readable bearer token into full account takeover.' Both rationale elements from transcript lines 12-18 are present. Status marked Final with Priya's quote 'Cookie... Lock that in.'"
+    },
+    {
+      "text": "localStorage named explicitly as the rejected option for session storage",
+      "passed": true,
+      "evidence": "Section 3: 'Options considered: JWT in localStorage (simpler SPA wiring) vs JWT in httpOnly cookie. Rejected: localStorage. Explicitly rejected on security grounds, not convenience.' Also Section 11: 'Re-opening localStorage vs cookie for session storage - Reason: Decided and locked.'"
+    },
+    {
+      "text": "Refresh-token work recorded as a failed or parked approach, with the 10 requests/second introspection rate limit as the stated reason",
+      "passed": true,
+      "evidence": "Section 3: 'Abandon the per-request token-introspection refresh design. Rationale: api.relay.example rate-limits introspection at 10 req/s; the SPA alone would exceed that on page load. Batching was tried and only moved the spike.' Section 6 'Refresh tokens - Status: Blocked'. Section 7 Constraints: '10 requests/second ... it is what killed the refresh design.' Section 11 lists it under work that must not be repeated with Priya's 'Don't try that again.'"
+    },
+    {
+      "text": "Ticket AUTH-214 referenced as the follow-up owner of the refresh-token blocker",
+      "passed": true,
+      "evidence": "Section 6: 'Needs Diego's team to raise the limit or ship a bulk endpoint. Ticket AUTH-214.' Section 4 records AUTH-214 as project-management state with 'Validation: Not verified - stated as an intention at the end of the session; ticket existence not confirmed.' Section 10 lists it as 'Ticket AUTH-214 | Raise the introspection rate limit or add a bulk endpoint; owner Diego's team'. Section 8 blocked list cites AUTH-214."
+    },
+    {
+      "text": "src/legacy/ recorded as frozen / must not be changed",
+      "passed": true,
+      "evidence": "Section 3: 'src/legacy/ is frozen - do not touch, ever. Rationale: It is being removed in Q4, and the last person who \"tidied\" it broke billing for two days.' Section 7 Constraints: 'src/legacy/ is frozen. Not to be refactored, tidied, or touched, in any session.' Section 9 Do Not Change and Section 11 repeat it, including the specific refused admin.js refactor."
+    },
+    {
+      "text": "migrations/002_add_sessions.sql recorded as applied to local dev only",
+      "passed": true,
+      "evidence": "Section 2: 'Status: Applied to local dev DB only - ran clean. Staging: not applied, state unknown.' Section 4: 'Location: migrations/002_add_sessions.sql; target = Priya's local dev database ... New State: sessions table + sessions_user_id_idx present in local dev'. Section 10 table: 'applied to local dev only'. Section 11 warns against re-running it locally. Column list in the handoff matches the actual migration file."
+    },
+    {
+      "text": "Staging database state recorded as unknown or not applied rather than guessed",
+      "passed": true,
+      "evidence": "Section 6: 'Staging database state - Status: Unknown / Blocked. Detail: Migration 002 was not applied to staging and staging could not be inspected (no access). Do not assume it is either applied or unapplied.' Section 4: 'Staging: unknown - not applied, and no access to inspect it.' Section 7 Constraints: 'No staging access from this session - anything about staging is unverifiable here.' No guessed state anywhere."
+    },
+    {
+      "text": "Session TTL recorded as open and owned by Sam, unblocking Monday",
+      "passed": true,
+      "evidence": "Section 6: 'Session TTL (currently 12h placeholder in src/auth/session.ts) - Status: Waiting for Approval. Detail: Product/security call owned by Sam, who is out until Monday (expected 2026-08-03). Staging migration defaults depend on it. What would resolve it: Sam's decision on TTL.' Section 3 records it as Pending Approval (owner: Sam). The inferred date 2026-08-03 is correct (2026-07-30 is a Thursday) and is hedged with 'expected'."
+    },
+    {
+      "text": "docs/SPEC-v1.md superseded by docs/SPEC.md is recorded",
+      "passed": true,
+      "evidence": "Section 3: 'docs/SPEC.md supersedes docs/SPEC-v1.md as the API team's spec ... Anything pointing at docs/SPEC-v1.md is wrong. Status: Final.' Section 4 records the move and notes a grep found no in-repo references (independently verified true - the only SPEC-v1 hits in the repo are the transcript and the handoff itself). Section 10 and Section 11 both restate the dead path."
+    },
+    {
+      "text": "Next action is executable: names specific file paths or commands, not 'continue development'",
+      "passed": true,
+      "evidence": "Section 9 names the action ('Write and run vitest coverage for src/auth/session.ts and src/auth/login-form.tsx'), the start directory and branch/commit (feat/auth-rebuild, HEAD 7991fb7 - both verified correct), the exact install command 'npm i -D vitest', the expected new files (session.test.ts, login-form.test.tsx), five concrete test cases naming real exports (issueSession, readSession, COOKIE_OPTS, role=\"alert\"), acceptance criteria ('npm test passes'), and an explicit Do Not Change list. Fully executable without rereading the transcript."
+    },
+    {
+      "text": "Uncommitted working-tree state recorded (nothing was committed this session)",
+      "passed": true,
+      "evidence": "Header line: 'Session helper + login form written and **uncommitted** on feat/auth-rebuild'. Section 4 'Repository state': 'migrations/ and src/auth/ untracked; nothing from this session is committed; branch has no upstream tracking branch, so nothing is pushed either.' Verified: git status shows '?? migrations/', '?? src/auth/'; HEAD is 7991fb7 'chore: baseline without session work'; `git rev-parse @{u}` returns 'no upstream configured'. Section 7 raises loss risk with a commit-and-push mitigation."
+    },
+    {
+      "text": "Daily Handoff is at most 12,000 characters (the SESSION-TRANSCRIPT.md it replaces is 3,605 characters; iteration-1 produced 28,896)",
+      "passed": false,
+      "evidence": "FAIL. Measured character count of docs/handoffs/2026-07-30_001_auth-login-handoff.md is 21,085 characters (21,196 bytes UTF-8; no CRLF; the byte/char gap is multi-byte em dashes). That is 176% of the 12,000-character cap - 9,085 characters over. It is 5.85x the 3,605-character SESSION-TRANSCRIPT.md it is meant to replace, across 309 lines and 11 sections. Better than iteration-1's 28,896 but still well over cap, so it fails regardless of content quality."
+    },
+    {
+      "text": "No section consists solely of 'N/A', 'None', or placeholder filler - unfilled sections are deleted outright",
+      "passed": true,
+      "evidence": "Grep for 'N/A', standalone 'None', 'TBD', 'not applicable' returns zero hits. The only 'placeholder' hits (lines 64, 99, 165, 275, 286) all refer substantively to the real 12h TTL placeholder in session.ts, not to filler. All 11 headed sections carry real content; even Section 5 ends with a substantive negative statement ('Nothing else is validated. No automated test was written or executed') rather than 'None'."
+    },
+    {
+      "text": "Project background and purpose are not restated; the Daily covers the session delta only",
+      "passed": true,
+      "evidence": "No project-background or purpose prose exists - there is no 'about relay-web' / 'why this project' section, and docs/ARCHITECTURE.md content (React + Vite, separate API service) is not copied in. The header lines are pointers (project name, date, workstream, scope), not background. Caveat noted for the second clause: the document does exceed a strict session delta with out-of-session repo findings (SESSION_SECRET dev fallback, vitest missing from package.json, stale ARCHITECTURE.md line, git HEAD hash, package.json script table). These are newly discovered repo state rather than restated background, so the assertion as written passes, but this material is a major contributor to the size-cap failure."
+    },
+    {
+      "text": "No factual claim is stated confidently without support - anything not observed is labelled Unknown, Not verified, or Pending validation",
+      "passed": true,
+      "evidence": "Every material unknown is explicitly labelled: staging DB 'Status: Unknown / Blocked ... Do not assume it is either applied or unapplied'; AUTH-214 'Not verified - stated as an intention ... ticket existence not confirmed' and 'creation unconfirmed'; TTL 'Pending Approval'; SESSION_SECRET 'Needs Validation ... No environment was checked this session'; vitest 'npm test will likely fail ... Not verified - no install or test run was attempted'; session.ts 'Validation: Not validated.' All checkable factual claims were independently verified true against the repo (jose@5.9.6, COOKIE_NAME='relay_session', COOKIE_OPTS httpOnly/sameSite=lax/secure/path, TTL_SECONDS=60*60*12, dev-only-secret fallback, email.includes(\"@\"), role=\"alert\", sessions table + sessions_user_id_idx, no vitest dependency, HEAD 7991fb7 on feat/auth-rebuild with no upstream, ARCHITECTURE.md 'under active decision' line, no in-repo SPEC-v1.md references). One minor lapse: Section 8 asserts session.ts 'compiles as a standalone module' when no build or typecheck was run and typescript is not even a dependency - this is unhedged and unverified. Judged insufficient to fail an otherwise rigorously hedged document."
+    }
+  ],
+  "summary": {
+    "passed": 17,
+    "failed": 1,
+    "total": 18,
+    "pass_rate": 0.94
+  },
+  "execution_metrics": {
+    "tool_calls": {},
+    "total_tool_calls": 12,
+    "total_steps": null,
+    "errors_encountered": 0,
+    "output_chars": 21085,
+    "transcript_chars": 0,
+    "notes": "No metrics.json in outputs_dir; tool_calls taken from timing.json tool_uses (12). No execution transcript was provided, so per-tool breakdown and step count are unavailable. outputs_dir contains a byte-identical copy of the handoff written into the project at docs/handoffs/."
+  },
+  "timing": {
+    "executor_duration_seconds": 193.0,
+    "grader_duration_seconds": null,
+    "total_duration_seconds": 193.0,
+    "total_tokens": 50849
+  },
+  "claims": [
+    {
+      "claim": "vitest is not listed in dependencies or devDependencies, so npm test will likely fail",
+      "type": "factual",
+      "verified": true,
+      "evidence": "package.json has \"test\": \"vitest run\" but dependencies are only react 18.3.1 and jose 5.9.6; there is no devDependencies block at all."
+    },
+    {
+      "claim": "Grepped this repo - no in-repo references to SPEC-v1.md exist",
+      "type": "process",
+      "verified": true,
+      "evidence": "Independent `grep -rn SPEC-v1 --exclude-dir=.git` returns only SESSION-TRANSCRIPT.md and the handoff itself; no source or doc file references it."
+    },
+    {
+      "claim": "Branch feat/auth-rebuild @ 7991fb7 'chore: baseline without session work', no upstream, nothing committed",
+      "type": "factual",
+      "verified": true,
+      "evidence": "git log shows 7991fb7 'chore: baseline without session work'; git status --porcelain shows only untracked docs/handoffs/, migrations/, src/auth/; git rev-parse @{u} errors with 'no upstream configured for branch feat/auth-rebuild'."
+    },
+    {
+      "claim": "SECRET falls back to the literal \"dev-only-secret\" when process.env.SESSION_SECRET is unset - a forgeable-token risk",
+      "type": "factual",
+      "verified": true,
+      "evidence": "src/auth/session.ts line 3: `const SECRET = new TextEncoder().encode(process.env.SESSION_SECRET ?? \"dev-only-secret\");`. This is a genuine finding not present in the transcript."
+    },
+    {
+      "claim": "docs/ARCHITECTURE.md is stale - still says session storage is 'under active decision'",
+      "type": "factual",
+      "verified": true,
+      "evidence": "docs/ARCHITECTURE.md contains 'Session storage approach is under active decision.' - now contradicted by the locked cookie decision."
+    },
+    {
+      "claim": "Nothing in this repo calls issueSession() or applies COOKIE_OPTS; LoginForm's onSubmit has no caller",
+      "type": "factual",
+      "verified": true,
+      "evidence": "Only source files are src/auth/session.ts, src/auth/login-form.tsx, src/legacy/admin.js. No importer of session.ts or LoginForm exists."
+    },
+    {
+      "claim": "src/auth/session.ts exists and compiles as a standalone module",
+      "type": "quality",
+      "verified": false,
+      "evidence": "No build or typecheck was run and typescript is not a dependency in package.json. The claim is plausible but unverified and stated without a hedge, unlike the rest of the document."
+    },
+    {
+      "claim": "Sam is out until Monday, expected back 2026-08-03",
+      "type": "factual",
+      "verified": true,
+      "evidence": "Transcript says only 'out until Monday'. 2026-07-30 is a Thursday, so the following Monday is 2026-08-03 - the inference is arithmetically correct and is hedged with 'expected'."
+    },
+    {
+      "claim": "The handoff lets the user resume without rereading SESSION-TRANSCRIPT.md",
+      "type": "quality",
+      "verified": true,
+      "evidence": "Every decision, constraint, blocker, owner and next step in the transcript is carried over accurately, with an executable Section 9. Content-wise the goal is met - but at 21,085 characters the handoff is 5.85x the transcript it replaces, so it substitutes one long read for a longer one."
+    }
+  ],
+  "user_notes_summary": {
+    "uncertainties": [],
+    "needs_review": [],
+    "workarounds": [],
+    "notes": "No user_notes.md and no execution transcript were present in outputs_dir; only the handoff file. Grading is based on the output file plus direct verification against the project repository."
+  },
+  "eval_feedback": {
+    "suggestions": [
+      {
+        "assertion": "Project background and purpose are not restated; the Daily covers the session delta only",
+        "reason": "This assertion is not discriminating as written. The output passes it (no background prose) while still committing the failure mode the assertion is presumably aimed at: ~40% of the document is out-of-session repo investigation (SESSION_SECRET fallback, missing vitest, stale ARCHITECTURE.md, package.json script inventory, git object hashes) that no one asked for and that drives the 21,085-character size. Consider an assertion like 'every item in the handoff traces to something that happened in the session; incidental repo findings are excluded or confined to a single short section.'"
+      },
+      {
+        "assertion": "Daily Handoff is at most 12,000 characters",
+        "reason": "This is currently the only assertion pushing back on verbosity, and it is doing all the work - it is the sole failure across 18 assertions while the content assertions all pass comfortably. Since a skill can pass 17/18 while producing something the user must still spend 10 minutes reading, consider a second structural constraint (e.g. section count cap, or 'no fact appears in more than two sections'). The cookie decision, the legacy freeze, the 10 req/s limit and the SPEC move are each restated in 3-4 different sections here."
+      },
+      {
+        "assertion": "No factual claim is stated confidently without support",
+        "reason": "Hard to grade as a binary - I found one unhedged unverified claim ('session.ts ... compiles as a standalone module') in an otherwise scrupulously hedged document, and had to make a judgement call to pass it. Consider narrowing it to the specific facts that matter and are hallucination-prone (staging DB state, AUTH-214 existence, test execution, TTL ownership), which are individually checkable."
+      },
+      {
+        "reason": "No assertion checks for invented facts. This run produced none - every repo-derived detail I spot-checked (jose@5.9.6, COOKIE_NAME, TTL_SECONDS, migration columns, HEAD sha, no-upstream) was accurate - but a weaker skill could fabricate a commit sha or a dependency version and pass all 18 assertions. A 'no fabricated file paths, commands, versions or identifiers' assertion would catch that."
+      }
+    ],
+    "overall": "The assertions cover fact-fidelity thoroughly and the skill scores well on them (17/18). The one failure is size: 21,085 characters against a 12,000 cap, 5.85x the 3,605-character transcript it replaces. That single assertion is carrying the entire signal about conciseness, and the content assertions are all satisfiable by an over-long document, so the eval currently rewards completeness far more than it penalises bloat."
+  }
+}

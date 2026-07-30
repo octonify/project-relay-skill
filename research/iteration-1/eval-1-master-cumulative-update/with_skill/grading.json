@@ -1,0 +1,191 @@
+{
+  "expectations": [
+    {
+      "text": "docs/handoffs/_master-handoff.md is updated in place and no new versioned master file (e.g. _master-handoff-v3.md, -final.md) is created",
+      "passed": true,
+      "evidence": "docs/handoffs/ contains exactly three files: 2026-07-22_001_signup-handoff.md, 2026-07-28_001_spec-move-handoff.md, _master-handoff.md. No -v3/-final/-updated variant anywhere in the project tree. `git status --short` reports a single change: ' M docs/handoffs/_master-handoff.md' (modified, not added), confirming in-place edit. The outputs copy is byte-identical to the project file (diff -q reports no difference)."
+    },
+    {
+      "text": "Version field incremented above 2.0",
+      "passed": true,
+      "evidence": "Line 5 of the updated master: 'Version: 3.0' (pristine v2.0 said 'Version: 2.0')."
+    },
+    {
+      "text": "Last Updated field changed from 2026-07-24",
+      "passed": true,
+      "evidence": "Line 6: 'Last Updated: 2026-07-30' (pristine: 'Last Updated: 2026-07-24'). Matches the run date."
+    },
+    {
+      "text": "The localStorage session-storage decision is no longer presented as a current Final/locked decision",
+      "passed": true,
+      "evidence": "In section 3 the localStorage entry no longer carries 'Status: Final'; it reads 'Status: **SUPERSEDED on 2026-07-28** by the httpOnly cookie decision above. Retained here so the reversal is visible rather than looking like it never happened. Do not re-propose it.' Section 18 point 6 additionally instructs 'do not re-propose localStorage for session storage'. Nowhere in the document is localStorage described as the current approach."
+    },
+    {
+      "text": "The httpOnly cookie decision is recorded as the current approach, with rationale",
+      "passed": true,
+      "evidence": "Section 3: 'Decision: The session JWT is stored in an httpOnly, secure, sameSite=lax cookie. Do **not** use localStorage and do **not** send a bearer header from the SPA. - Rationale: third-party analytics scripts run on marketing pages; a token in localStorage is readable by any injected script, making XSS equivalent to account takeover. ... Status: Final. Approval source: Sam (security) + Priya (engineering); written sign-off in ticket AUTH-201.' Repeated with rationale in sections 5 (transport detail: relay_session cookie, httpOnly/secure/sameSite=lax/path=/), 9 (Final Decisions), and 16."
+    },
+    {
+      "text": "The conflict between the Master's localStorage decision and the 2026-07-28 Daily is explicitly recorded or resolved, not silently overwritten",
+      "passed": true,
+      "evidence": "Section 13 item 1: 'Storage decision recorded twice, in opposite directions. Master v2.0 section 3 recorded localStorage as Final; the 2026-07-28 Daily Handoff records httpOnly cookies as Final. - Verified current state: httpOnly cookie. - Authoritative source: AUTH-201 ... - Why it wins: later date, security authority, written approval, and code already reflects it. - Resolution: applied throughout this document; old decision marked superseded, not deleted.' The superseded original is also retained verbatim-in-substance in section 3 and listed in the section 12 table and section 11 diff."
+    },
+    {
+      "text": "Sources of Truth lists docs/SPEC.md instead of docs/SPEC-v1.md",
+      "passed": true,
+      "evidence": "Section 6 table row: '| API spec | docs/SPEC.md | Endpoint and auth contract, session cookie contract, error envelope | Diego's team | Current (verified present 2026-07-30) |'. SPEC-v1.md appears only in a second row explicitly marked '**Superseded / deleted 2026-07-28** - path 404s in the wiki; do not cite'. Section 18 step 1 also warns not to look for SPEC-v1.md. Verified against the repo: docs/SPEC.md exists and states 'Supersedes docs/SPEC-v1.md, which was deleted on 2026-07-28.'"
+    },
+    {
+      "text": "Superseded/Replaced table gains an entry for docs/SPEC-v1.md -> docs/SPEC.md",
+      "passed": true,
+      "evidence": "Section 12 table row: '| docs/SPEC-v1.md | docs/SPEC.md | Diego's team restructured the spec; version suffix dropped. Old path 404s in the wiki | 2026-07-28 |'. The pristine v2.0 table had only the SCSS-variables row, which is still present."
+    },
+    {
+      "text": "Incorporated Daily Handoffs table lists the 2026-07-28 handoff",
+      "passed": true,
+      "evidence": "Section 19 row: '| 2026-07-28 | 2026-07-28_001_spec-move-handoff.md | API spec relocation, session storage decision reversal | Yes (v3.0) |'. The 2026-07-22 row is preserved, and the 2026-07-24 row is retained but flagged as a file that does not exist."
+    },
+    {
+      "text": "Stale Immediate Next Action (signup email verification) is replaced with a current one",
+      "passed": true,
+      "evidence": "Section 17: 'Immediate Next Action: finish cookie-based session handling in `src/auth/session.ts` - make the session token travel only via the `relay_session` cookie, and remove every remaining localStorage or bearer-header path in the SPA', with Start From src/auth/session.ts, acceptance criteria, and stop conditions. This matches the Daily's 'Next Action: implement cookie-based session issuing in src/auth/session.ts'. The old action is explicitly retired in section 1 ('**superseded**'), section 12 (table row), and demoted to queue item 3 pending resolution of the missing signup file."
+    },
+    {
+      "text": "The design tokens locked decision from v2.0 is preserved",
+      "passed": true,
+      "evidence": "Section 3 first entry is carried over intact: 'Design tokens live in packages/tokens and are the only source of colour and spacing values. No hard-coded hex in components. - Rationale: three surfaces drifted apart in 2025 ... Date: 2026-05-12 - Status: Final - Approval source: Priya + design review - Supersedes: per-app SCSS variables'. Also preserved in the section 12 table, section 8 history, and reinforced in section 7 ('Design tokens ... Complete') and section 18 point 6 ('Do not repeat: the design token consolidation')."
+    },
+    {
+      "text": "The src/legacy/ freeze decision from v2.0 is preserved",
+      "passed": true,
+      "evidence": "Section 3 second entry carried over intact: 'src/legacy/ is frozen. No refactors, no renames, no \"tidying\". - Rationale: a cleanup in March 2026 broke billing for two days. - Date: 2026-03-30 - Status: Final - Approval source: Priya'. Also in section 2 (out of scope), section 8 history, section 17 'Do Not Change: `src/legacy/` (frozen)', and section 7 Legacy decommission."
+    },
+    {
+      "text": "The constraint that only Priya has staging/production database access is preserved",
+      "passed": true,
+      "evidence": "Section 5: 'Access restriction: only Priya has staging and production database access.' Section 14: 'Constraint: only Priya can touch staging/production databases.' Section 18 point 7: 'Staging and production database access is Priya's only.' Point 8 adds 'Any staging or production database or migration action needs Priya, who alone has access.'"
+    },
+    {
+      "text": "CSRF protection appears as an open item introduced by the cookie decision",
+      "passed": true,
+      "evidence": "Section 10 second open decision: 'Decision Needed: CSRF strategy for the cookie session - Why It Matters: created directly by the 2026-07-28 cookie decision. sameSite=lax alone does not cover top-level POST navigations ... Decision Owner: Sam (security) with Diego (API) - Deadline or Trigger: before staging deploy. Nothing is implemented today.' Also surfaced as the top risk in section 14 ('**no CSRF protection exists**'), as a blocker in sections 7/16, in the header 'Overall Status: ... staging blocked on CSRF strategy', and as queue item 1 in section 17. Traced to the cookie decision's 'Impact: the API must set the cookie; CSRF protection is now required.'"
+    }
+  ],
+  "summary": {
+    "passed": 14,
+    "failed": 0,
+    "total": 14,
+    "pass_rate": 1.0
+  },
+  "execution_metrics": {
+    "tool_calls": {},
+    "total_tool_calls": 11,
+    "total_steps": null,
+    "errors_encountered": 0,
+    "output_chars": 25349,
+    "transcript_chars": 0,
+    "notes": "No metrics.json and no transcript were provided; total_tool_calls taken from timing.json 'tool_uses'. Graded from output files plus direct inspection of the project directory and the pristine fixtures."
+  },
+  "timing": {
+    "executor_duration_seconds": 225.3,
+    "grader_duration_seconds": null,
+    "total_duration_seconds": 225.3,
+    "total_tokens": 54069
+  },
+  "claims": [
+    {
+      "claim": "The 2026-07-28 security review reversed the storage decision to an httpOnly/secure/sameSite=lax cookie, approved by Sam and Priya with written sign-off in AUTH-201",
+      "type": "factual",
+      "verified": true,
+      "evidence": "Matches the 2026-07-28 Daily section 3 verbatim in substance, including options considered, rejections, and 'Approval: Sam (security), Priya (engineering)' plus 'Evidence: Sam's written sign-off in AUTH-201'."
+    },
+    {
+      "claim": "`jose` 5.9.6 is a dependency (verified)",
+      "type": "factual",
+      "verified": true,
+      "evidence": "package.json dependencies: {\"react\": \"18.3.1\", \"jose\": \"5.9.6\"}."
+    },
+    {
+      "claim": "Test status is unverified/not runnable: no test files exist and vitest is absent from dependencies although `npm test` runs `vitest run` — this supersedes v2.0's 'passing (signup only)'",
+      "type": "factual",
+      "verified": true,
+      "evidence": "package.json has \"test\": \"vitest run\" but no vitest in dependencies; git ls-files shows no test file. Correctly refuses to inherit v2.0's claim."
+    },
+    {
+      "claim": "HEAD is a3549a9 ('baseline') and it is the only commit; v2.0's recorded commit 7c21ab4 is not in this clone",
+      "type": "factual",
+      "verified": true,
+      "evidence": "`git log --oneline` returns exactly 'a3549a9 baseline'. Both branches (feat/auth-rebuild, master) point at a3549a9."
+    },
+    {
+      "claim": "Tracked files are docs/SPEC.md, three handoff files, package.json, src/auth/session.ts — no signup source file, no argon2 dependency",
+      "type": "factual",
+      "verified": true,
+      "evidence": "`git ls-files` output matches exactly. No src/auth/signup.ts; no argon2 in package.json. The document correctly downgrades 'signup complete' to an unverified inherited claim rather than restating it as fact."
+    },
+    {
+      "claim": "2026-07-24_001_tokens-handoff.md, which v2.0 claims was incorporated, does not exist in docs/handoffs/ or git",
+      "type": "factual",
+      "verified": true,
+      "evidence": "Directory listing and git ls-files both show only the 2026-07-22 and 2026-07-28 dailies. The document flags this as unresolved contradiction 2 instead of silently propagating v2.0's claim."
+    },
+    {
+      "claim": "src/auth/session.ts already hardcodes TTL_SECONDS = 60 * 60 * 12 marked provisional, exports COOKIE_NAME/COOKIE_OPTS, signs HS256 via jose, and falls back to the literal \"dev-only-secret\"",
+      "type": "factual",
+      "verified": true,
+      "evidence": "session.ts lines 3-6 and 25-26 match exactly: SESSION_SECRET ?? \"dev-only-secret\"; '// TTL is provisional'; const TTL_SECONDS = 60 * 60 * 12; COOKIE_NAME = \"relay_session\"; COOKIE_OPTS = { httpOnly: true, sameSite: \"lax\", secure: true, path: \"/\" }; alg HS256."
+    },
+    {
+      "claim": "No upstream tracking branch is configured, so remote state is unknown",
+      "type": "factual",
+      "verified": true,
+      "evidence": "`git branch -vv` shows no [origin/...] tracking annotation for either branch; no remote configured."
+    },
+    {
+      "claim": "Uncommitted changes: none (0 files)",
+      "type": "factual",
+      "verified": false,
+      "evidence": "True at the moment of inspection, but stale as written: `git status --short` now reports ' M docs/handoffs/_master-handoff.md' — the handoff's own update. Minor self-referential inaccuracy in section 15, not a substantive error."
+    },
+    {
+      "claim": "This update integrates the 2026-07-28 Daily Handoff and directly verified repository state; no session record exists for 2026-07-29 or 2026-07-30",
+      "type": "process",
+      "verified": true,
+      "evidence": "Every repo-state assertion I spot-checked traces to a real file, and no handoff files for those dates exist. Inherited-but-unverified items (deployment, migrations, backups, packages/tokens, CI) are individually labelled as inherited/not verified rather than asserted."
+    },
+    {
+      "claim": "All substantive v2.0 content was preserved or explicitly superseded — nothing dropped silently",
+      "type": "quality",
+      "verified": true,
+      "evidence": "Checked every v2.0 section against v3.0: both locked decisions, the jose decision, the session TTL open decision, the SCSS->tokens superseded row, the API rate-limit risk, Diego dependency, Priya DB constraint, Sam approval gate, backup/migration/deployment/CI state, and the 2026-07-22 handoff row all survive. The only v2.0 status changed without an explicit note is 'In Progress: login flow' -> 'login flow (not started)', which is supported by the Daily ('Not completed: any login code')."
+    }
+  ],
+  "user_notes_summary": {
+    "uncertainties": [],
+    "needs_review": [],
+    "workarounds": [],
+    "notes": "No user_notes.md and no metrics.json were present in outputs_dir (only _master-handoff.md). Note, however, that the handoff itself carries an unusually rich set of self-declared uncertainties (section 13 contradictions 2-5 left explicitly unresolved, section 15 'Unknown' statuses), which functions as executor-flagged uncertainty."
+  },
+  "eval_feedback": {
+    "suggestions": [
+      {
+        "assertion": "Version field incremented above 2.0",
+        "reason": "Trivially satisfiable — any number above 2.0 passes even if the body was untouched. It only discriminates when paired with the content assertions; consider folding it into assertion 3 and freeing a slot for a content check."
+      },
+      {
+        "reason": "The fixture plants four verification traps that no assertion covers: v2.0 claims 2026-07-24_001_tokens-handoff.md was incorporated (file absent), records commit 7c21ab4 (HEAD is a3549a9, single commit), asserts signup is complete pointing at src/auth/signup.ts (absent), and reports 'Test status: passing' (no tests, vitest not installed). This run caught all four; a weaker run would copy them forward as current fact and still pass all 14 assertions. Add something like: 'v2.0's unverifiable technical state (commit 7c21ab4, build/test passing, the 2026-07-24 handoff as incorporated) is not restated as verified current fact.' That is the single most discriminating check available in this fixture."
+      },
+      {
+        "reason": "Assertions 11-13 sample only three v2.0 items for preservation. A run that regenerated the master from the two Dailies alone would still pass them while losing the jose/jsonwebtoken final decision, the session TTL open decision, the SCSS->tokens superseded row, the API rate-limit risk, and the 2026-07-22 handoff row. Consider one assertion requiring that every v2.0 Final/Open decision and every existing Superseded-table row survives."
+      },
+      {
+        "assertion": "The localStorage session-storage decision is no longer presented as a current Final/locked decision",
+        "reason": "As written, wholesale deletion of the localStorage decision also passes — which is the failure mode assertion 6 exists to catch. Tightening this to 'retained and marked superseded, not deleted' would make the pair non-redundant and each individually discriminating."
+      },
+      {
+        "reason": "Nothing checks that the update did not fabricate. This run's numbers all held up under direct file inspection, but the assertion set would not catch an invented commit hash, an invented ticket ID, or invented cookie attributes. An assertion that repo-derived facts (HEAD, dependency versions, cookie attribute values, tracked-file list) match the actual project would guard the highest-risk failure for this skill."
+      }
+    ],
+    "overall": "Strong, specific assertion set that covers the core cumulative-update behaviours (in-place update, supersession without loss, conflict recording, staleness repair). The gap is verification: the fixture deliberately seeds four false inherited claims and nothing asserts they were caught, so a run that faithfully copies stale facts forward would score 14/14. Add one anti-stale-inheritance assertion and one broad v2.0-preservation assertion."
+  }
+}

@@ -1,0 +1,725 @@
+{
+  "metadata": {
+    "skill_name": "project-relay",
+    "skill_path": "D:/Projects/Skills/project-relay",
+    "executor_model": "claude-opus-5",
+    "analyzer_model": "claude-opus-5",
+    "timestamp": "2026-07-30T16:34:19Z",
+    "evals_run": [
+      0,
+      1,
+      2
+    ],
+    "runs_per_configuration": 1
+  },
+  "runs": [
+    {
+      "eval_id": 0,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.94,
+        "passed": 17,
+        "failed": 1,
+        "total": 18,
+        "time_seconds": 128.9,
+        "tokens": 45407,
+        "tool_calls": 13,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Creates exactly one dated Daily Handoff file under docs/handoffs/ matching YYYY-MM-DD_NNN_<scope>-handoff.md",
+          "passed": true,
+          "evidence": "docs/handoffs/ contains exactly one file: 2026-07-30_001_auth-session-handoff.md (date 2026-07-30, seq 001, scope 'auth-session', suffix '-handoff.md'). Identical copy in outputs/. No other handoff files were created anywhere in the project."
+        },
+        {
+          "text": "Login form is listed as validated, citing Priya's manual browser check as the evidence",
+          "passed": true,
+          "evidence": "Section 5 'Validated or Approved Items': 'Item: Login form behaviour. Validation Method: Manual test by Priya against the local dev server. Evidence: Bad email produced the inline error; a valid email posted the form. Result: Accepted \u00e2\u20ac\u201d \"I'm happy with the form.\"' It further scopes the claim: 'this covers observed UI behaviour only; nothing about the form is under automated test.' Matches the transcript ('loaded the dev server, typed a bad email, got the error... I'm happy with the form')."
+        },
+        {
+          "text": "Session tests are NOT listed as done or validated; they appear as not written / open",
+          "passed": true,
+          "evidence": "Section 6: '**No automated tests exist for any of this session's code** \u00e2\u20ac\u201d Status: Open ... Vitest coverage for session.ts and login-form.tsx was proposed, deferred by Priya, and never written.' Section 1 lists them under 'Not completed'; Section 2 marks session.ts 'not unit-tested'; Section 4 Validation fields read 'None \u00e2\u20ac\u201d no tests run' and 'Manual only'. Tests appear nowhere in Section 5. No claim of test completion anywhere in the file."
+        },
+        {
+          "text": "httpOnly cookie decision recorded with its rationale (third-party analytics scripts / XSS exposure)",
+          "passed": true,
+          "evidence": "Section 3: 'Decision: Store the session as a JWT in an httpOnly cookie, not in localStorage. Rationale: Third-party analytics scripts run on the marketing pages; a token in localStorage is readable by any injected script, turning any XSS into full account takeover.' Status 'Final (\"lock that in\")'. Rationale matches Priya's stated reason in the transcript."
+        },
+        {
+          "text": "localStorage named explicitly as the rejected option for session storage",
+          "passed": true,
+          "evidence": "Section 3: 'Options considered: JWT in localStorage (simpler SPA wiring); JWT in httpOnly cookie... Rejected: localStorage \u00e2\u20ac\u201d explicitly, by Priya, on the analytics-script exposure argument.' Reinforced in Section 11: 'Re-opening the localStorage vs. cookie question \u00e2\u20ac\u201d Reason: decided and locked by Priya... Do not re-litigate without new information.'"
+        },
+        {
+          "text": "Refresh-token work recorded as a failed or parked approach, with the 10 requests/second introspection rate limit as the stated reason",
+          "passed": true,
+          "evidence": "Section 6: '**Refresh tokens** \u00e2\u20ac\u201d Status: Blocked ... needs a token-introspection call per request; api.relay.example rate-limits introspection at 10 req/s and the SPA alone would exceed that on page load. Batching the calls was tried and only moved the spike.' Also Section 11 records batching as work not to repeat, and Section 7 constraints list '10 req/s, hard ceiling for us.'"
+        },
+        {
+          "text": "Ticket AUTH-214 referenced as the follow-up owner of the refresh-token blocker",
+          "passed": true,
+          "evidence": "Section 6: 'What would resolve it: Diego's team raising the limit or providing a bulk endpoint. Tracked as AUTH-214.' Section 4: 'AUTH-214 opened by Priya for the refresh-token rate-limit blocker'. Section 10 Continuation Sources row: '| Blocker ticket | AUTH-214 | Refresh-token introspection rate limit; owned by Diego's team |'. Section 9 next-step 4: 'Check AUTH-214 for movement from Diego's team before touching refresh tokens again.'"
+        },
+        {
+          "text": "src/legacy/ recorded as frozen / must not be changed",
+          "passed": true,
+          "evidence": "Section 3 decision: 'do not touch src/legacy/ at all. Rationale: The directory is frozen and being removed in Q4; a previous \"tidy-up\" broke billing for two days. Status: Final, standing constraint \u00e2\u20ac\u201d not just for this session.' Repeated in Section 7 Constraints ('do not modify, refactor, or \"tidy\" any file under it'), Section 9 'Do Not Change', Section 10, and Section 11."
+        },
+        {
+          "text": "migrations/002_add_sessions.sql recorded as applied to local dev only",
+          "passed": true,
+          "evidence": "Section 2: 'Status: File written and untracked; local dev DB applied per session report \u00e2\u20ac\u201d **not independently verified at handoff time**. Staging not applied (no access).' Section 4: 'sessions table + sessions_user_id_idx, applied to local dev DB only.' Section 10 table: 'applied to local dev only'. Section 11 warns against re-running it against local dev."
+        },
+        {
+          "text": "Staging database state recorded as unknown or not applied rather than guessed",
+          "passed": true,
+          "evidence": "Section 6: '**Staging database state** \u00e2\u20ac\u201d Status: Unknown. Detail: Claude had no staging access; 002_add_sessions.sql was *not* applied there and current staging schema was not inspected. Priya will run it herself after the TTL sign-off.' No guess about staging schema anywhere."
+        },
+        {
+          "text": "Session TTL recorded as open and owned by Sam, unblocking Monday",
+          "passed": true,
+          "evidence": "Section 6: '**Session TTL (currently 12h placeholder)** \u00e2\u20ac\u201d Status: Waiting for Approval. Detail: Sam owns the call and is out until Monday. TTL_SECONDS in src/auth/session.ts is a guess. What would resolve it: Sam's decision, which also unblocks the staging migration.' Section 3 records the same as 'Status: Pending Approval (owner: Sam)'; Section 7 constraint 'Sam unavailable until Monday'; Section 9 step 5 sequences the TTL update after Sam returns Monday."
+        },
+        {
+          "text": "docs/SPEC-v1.md superseded by docs/SPEC.md is recorded",
+          "passed": true,
+          "evidence": "Section 4: 'The API team's spec document moved. docs/SPEC-v1.md is dead; the live document is docs/SPEC.md. Priya has already told the rest of the team.' Correctly qualified \u00e2\u20ac\u201d 'Neither file exists in this repo (docs/ contains only ARCHITECTURE.md)', which I verified: project docs/ holds only ARCHITECTURE.md and handoffs/. Also in Section 10 table and Section 11 ('Pointing anything at docs/SPEC-v1.md \u00e2\u20ac\u201d Reason: dead document')."
+        },
+        {
+          "text": "Next action is executable: names specific file paths or commands, not 'continue development'",
+          "passed": true,
+          "evidence": "Section 9: 'Next Action: Commit today's work on feat/auth-rebuild before anything else \u00e2\u20ac\u201d `git add src/auth migrations && git commit`.' Includes Start From (repo path + branch + commit 7991fb7), Expected Output (names src/auth/session.ts, src/auth/login-form.tsx, migrations/002_add_sessions.sql), Acceptance Criteria (git status / git log checks), and a prioritised follow-up list naming concrete files and test cases. No vague 'continue development' phrasing."
+        },
+        {
+          "text": "Uncommitted working-tree state recorded (nothing was committed this session)",
+          "passed": true,
+          "evidence": "Header: 'nothing committed \u00e2\u20ac\u201d all work is untracked in the working tree on feat/auth-rebuild.' Section 8: 'branch feat/auth-rebuild, HEAD 7991fb7 (\"chore: baseline without session work\"), no upstream tracking branch. git status shows exactly two untracked entries: migrations/ and src/auth/. Nothing staged, nothing committed from this session.' I verified this against the repo: HEAD is 7991fb7 'chore: baseline without session work' on feat/auth-rebuild, and git status --porcelain shows '?? migrations/', '?? src/auth/' (plus '?? docs/handoffs/', created by the handoff itself after the statement was written). Section 7 also logs it as a risk with a mitigation."
+        },
+        {
+          "text": "Daily Handoff is at most 12,000 characters (the SESSION-TRANSCRIPT.md it replaces is 3,605 characters; iteration-1 produced 28,896)",
+          "passed": false,
+          "evidence": "MEASURED: the handoff is 15,148 characters (text read with universal newlines) / 15,238 bytes on disk with CRLF line endings. Either measurement exceeds the 12,000-character cap by 26-27% (3,148-3,238 chars over). For reference, SESSION-TRANSCRIPT.md measures 3,528 chars / 3,605 bytes, so the handoff is ~4.3x the size of the artifact it replaces. This is an improvement on iteration-1's 28,896 but still a FAIL against the stated cap. Drivers of the excess: 11 numbered sections, an evidence line on nearly every bullet, and substantial repetition \u00e2\u20ac\u201d the legacy-freeze constraint is stated four times (sections 3, 7, 9, 11), AUTH-214 four times, the TTL placeholder five times, and section 10's table plus section 11 restate content already in sections 2-9."
+        },
+        {
+          "text": "No section consists solely of 'N/A', 'None', or placeholder filler - unfilled sections are deleted outright",
+          "passed": true,
+          "evidence": "All 11 sections carry substantive, session-specific content; none is a stub. The only 'None' values are two field-level entries inside section 9 ('Required Inputs: None \u00e2\u20ac\u201d no approvals or external answers needed for this step' and 'Blocking Conditions: None'), both of which are meaningful assertions about the next action rather than unfilled placeholders, and neither constitutes a whole section. Section 8's 'In progress: Nothing actively mid-edit \u00e2\u20ac\u201d no file is left in a non-compiling or half-refactored state as far as was observed' is likewise a substantive observation, not filler."
+        },
+        {
+          "text": "Project background and purpose are not restated; the Daily covers the session delta only",
+          "passed": true,
+          "evidence": "The file has no 'about this project' prose \u00e2\u20ac\u201d no description of what relay-web is, its stack, or its goals beyond one-line identity metadata in the header ('Project: relay-web (auth rebuild)', 'Workstream: Auth rebuild'). Every section is scoped to 30 July: section 1 is the session objective vs. what actually landed, sections 2-4 are this session's work/decisions/diffs, sections 5-11 are validation, opens, risks, end state, next action, sources, and don't-repeat. The stack details in docs/ARCHITECTURE.md (React + Vite, separate API service, legacy jQuery admin) are not copied in; ARCHITECTURE.md is referenced by pointer only, and then solely to flag it as stale."
+        },
+        {
+          "text": "No factual claim is stated confidently without support - anything not observed is labelled Unknown, Not verified, or Pending validation",
+          "passed": true,
+          "evidence": "Uncertainty is consistently marked: 'not independently verified at handoff time' on the migration-applied claim; 'the \"applied cleanly\" claim is a session statement, not something re-checked'; staging 'Status: Unknown'; 'Ticket contents not seen by Claude'; the spec-doc move noted as 'its exact location was not verified this session'; 'Status: Needs Validation' on the dev-secret fallback; 'as far as was observed' on section 8's in-progress line. I independently verified every concrete claim I could and all held: COOKIE_NAME = \"relay_session\" and COOKIE_OPTS { httpOnly, sameSite: \"lax\", secure, path: \"/\" }, TTL_SECONDS = 60*60*12 with the 'provisional' comment, the SESSION_SECRET fallback of \"dev-only-secret\", the email-contains-@ check and role=\"alert\" region in login-form.tsx, the sessions table + sessions_user_id_idx in 002_add_sessions.sql, package.json declaring \"test\": \"vitest run\" with vitest absent from dependencies, no node_modules/, ARCHITECTURE.md still reading 'Session storage approach is under active decision', and branch/HEAD 7991fb7. One trivial imprecision (not a confident false claim): section 9's acceptance criterion says git status should be 'clean apart from SESSION-TRANSCRIPT.md and docs/handoffs/', but SESSION-TRANSCRIPT.md is tracked and clean, so only docs/handoffs/ is untracked."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 1,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.94,
+        "passed": 17,
+        "failed": 1,
+        "total": 18,
+        "time_seconds": 185.3,
+        "tokens": 56976,
+        "tool_calls": 16,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "docs/handoffs/_master-handoff.md is updated in place and no new versioned master file (e.g. _master-handoff-v3.md, -final.md) is created",
+          "passed": true,
+          "evidence": "`git status --short` in the project reports exactly one change: ' M docs/handoffs/_master-handoff.md'. A full file listing of the project shows docs/handoffs/ contains only _master-handoff.md, 2026-07-22_001_signup-handoff.md and 2026-07-28_001_spec-move-handoff.md - no -v3/-final/-updated variant anywhere in the tree. The 2026-07-28 Daily is byte-identical to the pristine fixture, so no source file was rewritten either."
+        },
+        {
+          "text": "Version field incremented above 2.0",
+          "passed": true,
+          "evidence": "Header line 5: 'Version: 3.0' (pristine was 'Version: 2.0')."
+        },
+        {
+          "text": "Last Updated field changed from 2026-07-24",
+          "passed": true,
+          "evidence": "Header line 6: 'Last Updated: 2026-07-30' - matches the run date, changed from the pristine '2026-07-24'."
+        },
+        {
+          "text": "The localStorage session-storage decision is no longer presented as a current Final/locked decision",
+          "passed": true,
+          "evidence": "The v2.0 section 3 bullet 'Session tokens are stored in browser localStorage and attached as a bearer header ... Status: Final' is gone. localStorage now appears only as (a) a superseded row in section 12: 'localStorage + bearer header session storage (Master v2.0 \u00c2\u00a73) | httpOnly sameSite=lax cookie', (b) a negative instruction in section 3 ('Do **not** use localStorage'), and (c) section 18.6 '**do not re-propose localStorage for session storage**'. No Final/locked framing survives."
+        },
+        {
+          "text": "The httpOnly cookie decision is recorded as the current approach, with rationale",
+          "passed": true,
+          "evidence": "Section 3, third bullet: 'The session JWT is stored in an httpOnly, secure, sameSite=lax cookie... Rationale: third-party analytics scripts run on marketing pages, so a token readable from localStorage makes any XSS equivalent to account takeover. Date: 2026-07-28. Status: Final. Approval source: Sam (security, written sign-off in AUTH-201) + Priya. Supersedes: the 2026-07-20 localStorage/bearer-header decision recorded in Master v2.0.' Also reflected in section 5 (transport) and section 16."
+        },
+        {
+          "text": "The conflict between the Master's localStorage decision and the 2026-07-28 Daily is explicitly recorded or resolved, not silently overwritten",
+          "passed": true,
+          "evidence": "Recorded in three places rather than overwritten: section 12 supersession row citing 'Master v2.0 \u00c2\u00a73' with reason and date 2026-07-28; section 8 history entry '2026-07-28 - security review rejected localStorage session storage; httpOnly cookie adopted. This reversed a decision that was Final in Master v2.0 and invalidated the planned SPA bearer header work.'; section 11 'Session storage reversed from localStorage/bearer to httpOnly cookie; v2.0's section 3 entry is superseded, not merely edited.' The reversal's provenance (Sam's sign-off in AUTH-201) is carried through."
+        },
+        {
+          "text": "Sources of Truth lists docs/SPEC.md instead of docs/SPEC-v1.md",
+          "passed": true,
+          "evidence": "Section 6 table row: '| API spec | `docs/SPEC.md` | Endpoint, session cookie contract, error envelope | Diego's team | Current (verified present at `a3549a9`) |'. SPEC-v1.md appears nowhere as a live source; the note below the table reads '`docs/SPEC-v1.md` is deleted - any link to it is dead'. Section 7 Relevant Sources and section 18.1 also updated to docs/SPEC.md. Verified: docs/SPEC.md exists in the repo, docs/SPEC-v1.md does not."
+        },
+        {
+          "text": "Superseded/Replaced table gains an entry for docs/SPEC-v1.md -> docs/SPEC.md",
+          "passed": true,
+          "evidence": "Section 12 row: '| `docs/SPEC-v1.md` (deleted) | `docs/SPEC.md` | Diego's team restructured the spec and dropped the version suffix | 2026-07-28 |'. The pre-existing SCSS-variables row is retained, so the table grew rather than being replaced."
+        },
+        {
+          "text": "Incorporated Daily Handoffs table lists the 2026-07-28 handoff",
+          "passed": true,
+          "evidence": "Section 19 gains: '| 2026-07-28 | `2026-07-28_001_spec-move-handoff.md` | API spec relocation, session storage reversal | Yes (v3.0) |'. The two prior rows are kept and annotated 'Yes (v2.0)', and the missing 2026-07-24 file is cross-referenced to section 13."
+        },
+        {
+          "text": "Stale Immediate Next Action (signup email verification) is replaced with a current one",
+          "passed": true,
+          "evidence": "Section 17 now reads 'Immediate Next Action: complete cookie-based session issuance in `src/auth/session.ts` - add the helpers that set and clear the session cookie using the existing `COOKIE_NAME` and `COOKIE_OPTS`, and cover them with tests', with matching Start From, Acceptance Criteria and Stop Conditions. The replacement is also logged in section 12 and section 11 ('\"implement signup email verification\" is superseded'). The new action is grounded in the repo: src/auth/session.ts does export COOKIE_NAME/COOKIE_OPTS and issueSession/readSession, and contains no cookie-setting code."
+        },
+        {
+          "text": "The design tokens locked decision from v2.0 is preserved",
+          "passed": true,
+          "evidence": "Section 3 first bullet retains the full decision, rationale ('three surfaces drifted apart in 2025'), date 2026-05-12, Status: Final, approval source and 'Supersedes: per-app SCSS variables'. It adds an honest caveat that the `packages/tokens` path is absent from this checkout, but the decision itself remains Final and is echoed in sections 6, 8 and 12."
+        },
+        {
+          "text": "The src/legacy/ freeze decision from v2.0 is preserved",
+          "passed": true,
+          "evidence": "Section 3 second bullet: '`src/legacy/` is frozen. No refactors, no renames, no \"tidying\". Rationale: a cleanup in March 2026 broke billing for two days. Date: 2026-03-30. Status: Final... the freeze still governs wherever that code lives.' Reinforced in section 2 (out of scope, Q4 2026 removal), section 8 history, section 17 'Do Not Change: `src/legacy/`' and section 18.6."
+        },
+        {
+          "text": "The constraint that only Priya has staging/production database access is preserved",
+          "passed": true,
+          "evidence": "Section 5: 'Access restriction: only Priya has staging and production database access.' Section 14: 'Constraint: only Priya can touch staging/production databases.' Section 18.7: 'Staging/production database access is Priya's only.'"
+        },
+        {
+          "text": "CSRF protection appears as an open item introduced by the cookie decision",
+          "passed": true,
+          "evidence": "Section 10 second open decision: 'Decision Needed: CSRF protection strategy for the cookie approach... sameSite=lax alone does not cover all state-changing requests; this is the blocker on finishing the auth rebuild', with owner Sam + Diego and trigger 'before any cookie-authenticated write endpoint ships'. Causally linked to the cookie decision in section 3 ('CSRF protection is now mandatory (section 10)'), listed as section 7 'Blocked: CSRF protection', as a new active risk in section 14, and as a stop condition in section 17. Confirmed against the repo: no CSRF handling exists in any source file."
+        },
+        {
+          "text": "Updated Master is at most 14,000 characters (the v2.0 it updates is 6,601; iteration-1 produced 25,349)",
+          "passed": false,
+          "evidence": "FAIL. Measured length of the updated docs/handoffs/_master-handoff.md is 16,172 characters (16,225 bytes UTF-8; identical in outputs/ and project/). That is 2,172 characters over the 14,000 cap - about 15.5% over, and 2.45x the 6,601-char v2.0 it updates. It is a large improvement on iteration-1's 25,349 chars (-36%) but still exceeds the cap, which is a strict fail. Main sources of overrun: section 13 Contradictions (~1,050 chars of investigative prose), section 15 (~1,300 chars with per-line withdrawal notes), section 11 (~1,000 chars), and the section 1 summary having grown from 6 lines to 19."
+        },
+        {
+          "text": "Master contains no session-narrative detail that belongs in a Daily - it records durable consequence, not how the session went",
+          "passed": true,
+          "evidence": "No 'Session Objective' / 'intended vs actually completed' / 'scope change' content leaked in. The Daily's narrative lines - 'Intended: start the login flow', 'Sam joined the session and re-opened the storage decision', 'Prepared By: Claude (with Priya and Sam)' - appear nowhere in the Master; only their durable consequences (decision reversed, spec moved, CSRF now required) do. The nearest borderline items are framed as document state rather than session recap: section 1's 'treat the previous build/test passing and commit 7c21ab4 lines as withdrawn', and section 15's 'npm test fails with vitest is not recognized' which is legitimate current technical state for that section. Section 13's contradiction entries record what would settle each conflict rather than narrating the investigation."
+        },
+        {
+          "text": "Every inherited v2.0 claim that could not be verified against the repo is labelled unverified, stale, or superseded rather than restated as fact",
+          "passed": true,
+          "evidence": "Systematically applied to every repo-checkable inherited claim: packages/tokens ('**Unverified inherited claim**' in \u00c2\u00a73 and 'Unverified - path not present in this repo' in \u00c2\u00a76); src/legacy/ ('not present in this working tree at `a3549a9`'); signup flow ('inherited claim - no `src/auth/signup.ts` exists in this working tree... so the code's location is unverified'); commit 7c21ab4 (corrected to a3549a9 with the discrepancy logged in \u00c2\u00a713); build status ('Unknown. Not run'); test status and CI/CD ('withdrawn as unverifiable here'); deployment/database/backup all tagged '(inherited...)'; the missing 2026-07-24 tokens Daily logged in \u00c2\u00a713. Section 15 carries a blanket header 'Verified 2026-07-30 against the working tree unless marked otherwise', and the one claim that did verify (jose) is marked 'Verified in repo at `a3549a9`'. I independently confirmed each of these against the repo: git log has exactly one commit a3549a9; branches are feat/auth-rebuild and master; no node_modules, no .github, no test files, no packages/tokens, no src/legacy/, no src/auth/signup.ts; package.json pins jose 5.9.6. Organisational claims that are not repo-checkable by nature (Priya's DB access, Sam's approval gate, stakeholders) are restated without labels, which is the correct reading of the assertion - assertion 13 requires that constraint be preserved as-is."
+        },
+        {
+          "text": "Rationale for any given decision appears once, not repeated across decisions, risks, history, and state sections",
+          "passed": true,
+          "evidence": "The XSS rationale for the cookie decision appears in full exactly once (\u00c2\u00a73); \u00c2\u00a71, \u00c2\u00a78 and \u00c2\u00a718 state the outcome ('security review rejected localStorage... httpOnly cookie adopted') without restating the why, and \u00c2\u00a712's compressed 'XSS makes a readable token equivalent to account takeover' is the table's mandatory Reason column, a structure inherited from v2.0. Section 9 avoids duplication explicitly: '(The session-storage decision is locked and lives in section 3.)' Cross-references are used instead of repetition throughout ('see section 17', 'section 10', 'see section 13'). CSRF is mentioned in five sections but each carries distinct content - status (\u00c2\u00a77), the decision and its criteria (\u00c2\u00a710), the unmitigated exposure (\u00c2\u00a714), the stop condition (\u00c2\u00a717) - which is role separation, not repeated rationale. Minor overlap only: the design-token rationale sits in both \u00c2\u00a73 and \u00c2\u00a712's Reason cell, exactly as it did in the pristine v2.0."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 2,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.89,
+        "passed": 16,
+        "failed": 2,
+        "total": 18,
+        "time_seconds": 237.5,
+        "tokens": 60980,
+        "tool_calls": 16,
+        "errors": null
+      },
+      "expectations": [
+        {
+          "text": "Both a dated Daily Handoff and a Master Handoff are created under docs/handoffs/",
+          "passed": true,
+          "evidence": "project/docs/handoffs/ contains `_master-handoff.md` (titled 'Master Handoff \u00e2\u20ac\u201d Northwind Coffee brand refresh content workstream', 'Document Type: Master Handoff') and `2026-07-30_001_menu-about-handoff.md` (titled 'Daily Handoff \u00e2\u20ac\u201d ... \u00e2\u20ac\u201d 2026-07-30', 'Handoff ID: 2026-07-30_001'). Both are substantive, not stubs (20,499 and 15,580 chars). Identical copies exist in outputs/."
+        },
+        {
+          "text": "Master Handoff Version is 1.0 (new canonical document)",
+          "passed": true,
+          "evidence": "_master-handoff.md line 5: 'Version: 1.0'. Line 11 confirms intent: 'First edition of this document.' Line 9 declares 'Canonical File: `docs/handoffs/_master-handoff.md`'."
+        },
+        {
+          "text": "No fabricated git, branch, commit, build, test, or CI values appear; technical state is replaced with operational state or marked not applicable",
+          "passed": true,
+          "evidence": "A regex sweep for git/branch/commit/sha/CI/pipeline/npm/pytest/lint/deploy/build across both documents returned only three hits, all correct negations or unrelated: line 83 '**No repository, build, or deployment exists.** This is a content project; the working files are documents.'; line 240 (in section 13) '**Repository / build / deployment:** none \u00e2\u20ac\u201d content project.'; and one incidental 'Do not build on the 2024 loyalty terms'. Section 13 is titled 'Operational State (2026-07-30)' and carries published/with-client/with-colleague/scheduled-sends/budget instead of technical state. No fabricated hashes, branches, or test results anywhere."
+        },
+        {
+          "text": "Marcus's mandatory written sign-off before anything is published is recorded as an approval gate",
+          "passed": true,
+          "evidence": "Master section 5 'Workflow and Approval Gates' \u00e2\u2020\u2019 'Approval gates: 1. **Marcus Bell's written sign-off is mandatory before publication of anything.** This is the project's hard safety rail'. Also section 3 as a locked decision with rationale ('Contract condition, imposed after a 2025 incident in which a price was published incorrectly') and 'Verbal approval is not sign-off'; and section 16.8 'Requires explicit human approval \u00e2\u20ac\u201d no exceptions: publishing or printing **anything**.' Matches brief.md."
+        },
+        {
+          "text": "The 2009 vs 2011 founding-year conflict is recorded as unresolved rather than silently decided",
+          "passed": true,
+          "evidence": "Master section 11 'Contradictions and Resolution': 'Conflicting sources: The live Northwind website says **2011**; the deck Marcus sent says **2009**. **Verified current state: Unresolved.** Nobody at Northwind has confirmed which is correct. Interim handling: The About page founder story uses **2011** ... This is a provisional working choice, not a resolution.' Also section 9 as an Open Decision with owner (Marcus Bell) and deadline, and Daily section 3 marks the decision 'Provisional'."
+        },
+        {
+          "text": "Sourcing page recorded as blocked on farm names from Northwind ops, including both chase dates (24 Jul and 29 Jul)",
+          "passed": true,
+          "evidence": "Master line 25: 'The **Sourcing page** cannot be started without the real farm names from Northwind ops. Two requests (2026-07-24, 2026-07-29) went unanswered.' Repeated in section 7 ('blocked on farm names from Northwind ops (requested 2026-07-24 and 2026-07-29, no reply)') and Daily section 6 ('Northwind ops asked twice (2026-07-24 and 2026-07-29), no reply'). Both dates preserved (normalised to ISO from the notes' '24 Jul and 29 Jul')."
+        },
+        {
+          "text": "Sourcing page identified as the critical path item, with its 7 Aug due date",
+          "passed": true,
+          "evidence": "Master line 25: 'It is the longest page and it is due **2026-08-07**. This is the critical path.' Section 7 repeats: '`sourcing-page` \u00e2\u20ac\u201d **not started**, due **2026-08-07** ... Longest page; critical path.' Daily section 6: 'This is the critical path item.' Due date matches content-calendar.csv row `sourcing-page,Aisha,not started,2026-08-07`."
+        },
+        {
+          "text": "The 20% first-order offer is recorded as unconfirmed/verbal, not as agreed",
+          "passed": true,
+          "evidence": "Master section 7: '`email-2-offer` \u00e2\u20ac\u201d **Blocked** ... The offer amount is not agreed. Marcus said \"probably 20% off first order\" verbally on a call; nothing in writing. Do not write against that figure.' Section 16.6: 'Do not write Email 2 against **\"20% off\"** \u00e2\u20ac\u201d verbal only, unconfirmed.' Daily section 3 records the explicit decision to treat it as unconfirmed."
+        },
+        {
+          "text": "The 2024 loyalty terms are recorded as a dead end not to build on, with the reason (scheme replaced in September)",
+          "passed": true,
+          "evidence": "Master section 8: 'An hour was lost drafting the loyalty email against the 2024 loyalty terms before Marcus mentioned the scheme is being replaced in September. **The 2024 terms are a dead basis for Email 3.**' Section 10 Superseded table row: '2024 loyalty scheme terms | New terms, **not yet drafted** | The loyalty scheme is being replaced in September 2026 (per Marcus)'. Section 16.6 and Daily section 11 both carry the do-not-repeat instruction with the reason."
+        },
+        {
+          "text": "Menu page recorded as in review with Marcus, not as complete",
+          "passed": true,
+          "evidence": "Master section 7: '`menu-page` \u00e2\u20ac\u201d rewrite finished, **with Marcus since 2026-07-29 awaiting sign-off**, due 2026-07-31. No response yet.' Daily section 2: 'Status: In review \u00e2\u20ac\u201d **not approved**. No response from Marcus as of 2026-07-30.' Master section 13 lists it under 'With the client'. Nowhere is it counted among the completed items (section 14 'Completed: homepage, store card 1, tone-of-voice one-pager')."
+        },
+        {
+          "text": "Store card 2's banned-word ('curated') tone violation recorded as open with Tom",
+          "passed": true,
+          "evidence": "Master section 7: '`store-card-2` \u00e2\u20ac\u201d Tom's draft was reviewed on 2026-07-30 and **returned to him**: it used \"curated\" twice, which the locked tone of voice bans. Due 2026-08-05, fix not yet received.' Next Action: 'Chase Tom for the corrected draft'. Daily sections 2, 4 and 6 record it as 'Waiting for Input (Tom)', and section 11 says do not re-review the current draft."
+        },
+        {
+          "text": "Budget recorded as roughly 26 of 40 hours and flagged as not formally verified",
+          "passed": true,
+          "evidence": "Master section 12: 'roughly **26 of 40 hours used** as of 2026-07-30, leaving ~14 hours. The figure is an estimate and has **not** been reconciled against the shared sheet.' Section 13: 'Budget: ~26 / 40 hours used (unreconciled estimate).' Daily section 6 lists it under 'Needs Validation'. Matches session-notes.md 'roughly 26 of the 40 hours used. Not formally checked against the sheet.'"
+        },
+        {
+          "text": "Exactly one immediate next action is designated in the Master Handoff",
+          "passed": true,
+          "evidence": "Master section 15 'Immediate Next Action' designates a single action: 'Escalate the Sourcing page farm names to Marcus Bell in writing', with Responsible/Start From/Required Inputs/Expected Deliverable/Acceptance Criteria/Stop Conditions. Everything else is explicitly demoted under 'Prioritized queue after that' (5 items). Section 1 names the same single action ('Immediate next action: Escalate the farm names request to Marcus Bell \u00e2\u20ac\u201d see section 15'), and section 16.4 points to section 15 \u00e2\u20ac\u201d no competing designation."
+        },
+        {
+          "text": "New-session start guide present, telling Dan what to read first, what is final, and what not to repeat",
+          "passed": true,
+          "evidence": "Master section 16 'New-Session Start Guide' \u00e2\u20ac\u201d 'For Dan, or anyone taking this over cold'. (1) read order: 'this file \u00e2\u2020\u2019 `brief.md` \u00e2\u2020\u2019 `content-calendar.csv` \u00e2\u2020\u2019 `tone-of-voice.md`', noting session-notes.md is superseded; (5) 'Final decisions (do not reopen): the written-sign-off rule; the locked tone of voice'; (6) 'Do not repeat:' with six concrete items (2024 loyalty terms, 20% offer, re-requesting farm names from ops, re-reviewing Tom's draft, redoing homepage/store card 1/tone-of-voice). Also adds (7) access Dan must obtain from Aisha and (8) human-approval gate. All three required elements present."
+        },
+        {
+          "text": "Daily and Master combined are at most 20,000 characters (the source project files total 2,971; iteration-1 produced 60,185)",
+          "passed": false,
+          "evidence": "Measured combined character count is 36,079 \u00e2\u20ac\u201d 80% over the 20,000 cap. _master-handoff.md = 20,499 chars (20,641 bytes UTF-8); 2026-07-30_001_menu-about-handoff.md = 15,580 chars (15,686 bytes). The Master alone exceeds the cap for both documents. This is an improvement on iteration-1's 60,185 (a 40% reduction) but is still a clear fail against a strict cap. Source fixtures total 2,971 chars, so the output is ~12x the input."
+        },
+        {
+          "text": "The Daily is not a near-duplicate of the Master - each fact appears in one document unless the repetition is load-bearing for safe continuation",
+          "passed": false,
+          "evidence": "Verbatim overlap is low (8.1% of the Daily's 6-gram shingles appear in the Master \u00e2\u20ac\u201d the text was paraphrased, not copied), but the fact set is near-fully duplicated. Whole structural blocks are restated in both: the risk register with impact/likelihood/mitigation/owner (Master \u00c2\u00a712 vs Daily \u00c2\u00a77 \u00e2\u20ac\u201d same four risks: sourcing slip, wrong founding year, budget overrun, client silence); the constraints block including the full tone-of-voice rules (Master \u00c2\u00a73/\u00c2\u00a712 vs Daily \u00c2\u00a77); the next-action block with the same action, start-from, required inputs and stop condition (Master \u00c2\u00a715 vs Daily \u00c2\u00a79); the 'do not repeat' list of the same six items (Master \u00c2\u00a716.6 vs Daily \u00c2\u00a711); the continuation-sources table (Master \u00c2\u00a76 vs Daily \u00c2\u00a710); the approved trio (Master \u00c2\u00a77/\u00c2\u00a714 vs Daily \u00c2\u00a75/\u00c2\u00a78); the budget position, the copy-document location gap, and the 8-pages-vs-4 scope gap all appear in both. The Daily's genuinely unique content is limited to \u00c2\u00a71 (session objective) and \u00c2\u00a74 (previous-state \u00e2\u2020\u2019 new-state). Master \u00c2\u00a716.1 itself tells Dan to read the Daily only 'if you want the detail behind the current blockers', yet the Daily holds little detail the Master lacks. Duplicating a full risk register and constraints block is not load-bearing for safe continuation, and it is a primary driver of the 36,079-char total."
+        },
+        {
+          "text": "No section consists solely of 'N/A', 'None', or placeholder filler - unfilled sections are deleted outright",
+          "passed": true,
+          "evidence": "Every section in both documents carries real content. A regex sweep for standalone 'N/A' / 'None' / 'TBD' / 'placeholder' section bodies returned no hits. Sections that could have been empty are either populated or handled properly: Master \u00c2\u00a710 'Superseded or Replaced Items' has one real row (2024 loyalty terms); Daily \u00c2\u00a75 opens 'Nothing was approved this session' but then lists the three inherited approved items with their dates and evidence source. 'None' appears only as an inline data value ('Scheduled sends: none', 'Repository / build / deployment: none'), which is a substantive fact, not filler."
+        },
+        {
+          "text": "Source documents (brief.md, tone-of-voice.md, content-calendar.csv) are referenced rather than restated at length",
+          "passed": true,
+          "evidence": "All three are cited by path throughout and given a dedicated authority table \u00e2\u20ac\u201d Master \u00c2\u00a76 'Sources of Truth' lists each with Location / Purpose / Authority / Status plus a precedence rule, and Daily \u00c2\u00a710 'Continuation Sources' does the same. Per-section citations are used ('Approval source: `brief.md`', 'Relevant Sources: `content-calendar.csv`, `tone-of-voice.md`', 'per `brief.md`'). Where source content is carried it is short and interpreted rather than dumped: the tone rules (205 chars total in the source) are quoted once in Master \u00c2\u00a73 and once in Daily \u00c2\u00a77 as the enforcement standard, and the calendar's rows are re-narrated in Master \u00c2\u00a77 with added status interpretation (critical path, what is unverified) rather than pasted. No source file is reproduced wholesale in bulk. Note: the document bloat measured in assertion 15 comes from cross-document duplication and elaboration, not from restating sources."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 0,
+      "configuration": "old_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.94,
+        "passed": 17,
+        "failed": 1,
+        "total": 18,
+        "time_seconds": 193.0,
+        "tokens": 50849,
+        "tool_calls": 12,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Creates exactly one dated Daily Handoff file under docs/handoffs/ matching YYYY-MM-DD_NNN_<scope>-handoff.md",
+          "passed": true,
+          "evidence": "docs/handoffs/ contains exactly one file: 2026-07-30_001_auth-login-handoff.md. Matches YYYY-MM-DD_NNN_<scope>-handoff.md (date 2026-07-30 correct for the session, sequence 001, scope auth-login). `find project -iname \"*handoff*\"` returns only that file plus the directory. Content is a substantive 11-section handoff, not a stub."
+        },
+        {
+          "text": "Login form is listed as validated, citing Priya's manual browser check as the evidence",
+          "passed": true,
+          "evidence": "Section 5 'Validated or Approved Items': 'Item: Login form behaviour / Validation Method: Manual test by a human / Evidence: Priya ran the dev server, typed an invalid email and saw the error, typed a valid one and saw it post / Result: Accepted by Priya'. Section 2 repeats the quote 'That's fine, I'm happy with the form.' Matches transcript lines 36-37 exactly."
+        },
+        {
+          "text": "Session tests are NOT listed as done or validated; they appear as not written / open",
+          "passed": true,
+          "evidence": "Section 1 'Not completed: Automated tests (vitest) for session.ts and the login form - deliberately deferred mid-session.' Section 5 closes with 'Nothing else is validated. No automated test was written or executed this session; npm test was not run.' Section 6 lists 'Automated tests for session.ts and login-form.tsx - Status: Deferred -> now the next action ... Never written.' Section 4 marks session.ts 'Validation: Not validated. No tests written, no test run.' Nowhere claimed done."
+        },
+        {
+          "text": "httpOnly cookie decision recorded with its rationale (third-party analytics scripts / XSS exposure)",
+          "passed": true,
+          "evidence": "Section 3, first decision: 'Store the session as an httpOnly cookie, not a JWT in localStorage. Rationale: Third-party analytics scripts run on the marketing pages; any XSS would turn a JS-readable bearer token into full account takeover.' Both rationale elements from transcript lines 12-18 are present. Status marked Final with Priya's quote 'Cookie... Lock that in.'"
+        },
+        {
+          "text": "localStorage named explicitly as the rejected option for session storage",
+          "passed": true,
+          "evidence": "Section 3: 'Options considered: JWT in localStorage (simpler SPA wiring) vs JWT in httpOnly cookie. Rejected: localStorage. Explicitly rejected on security grounds, not convenience.' Also Section 11: 'Re-opening localStorage vs cookie for session storage - Reason: Decided and locked.'"
+        },
+        {
+          "text": "Refresh-token work recorded as a failed or parked approach, with the 10 requests/second introspection rate limit as the stated reason",
+          "passed": true,
+          "evidence": "Section 3: 'Abandon the per-request token-introspection refresh design. Rationale: api.relay.example rate-limits introspection at 10 req/s; the SPA alone would exceed that on page load. Batching was tried and only moved the spike.' Section 6 'Refresh tokens - Status: Blocked'. Section 7 Constraints: '10 requests/second ... it is what killed the refresh design.' Section 11 lists it under work that must not be repeated with Priya's 'Don't try that again.'"
+        },
+        {
+          "text": "Ticket AUTH-214 referenced as the follow-up owner of the refresh-token blocker",
+          "passed": true,
+          "evidence": "Section 6: 'Needs Diego's team to raise the limit or ship a bulk endpoint. Ticket AUTH-214.' Section 4 records AUTH-214 as project-management state with 'Validation: Not verified - stated as an intention at the end of the session; ticket existence not confirmed.' Section 10 lists it as 'Ticket AUTH-214 | Raise the introspection rate limit or add a bulk endpoint; owner Diego's team'. Section 8 blocked list cites AUTH-214."
+        },
+        {
+          "text": "src/legacy/ recorded as frozen / must not be changed",
+          "passed": true,
+          "evidence": "Section 3: 'src/legacy/ is frozen - do not touch, ever. Rationale: It is being removed in Q4, and the last person who \"tidied\" it broke billing for two days.' Section 7 Constraints: 'src/legacy/ is frozen. Not to be refactored, tidied, or touched, in any session.' Section 9 Do Not Change and Section 11 repeat it, including the specific refused admin.js refactor."
+        },
+        {
+          "text": "migrations/002_add_sessions.sql recorded as applied to local dev only",
+          "passed": true,
+          "evidence": "Section 2: 'Status: Applied to local dev DB only - ran clean. Staging: not applied, state unknown.' Section 4: 'Location: migrations/002_add_sessions.sql; target = Priya's local dev database ... New State: sessions table + sessions_user_id_idx present in local dev'. Section 10 table: 'applied to local dev only'. Section 11 warns against re-running it locally. Column list in the handoff matches the actual migration file."
+        },
+        {
+          "text": "Staging database state recorded as unknown or not applied rather than guessed",
+          "passed": true,
+          "evidence": "Section 6: 'Staging database state - Status: Unknown / Blocked. Detail: Migration 002 was not applied to staging and staging could not be inspected (no access). Do not assume it is either applied or unapplied.' Section 4: 'Staging: unknown - not applied, and no access to inspect it.' Section 7 Constraints: 'No staging access from this session - anything about staging is unverifiable here.' No guessed state anywhere."
+        },
+        {
+          "text": "Session TTL recorded as open and owned by Sam, unblocking Monday",
+          "passed": true,
+          "evidence": "Section 6: 'Session TTL (currently 12h placeholder in src/auth/session.ts) - Status: Waiting for Approval. Detail: Product/security call owned by Sam, who is out until Monday (expected 2026-08-03). Staging migration defaults depend on it. What would resolve it: Sam's decision on TTL.' Section 3 records it as Pending Approval (owner: Sam). The inferred date 2026-08-03 is correct (2026-07-30 is a Thursday) and is hedged with 'expected'."
+        },
+        {
+          "text": "docs/SPEC-v1.md superseded by docs/SPEC.md is recorded",
+          "passed": true,
+          "evidence": "Section 3: 'docs/SPEC.md supersedes docs/SPEC-v1.md as the API team's spec ... Anything pointing at docs/SPEC-v1.md is wrong. Status: Final.' Section 4 records the move and notes a grep found no in-repo references (independently verified true - the only SPEC-v1 hits in the repo are the transcript and the handoff itself). Section 10 and Section 11 both restate the dead path."
+        },
+        {
+          "text": "Next action is executable: names specific file paths or commands, not 'continue development'",
+          "passed": true,
+          "evidence": "Section 9 names the action ('Write and run vitest coverage for src/auth/session.ts and src/auth/login-form.tsx'), the start directory and branch/commit (feat/auth-rebuild, HEAD 7991fb7 - both verified correct), the exact install command 'npm i -D vitest', the expected new files (session.test.ts, login-form.test.tsx), five concrete test cases naming real exports (issueSession, readSession, COOKIE_OPTS, role=\"alert\"), acceptance criteria ('npm test passes'), and an explicit Do Not Change list. Fully executable without rereading the transcript."
+        },
+        {
+          "text": "Uncommitted working-tree state recorded (nothing was committed this session)",
+          "passed": true,
+          "evidence": "Header line: 'Session helper + login form written and **uncommitted** on feat/auth-rebuild'. Section 4 'Repository state': 'migrations/ and src/auth/ untracked; nothing from this session is committed; branch has no upstream tracking branch, so nothing is pushed either.' Verified: git status shows '?? migrations/', '?? src/auth/'; HEAD is 7991fb7 'chore: baseline without session work'; `git rev-parse @{u}` returns 'no upstream configured'. Section 7 raises loss risk with a commit-and-push mitigation."
+        },
+        {
+          "text": "Daily Handoff is at most 12,000 characters (the SESSION-TRANSCRIPT.md it replaces is 3,605 characters; iteration-1 produced 28,896)",
+          "passed": false,
+          "evidence": "FAIL. Measured character count of docs/handoffs/2026-07-30_001_auth-login-handoff.md is 21,085 characters (21,196 bytes UTF-8; no CRLF; the byte/char gap is multi-byte em dashes). That is 176% of the 12,000-character cap - 9,085 characters over. It is 5.85x the 3,605-character SESSION-TRANSCRIPT.md it is meant to replace, across 309 lines and 11 sections. Better than iteration-1's 28,896 but still well over cap, so it fails regardless of content quality."
+        },
+        {
+          "text": "No section consists solely of 'N/A', 'None', or placeholder filler - unfilled sections are deleted outright",
+          "passed": true,
+          "evidence": "Grep for 'N/A', standalone 'None', 'TBD', 'not applicable' returns zero hits. The only 'placeholder' hits (lines 64, 99, 165, 275, 286) all refer substantively to the real 12h TTL placeholder in session.ts, not to filler. All 11 headed sections carry real content; even Section 5 ends with a substantive negative statement ('Nothing else is validated. No automated test was written or executed') rather than 'None'."
+        },
+        {
+          "text": "Project background and purpose are not restated; the Daily covers the session delta only",
+          "passed": true,
+          "evidence": "No project-background or purpose prose exists - there is no 'about relay-web' / 'why this project' section, and docs/ARCHITECTURE.md content (React + Vite, separate API service) is not copied in. The header lines are pointers (project name, date, workstream, scope), not background. Caveat noted for the second clause: the document does exceed a strict session delta with out-of-session repo findings (SESSION_SECRET dev fallback, vitest missing from package.json, stale ARCHITECTURE.md line, git HEAD hash, package.json script table). These are newly discovered repo state rather than restated background, so the assertion as written passes, but this material is a major contributor to the size-cap failure."
+        },
+        {
+          "text": "No factual claim is stated confidently without support - anything not observed is labelled Unknown, Not verified, or Pending validation",
+          "passed": true,
+          "evidence": "Every material unknown is explicitly labelled: staging DB 'Status: Unknown / Blocked ... Do not assume it is either applied or unapplied'; AUTH-214 'Not verified - stated as an intention ... ticket existence not confirmed' and 'creation unconfirmed'; TTL 'Pending Approval'; SESSION_SECRET 'Needs Validation ... No environment was checked this session'; vitest 'npm test will likely fail ... Not verified - no install or test run was attempted'; session.ts 'Validation: Not validated.' All checkable factual claims were independently verified true against the repo (jose@5.9.6, COOKIE_NAME='relay_session', COOKIE_OPTS httpOnly/sameSite=lax/secure/path, TTL_SECONDS=60*60*12, dev-only-secret fallback, email.includes(\"@\"), role=\"alert\", sessions table + sessions_user_id_idx, no vitest dependency, HEAD 7991fb7 on feat/auth-rebuild with no upstream, ARCHITECTURE.md 'under active decision' line, no in-repo SPEC-v1.md references). One minor lapse: Section 8 asserts session.ts 'compiles as a standalone module' when no build or typecheck was run and typescript is not even a dependency - this is unhedged and unverified. Judged insufficient to fail an otherwise rigorously hedged document."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 1,
+      "configuration": "old_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.83,
+        "passed": 15,
+        "failed": 3,
+        "total": 18,
+        "time_seconds": 192.4,
+        "tokens": 52285,
+        "tool_calls": 15,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "docs/handoffs/_master-handoff.md is updated in place and no new versioned master file (e.g. _master-handoff-v3.md, -final.md) is created",
+          "passed": true,
+          "evidence": "`git status --porcelain` in the project dir returns exactly ` M docs/handoffs/_master-handoff.md` (modified, not added). `ls docs/handoffs/` shows only the three original files: _master-handoff.md, 2026-07-22_001_signup-handoff.md, 2026-07-28_001_spec-move-handoff.md. No -v3/-final/-updated variant anywhere."
+        },
+        {
+          "text": "Version field incremented above 2.0",
+          "passed": true,
+          "evidence": "Line 5 of the updated Master: `Version: 3.0` (pristine v2.0 had `Version: 2.0`)."
+        },
+        {
+          "text": "Last Updated field changed from 2026-07-24",
+          "passed": true,
+          "evidence": "Line 6: `Last Updated: 2026-07-30` (pristine had `Last Updated: 2026-07-24`)."
+        },
+        {
+          "text": "The localStorage session-storage decision is no longer presented as a current Final/locked decision",
+          "passed": true,
+          "evidence": "The v2.0 bullet 'Decision: Session tokens are stored in browser localStorage ... Status: Final' is gone. Section 3 now carries it only as: '- Decision (SUPERSEDED, retained for the record): Session tokens are stored in browser localStorage and attached as a bearer header. ... Status: Superseded on 2026-07-28 by the httpOnly-cookie decision above. Do not re-propose.' Section 18 item 6 also warns 'do not re-propose localStorage or a bearer header'."
+        },
+        {
+          "text": "The httpOnly cookie decision is recorded as the current approach, with rationale",
+          "passed": true,
+          "evidence": "Section 3: 'Decision: The session JWT is stored in an httpOnly, secure, sameSite=lax cookie. The SPA must not use localStorage ... Rationale: third-party analytics scripts run on marketing pages; a token in localStorage is readable by any injected script, which makes any XSS equivalent to account takeover. ... Status: Final. Approval source: Sam (security, written sign-off in AUTH-201) + Priya'. Also carried in section 9 Final Decisions and section 5 Architecture (cookie name relay_session, HS256, jose)."
+        },
+        {
+          "text": "The conflict between the Master's localStorage decision and the 2026-07-28 Daily is explicitly recorded or resolved, not silently overwritten",
+          "passed": true,
+          "evidence": "Three explicit records: section 3 retains the 2026-07-20 decision flagged 'SUPERSEDED, retained for the record ... Superseded on 2026-07-28'; section 12 gains the row 'localStorage session token + bearer header (2026-07-20 decision) | httpOnly/secure/sameSite=lax cookie relay_session | XSS via third-party analytics equals account takeover; rejected by security review | 2026-07-28'; section 11 states 'Reversed: session storage. localStorage + bearer header (v2.0 section 3, \"Final\") is superseded by an httpOnly/secure/sameSite=lax cookie'."
+        },
+        {
+          "text": "Sources of Truth lists docs/SPEC.md instead of docs/SPEC-v1.md",
+          "passed": true,
+          "evidence": "Section 6 row: '| API spec | docs/SPEC.md | Endpoint and auth contract, session cookie contract, error envelope | Diego's team | Current (since 2026-07-28) |'. The old path survives only as an explicitly retired row: '| API spec (old) | docs/SPEC-v1.md | Former API contract | ... | Deleted 2026-07-28 - do not cite; wiki path 404s |'. Section 18 start guide now says 'Read this document, then docs/SPEC.md'. Verified against the repo: docs/SPEC.md exists and states 'Supersedes docs/SPEC-v1.md, which was deleted on 2026-07-28.'"
+        },
+        {
+          "text": "Superseded/Replaced table gains an entry for docs/SPEC-v1.md -> docs/SPEC.md",
+          "passed": true,
+          "evidence": "Section 12 row: '| docs/SPEC-v1.md | docs/SPEC.md | Diego's team restructured the spec, version suffix dropped; old path 404s | 2026-07-28 |'."
+        },
+        {
+          "text": "Incorporated Daily Handoffs table lists the 2026-07-28 handoff",
+          "passed": true,
+          "evidence": "Section 19 gains: '| 2026-07-28 | 2026-07-28_001_spec-move-handoff.md | API spec relocation, session storage decision reversal | Yes (v3.0, 2026-07-30) |'."
+        },
+        {
+          "text": "Stale Immediate Next Action (signup email verification) is replaced with a current one",
+          "passed": true,
+          "evidence": "Section 17: 'Immediate Next Action: implement CSRF protection for the cookie-based session, and record the chosen strategy as a decision in this document. ... Start From: src/auth/session.ts'. Signup email verification is demoted to item 3 of the prioritised queue, and section 12 records the swap as a superseded item."
+        },
+        {
+          "text": "The design tokens locked decision from v2.0 is preserved",
+          "passed": true,
+          "evidence": "Section 3 first bullet is carried verbatim: 'Design tokens live in packages/tokens and are the only source of colour and spacing values. No hard-coded hex in components. - Rationale: three surfaces drifted apart in 2025 ... Status: Final', with an added caveat note that packages/tokens is absent from this checkout."
+        },
+        {
+          "text": "The src/legacy/ freeze decision from v2.0 is preserved",
+          "passed": true,
+          "evidence": "Section 3: 'Decision: src/legacy/ is frozen. No refactors, no renames, no \"tidying\". - Rationale: a cleanup in March 2026 broke billing for two days. - Status: Final'. Reinforced in section 17 ('Do Not Change: src/legacy/') and section 13 ('The \"src/legacy/ is frozen\" rule stays in force regardless - treat it as binding wherever the directory exists')."
+        },
+        {
+          "text": "The constraint that only Priya has staging/production database access is preserved",
+          "passed": true,
+          "evidence": "Section 5: 'Access restriction: only Priya has staging and production database access.' Section 14: 'Constraint: only Priya can touch staging/production databases.' Section 18 item 7: 'Staging/production database access is Priya's only.'"
+        },
+        {
+          "text": "CSRF protection appears as an open item introduced by the cookie decision",
+          "passed": true,
+          "evidence": "Section 10 open decision: 'Decision Needed: CSRF strategy for the cookie-based session - Why It Matters: sameSite=lax alone does not cover all cross-origin state-changing requests, and the cookie decision explicitly made CSRF protection a requirement. Nothing is implemented'. Also section 14: 'Risk (new, high): no CSRF protection exists for the cookie session', section 3 'Consequence: ... CSRF protection is now required (open)', and section 17 as the immediate next action. Verified against the repo: grep for 'csrf' outside docs/handoffs returns nothing, so the 'nothing implemented' claim is accurate."
+        },
+        {
+          "text": "Updated Master is at most 14,000 characters (the v2.0 it updates is 6,601; iteration-1 produced 25,349)",
+          "passed": false,
+          "evidence": "Measured: 21,693 characters (21,745 bytes UTF-8) via [System.IO.File]::ReadAllText(...).Length. That is 155% over the 14,000 cap and 3.3x the 6,601-char v2.0 it updates. Better than iteration-1's 25,349 but still a clear FAIL. Bulk comes from added sections that did not exist in v2.0: a 3-item section 13 contradictions block (~1,900 chars), a 14-line section 11 changelog, an expanded section 15 with per-field verification notes, and a section 17 with a 4-item prioritised queue."
+        },
+        {
+          "text": "Master contains no session-narrative detail that belongs in a Daily - it records durable consequence, not how the session went",
+          "passed": false,
+          "evidence": "The Master repeatedly narrates what this particular update session did and could not do, rather than durable state. Section 15: 'Verified 2026-07-30 unless marked otherwise', 'Build status: Unknown - not verified this session. Dependencies are not installed.', 'Test status: Unknown - not verified this session. `npm test` fails immediately with \"vitest is not recognized\"; there is no node_modules directory and no test file in the tree.', 'Open PRs: none known - not verified this session (no remote configured to check).', 'Database status: ... not re-verified this session'. Section 13: 'Most likely explanation, but not verified this session.' Section 11: 'Neither was verified this session and neither can be run in this checkout (no node_modules...)'. The phrase 'this session' appears 7 times. Missing node_modules and an un-runnable `npm test` are transient local-environment observations of the updating session, not durable project consequence; the durable form is 'Test status: Unknown (unverified since 2026-07-24)'. Section 13 also promotes checkout artifacts (single squashed commit 'baseline', absent packages/tokens and src/legacy/) into standing project contradictions."
+        },
+        {
+          "text": "Every inherited v2.0 claim that could not be verified against the repo is labelled unverified, stale, or superseded rather than restated as fact",
+          "passed": true,
+          "evidence": "Systematic labelling throughout. Signup/argon2: section 7 'reported approved by Priya on 2026-07-22; not verifiable in this checkout - see section 13', with a full contradiction entry in section 13. Build/test: 'Unknown - not verified this session' (v2.0 asserted 'passing'). Commit: 'Commit: a3549a9 \"baseline\" (2026-07-30). Was 7c21ab4 in v2.0 - that commit is not in this history' (verified: `git log --all` shows only a3549a9). packages/tokens: 'Referenced but not present in this checkout'. CI/CD: 'GitHub Actions per v2.0 - not verified this session; no workflow file exists in this checkout'. Backup/DB/migrations: 'per v2.0; not re-verified'. Missing 2026-07-24 daily: flagged in sections 13 and 19. Spot-checked every repo-checkable claim (package.json react 18.3.1 / jose 5.9.6 / version 0.3.1, no argon2, no signup.ts, TTL_SECONDS = 60*60*12 marked provisional, dev-only-secret fallback, COOKIE_NAME relay_session, HS256) - all accurate, no fabrications."
+        },
+        {
+          "text": "Rationale for any given decision appears once, not repeated across decisions, risks, history, and state sections",
+          "passed": false,
+          "evidence": "The cookie rationale is restated four times in near-identical wording: section 3 'third-party analytics scripts run on marketing pages; a token in localStorage is readable by any injected script, which makes any XSS equivalent to account takeover'; section 8 'because analytics scripts on marketing pages make XSS an account-takeover path'; section 9 'XSS via third-party analytics on marketing pages would otherwise equal account takeover'; section 12 'XSS via third-party analytics equals account takeover'. The spec-move rationale appears three times: section 8, section 9 ('Diego's team restructured the spec and dropped the version suffix'), section 12 ('Diego's team restructured the spec, version suffix dropped'). The whole cookie decision block is duplicated between section 3 (Locked Decisions) and section 9 (Final Decisions), including options-considered and impact. The TTL placeholder rationale is repeated in sections 1, 10, 14 and 15. This duplication is a direct driver of the 21,693-char overrun."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 2,
+      "configuration": "old_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.83,
+        "passed": 15,
+        "failed": 3,
+        "total": 18,
+        "time_seconds": 362.2,
+        "tokens": 70421,
+        "tool_calls": 17,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Both a dated Daily Handoff and a Master Handoff are created under docs/handoffs/",
+          "passed": true,
+          "evidence": "project/docs/handoffs/ contains both `2026-07-30_001_menu-about-pages-handoff.md` (24,462 chars) and `_master-handoff.md` (37,374 chars). Both are substantive, correctly titled ('Daily Handoff \u00e2\u20ac\u201d Northwind Coffee brand refresh content \u00e2\u20ac\u201d 2026-07-30' and 'Master Handoff \u00e2\u20ac\u201d Northwind Coffee brand refresh content'), and the Daily is dated with a sequence ID (2026-07-30_001) plus a topic slug."
+        },
+        {
+          "text": "Master Handoff Version is 1.0 (new canonical document)",
+          "passed": true,
+          "evidence": "_master-handoff.md line 5: 'Version: 1.0'. Reinforced in section 11: 'This is version 1.0 \u00e2\u20ac\u201d the first Master Handoff for this project. There is no previous baseline.' and in section 6's source table: 'Current (v1.0, 2026-07-30)'."
+        },
+        {
+          "text": "No fabricated git, branch, commit, build, test, or CI values appear; technical state is replaced with operational state or marked not applicable",
+          "passed": true,
+          "evidence": "No commit hashes, branch names, build IDs or CI results appear anywhere in either document. Section 4: 'Repositories: None. **This is a content project \u00e2\u20ac\u201d there is no code repository, no branch, no build, and no deployment pipeline.**' Section 15 is retitled 'Operational State' with the note '(This project has no repository, branch, build, test suite, or deployment pipeline. This section records the equivalent operational reality instead.)' and substitutes genuine operational facts \u00e2\u20ac\u201d published/live assets, items with the client awaiting response, outstanding client requests, scheduled sends ('None. No launch email has been scheduled or sent'), tracker state, budget standing, access standing."
+        },
+        {
+          "text": "Marcus's mandatory written sign-off before anything is published is recorded as an approval gate",
+          "passed": true,
+          "evidence": "Master section 5 'Approval gates \u00e2\u20ac\u201d the ones that matter': '**Nothing is published without Marcus Bell's written sign-off.** Contract condition after the 2025 published-price error.' Also section 3 as a locked decision with rationale and the note 'Supersedes: Any informal or verbal approval route. **A verbal \"yes\" on a call is not sign-off.**', section 5's workflow step 4 ('**Written sign-off from Marcus.** This is a hard gate'), and section 18.8 as an item requiring explicit human approval. Repeated as a constraint in the Daily section 7."
+        },
+        {
+          "text": "The 2009 vs 2011 founding-year conflict is recorded as unresolved rather than silently decided",
+          "passed": true,
+          "evidence": "Master section 13 Contradictions: 'Northwind's founding year \u00e2\u20ac\u201d 2009 vs 2011... Verified current state: **Unresolved.** Nobody has confirmed which is right... Resolution: 2011 is used provisionally in the About page draft and is flagged in the copy... Corrective action required: Get Marcus to confirm before the About page goes for sign-off. **Do not remove the flag from the draft until he has.**' Also Master section 10 as an open decision with owner Marcus Bell and trigger 2026-08-03, and Daily section 3 with 'Status: **Provisional \u00e2\u20ac\u201d pending confirmation from Marcus Bell.**'"
+        },
+        {
+          "text": "Sourcing page recorded as blocked on farm names from Northwind ops, including both chase dates (24 Jul and 29 Jul)",
+          "passed": true,
+          "evidence": "Master section 1: 'the **sourcing page** cannot start because Northwind's ops team has not supplied the actual farm names. They were asked on 2026-07-24 and again on 2026-07-29 and have not replied.' Repeated with both dates in Master section 15 ('Farm names \u00e2\u20ac\u201d requested from Northwind ops 2026-07-24 and 2026-07-29, no reply') and Daily section 6 ('Northwind ops have been asked twice (2026-07-24 and 2026-07-29) with no reply')."
+        },
+        {
+          "text": "Sourcing page identified as the critical path item, with its 7 Aug due date",
+          "passed": true,
+          "evidence": "Master section 7: 'Blocked: Sourcing page \u00e2\u20ac\u201d not started, no farm names from Northwind ops (asked 2026-07-24 and 2026-07-29), due 2026-08-07. **This is the critical path.**' Also section 1: 'It is the longest page, it is due **2026-08-07**, and it is the critical path.' Daily section 6: 'This is the critical path item: it is the longest page and it is due 2026-08-07, during Aisha's leave.'"
+        },
+        {
+          "text": "The 20% first-order offer is recorded as unconfirmed/verbal, not as agreed",
+          "passed": true,
+          "evidence": "Master section 9 Final Decisions: 'Decision: Treat the \"20% off first order\" offer as unconfirmed. Rationale: Verbal only... Impact: Email 2 does not start until the offer is in writing.' Master section 7: 'Marcus said \"probably 20% off first order\" verbally; that is not an agreement.' Master section 17 Do Not Change: 'Do not treat \"probably 20% off first order\" as agreed.' Daily section 6: 'Do not treat 20% as agreed.'"
+        },
+        {
+          "text": "The 2024 loyalty terms are recorded as a dead end not to build on, with the reason (scheme replaced in September)",
+          "passed": true,
+          "evidence": "Master section 3: 'Decision: Do not build the loyalty email on the 2024 loyalty terms. Rationale: The loyalty scheme is being replaced in September and the new terms are not drafted. Copy written against the 2024 terms is wrong on arrival. This was attempted on 2026-07-30 and roughly an hour was discarded.' Also listed under Master section 12 Superseded Items and section 18.6 'Do not repeat', and Daily section 11 'Work That Must Not Be Repeated' with the same reason and the ~1 hour cost."
+        },
+        {
+          "text": "Menu page recorded as in review with Marcus, not as complete",
+          "passed": true,
+          "evidence": "Master section 7 table: 'menu-page | Aisha | in review | 2026-07-31 | With Marcus since 29 Jul, no response'. Master section 17 Do Not Change: 'Do not treat the menu page as done \u00e2\u20ac\u201d it has no sign-off.' Daily section 2: 'Status: In review with Marcus Bell since 2026-07-29. **Not approved. Not done.**' The Daily additionally surfaces a real subtlety \u00e2\u20ac\u201d the rewrite finished 30 Jul but was sent 29 Jul, so 'it is therefore **unclear whether Marcus is reviewing the final version or an earlier one**.'"
+        },
+        {
+          "text": "Store card 2's banned-word ('curated') tone violation recorded as open with Tom",
+          "passed": true,
+          "evidence": "Master section 7: 'Store card 2 \u00e2\u20ac\u201d draft reviewed on 2026-07-30 and returned to Tom because it uses \"curated\" twice, which the locked tone of voice bans. Due 2026-08-05.' Daily section 6: 'Store card 2 fix from Tom \u00e2\u20ac\u201d Status: Waiting for Input... Returned to Tom for two uses of the banned word \"curated\". Due 2026-08-05. Not yet fixed.' Next action includes re-checking that 'curated' is gone before it goes to Marcus."
+        },
+        {
+          "text": "Budget recorded as roughly 26 of 40 hours and flagged as not formally verified",
+          "passed": true,
+          "evidence": "Master section 14 Constraints: 'Budget: 40 hours. Roughly 26 used as of 2026-07-30 \u00e2\u20ac\u201d **an estimate, not formally checked**. Roughly 14 remaining.' Master section 15: 'Budget standing: ~26 of 40 hours used. **Unverified** \u00e2\u20ac\u201d not reconciled against the shared sheet.' Daily section 4: 'Validation: **Not validated** \u00e2\u20ac\u201d explicitly \"not formally checked against the sheet\".'"
+        },
+        {
+          "text": "Exactly one immediate next action is designated in the Master Handoff",
+          "passed": true,
+          "evidence": "Master section 17 is singular ('## 17. Immediate Next Action') and designates one action: 'send **one written email to Marcus Bell** containing four numbered asks'. The four asks are contents of a single email, not four actions, and the acceptance criteria enforce that ('One message, not four'). Everything else is explicitly sequenced afterwards under '**Prioritized queue after that (week of 2026-08-03)**'. Section 1 agrees: 'Immediate next action: Escalate to Marcus Bell in one written email... Full detail in section 17.' Minor tension: section 18.4 says 'Before that... get Marcus's, Tom's and Northwind ops' contact details from Aisha', but this is framed as a prerequisite input (also listed under 'Required Inputs' with a 2026-07-31 pre-leave deadline), not a competing next action."
+        },
+        {
+          "text": "New-session start guide present, telling Dan what to read first, what is final, and what not to repeat",
+          "passed": true,
+          "evidence": "Master section 18 'New-Session Start Guide \u00e2\u20ac\u201d For Dan, Monday 2026-08-03 \u00e2\u20ac\u201d in this order.' Item 1 gives read order (Master, then Daily, then content-calendar.csv, then tone-of-voice.md, brief.md for contract terms, session-notes.md superseded). Item 5 'Final decisions (do not re-open)' lists the written sign-off condition, locked tone of voice, no 2024 loyalty terms, unconfirmed offer. Item 6 'Do not repeat' lists five specific wasted-effort traps including the discarded loyalty draft and the third ops chase. Items 2, 3, 4, 7, 8 add canonical sources, current state, start point, missing access, and human-approval gates."
+        },
+        {
+          "text": "Daily and Master combined are at most 20,000 characters (the source project files total 2,971; iteration-1 produced 60,185)",
+          "passed": false,
+          "evidence": "MEASURED: _master-handoff.md = 37,374 characters (37,588 bytes), 2026-07-30_001_menu-about-pages-handoff.md = 24,462 characters (24,614 bytes). COMBINED = 61,836 characters (62,202 bytes). That is 3.09x the 20,000 cap, over by 41,836 characters, and it is 20.8x the total size of the 2,971-char source project. It is also slightly LARGER than the 60,185 iteration-1 baseline cited in the assertion, so no compression was achieved at all."
+        },
+        {
+          "text": "The Daily is not a near-duplicate of the Master - each fact appears in one document unless the repetition is load-bearing for safe continuation",
+          "passed": false,
+          "evidence": "Extensive non-load-bearing duplication. (a) The next action is stated twice in near-identical prose: Master s17 vs Daily s9 both give the same one-email-to-Marcus with the same four numbered asks, the same 'Start From', the same 'Required Inputs' (Marcus's email address from Aisha before 2026-07-31), the same acceptance criteria, and a 'Do Not Change' list that is 7 bullets in Master s17 and the same 7 bullets in Daily s9. (b) The prioritized follow-on queue is repeated: Master s17's 7 items vs Daily s9's 6 items, items 1-5 essentially verbatim. (c) Risks are duplicated: Daily s7's five risks (sourcing page, email 3, founding year, budget overrun, handover friction) reappear as rows 1-4 and 6 of Master s14's risk table with the same impact/likelihood/mitigation/owner content. (d) The Constraints block (sign-off condition, full tone rules, 40h/~26 used, 2026-09-01 launch, Aisha on leave, store card 1 printed) appears verbatim in both Daily s7 and Master s14. (e) Daily s11 'Work That Must Not Be Repeated' (7 items) is reproduced as Master s18.6 (5 items, same content). (f) Daily s6's open items (deliverable-count mismatch, shared sheet location, contacts, draft locations, menu-page version doubt) all reappear in Master s10/s13/s14. The genuinely Daily-only content (what happened on 30 July) is a small fraction of a 24,462-char document."
+        },
+        {
+          "text": "No section consists solely of 'N/A', 'None', or placeholder filler - unfilled sections are deleted outright",
+          "passed": true,
+          "evidence": "Checked all 19 Master sections and all 11 Daily sections; none is literally an 'N/A'/'None'/TBD stub. Where content is genuinely absent the documents say so with substance: Daily s5 'No new approvals or validations were obtained this session' then lists the pre-existing approvals so Dan does not re-open them; Master s7's tone-of-voice subsection says 'Next Action: None. Do not re-open it \u00e2\u20ac\u201d it is now a constraint on everything else.' Closest call is Master s11 'Changes Since the Previous Baseline', which for a v1.0 document is largely a null statement ('There is no previous baseline... Resolved blockers: none.') padded with a blocker list already given elsewhere \u00e2\u20ac\u201d retained rather than deleted, but not solely N/A. One 'Reason for precedence: n/a.' line appears inside Master s13's third contradiction, but the surrounding entry is fully filled."
+        },
+        {
+          "text": "Source documents (brief.md, tone-of-voice.md, content-calendar.csv) are referenced rather than restated at length",
+          "passed": false,
+          "evidence": "The sources are referenced AND restated in full. (a) content-calendar.csv (574 chars, 10 rows) is reproduced in Master s7 as a complete 10-row / 5-column table carrying every asset, owner, status, due date and note, plus a per-asset prose restatement immediately below it across four sub-blocks, plus the same statuses again in Master s16 and Daily s8. (b) tone-of-voice.md (205 chars) has its entire substantive rule set quoted verbatim THREE times: Master s3 ('Warm, plain, specific. Second person. Short sentences. **Never** \"artisanal\", \"curated\", or \"journey\". Prices always written as \"GBP 3.20\", never \"3.20 GBP\"'), Master s14 Constraints, and Daily s7 Constraints. (c) brief.md's deliverable list, sign-off condition, budget and client contact are restated in Master s2, s3, s9, s12 and s14 and in Daily s7. The proper reference-style pointers do exist (s6 source table, s10 Continuation Sources), but they sit alongside, not instead of, full restatement \u00e2\u20ac\u201d which is a direct contributor to the 61,836-char total."
+        }
+      ],
+      "notes": []
+    }
+  ],
+  "run_summary": {
+    "with_skill": {
+      "pass_rate": {
+        "mean": 0.9233,
+        "stddev": 0.0289,
+        "min": 0.89,
+        "max": 0.94
+      },
+      "time_seconds": {
+        "mean": 183.9,
+        "stddev": 54.3135,
+        "min": 128.9,
+        "max": 237.5
+      },
+      "tokens": {
+        "mean": 54454.3333,
+        "stddev": 8086.9453,
+        "min": 45407.0,
+        "max": 60980.0
+      }
+    },
+    "old_skill": {
+      "pass_rate": {
+        "mean": 0.8667,
+        "stddev": 0.0635,
+        "min": 0.83,
+        "max": 0.94
+      },
+      "time_seconds": {
+        "mean": 249.2,
+        "stddev": 97.8613,
+        "min": 192.4,
+        "max": 362.2
+      },
+      "tokens": {
+        "mean": 57851.6667,
+        "stddev": 10909.016,
+        "min": 50849.0,
+        "max": 70421.0
+      }
+    },
+    "delta": {
+      "pass_rate": "+0.06",
+      "time_seconds": "-65.3",
+      "tokens": "-3397"
+    }
+  },
+  "notes": [
+    "Baseline here is the ITERATION-1 SKILL (snapshot), not the no-skill condition. This iteration answers 'did the revision help', not 'is the skill worth using'. The no-skill numbers from iteration-1 (90.7%) are not directly comparable - the assertion set grew from 14 to 18.",
+    "Pass rate 92.3% (50/54) revised vs 86.7% (47/54) iteration-1 skill. The revised skill fixed session-narrative bleed and repeated-rationale on eval-1, and duplication/source-restatement on eval-2. Every remaining failure in the revised arm is a size-cap fail.",
+    "Document size, revised vs iteration-1 skill, same conditions: eval-0 15,148 vs 21,085 (-28%); eval-1 16,172 vs 21,693 (-25%); eval-2 36,079 vs 61,836 (-42%).",
+    "IMPORTANT CAVEAT on those size numbers: the iteration-1 skill produced 28,896 chars on eval-0 last round and 21,085 this round - 27% run-to-run variance on an identical skill and identical input. With n=1 per cell, the eval-0 delta (-28%) is inside that noise band and the eval-1 delta (-25%) is borderline. Only eval-2 (-42%, plus two additional assertion passes) is clearly beyond variance. Treat 'shrunk by a quarter' as unproven; 'shrunk on eval-2' as supported.",
+    "The revised skill is also cheaper and faster: 54.5k vs 57.9k tokens (-6%) and 184s vs 249s (-26%). Less output to generate.",
+    "No arm hit its size cap. Revised: 15,148 vs 12,000; 16,172 vs 14,000; 36,079 vs 20,000. Caps were set from iteration-1 output and were deliberately demanding.",
+    "Root cause of residual bloat is structural, not stylistic - graders traced it to the section layout inviting restatement. On eval-0 the legacy freeze appears 4x, AUTH-214 4x, the TTL placeholder 5x, and sections 10-11 re-serialise 2-9. On eval-2 the risk register, constraints block, do-not-repeat list, next-action block and continuation-sources table each appear in BOTH documents. Next lever is cross-references and single-home rules for those blocks, not more instruction to be brief.",
+    "EVAL BUG found by a grader: assertions 16 and 17 on eval-1 conflict. #17 rewards labelling unverified claims; the natural phrasing ('not verified this session') is what #16 penalises as session narrative. Both arms were scored against a contradiction. Reword before the next iteration.",
+    "Scoring gradient is lopsided: 16-17 assertions reward presence, 1 penalises length. That is the same incentive that produces the redundancy being measured. eval-2's grader suggests replacing the similarity check with four mechanical single-home checks (does the risk register / constraints / do-not-repeat / next-action block appear in exactly one document).",
+    "Uncovered fabrication hole: eval-2's no-fabrication assertion is scoped to git/build/CI, so it passed while the revised Master invented a source-precedence rule ('a written answer from Marcus beats the live website, which beats the pitch deck') that appears in no input. In a content project that is more dangerous than a fake commit hash.",
+    "Both arms independently derived a real finding present in no source: brief.md contracts 8 pages and 6 cards while content-calendar.csv tracks only 4 and 2. No assertion credits it."
+  ]
+}
