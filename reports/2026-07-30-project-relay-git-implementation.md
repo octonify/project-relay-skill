@@ -211,7 +211,7 @@ fixture traps.
 | Clear, limited Git-backed scope | Pass — stated in `SKILL.md`; non-Git degrades to `Not applicable` |
 | Production skill separated from research | Pass — `skills/` vs `research/` |
 | Installable from GitHub into a clean project | Pass — verified on Bash and PowerShell paths |
-| Claude discovers and invokes the skill | **Partial** — see limitations |
+| Claude discovers and invokes the skill | Pass — closed by the [final validation report](2026-07-30-project-relay-git-final-validation-report.md); natural-language discovery confirmed twice in fresh sessions |
 | `/handoff` creates one accurate dated Daily | Pass, both runs |
 | `/handoff master` updates in place, no clutter | Pass, both runs — v2.0 → v3.0, no second Master, no new Daily |
 | `/handoff full` performs both coherently | Pass, both runs — Daily first, Master extracted from it |
@@ -221,7 +221,7 @@ fixture traps.
 | Immediate next action genuinely executable | Pass — where blocked, obtaining the prerequisite became the action |
 | Daily and Master independently useful without duplication | Pass — literal overlap 2–7%, phrase redundancy 0.3–0.8% |
 | Decisions and constraints preserved, not cut for length | Pass — numbering decision, Chrome rejection, raw-body constraint all survived |
-| Output depth proportionate | **Unresolved judgement call** — see limitations |
+| Output depth proportionate | Pass — judged justified in the [final validation report](2026-07-30-project-relay-git-final-validation-report.md) §10; redundancy 0.0–2.4% against a 5% gate |
 | README explains purpose, install, usage, scope, roadmap | Pass |
 | Structure supports independent future variants | Pass — a variant is a new directory, not a branch |
 | Two consecutive clean fixture runs | Pass — runs A and B |
@@ -264,16 +264,15 @@ catches the contradiction and records it as *not implemented* is more correct, a
 
 ## 8. Remaining limitations
 
-- **Skill discovery is verified structurally, not end to end.** The frontmatter parses, `name`
-  matches the directory, and the files sit where Claude Code scans. Every behaviour run was
-  driven by pointing an agent at the installed files, which exercises the skill's content and the
-  command's routing but not automatic description-matched triggering in a live session. Running
-  `/handoff` in a real session in an installed project is the remaining check, and it needs a
-  human.
-- **Proportionality is unresolved.** Roughly 10–17k characters per document on small fixtures may
-  or may not be right. Measured repetition is low, so it is not padding — but whether this depth
-  serves a reader is a judgement call. Pre-revision, run A, and run B outputs are archived side by
-  side at `research/project-relay-git-v0.1.0/` for exactly this comparison.
+- ~~**Skill discovery is verified structurally, not end to end.**~~ **Closed.** Four tests in
+  fresh headless Claude Code processes, over two rounds, confirmed both the slash command and
+  automatic description-matched triggering from `Wrap this up so I can resume tomorrow.` alone.
+  See the [final validation report](2026-07-30-project-relay-git-final-validation-report.md) §4.
+- ~~**Proportionality is unresolved.**~~ **Resolved: the depth is justified.** Phrase redundancy
+  measures 0.0–2.4% across all 23 archived generated documents against a 5% gate, sections are dropped when
+  not applicable (15 of 20 used on the largest Master), and the length carries findings absent
+  from the inputs. See the final validation report §10, which also shows that size differences
+  between revisions are not distinguishable from run-to-run variance at these sample sizes.
 - **n=2 per scenario.** Given known variance, treat any single number here as indicative.
 - **Fixtures only.** No long-running repository, no multiple contributors, no handoff yet read by
   someone who wasn't there. That is roadmap item 2.
@@ -291,6 +290,11 @@ Branch `feat/project-relay-git`, pushed to `origin`. Three commits:
 
 Plus this report and the archived run evidence. The pull request is open for review and
 **has not been merged**.
+
+Two further commits followed this report: `8f0b00b` (live-remote dogfood, §6a) and `ad84868`
+(checker decoupled from its fixture, pre-merge install docs corrected). The end-to-end validation
+that closed the two limitations above is written up separately in
+[the final validation report](2026-07-30-project-relay-git-final-validation-report.md).
 
 ## 10. Decisions still requiring approval
 

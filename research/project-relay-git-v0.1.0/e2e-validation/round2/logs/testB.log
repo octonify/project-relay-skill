@@ -1,0 +1,9 @@
+Wrote the Daily Handoff to `docs/handoffs/2026-07-30_001_idempotency-replay-handoff.md`. No Master Handoff touched, per the empty-argument scope.
+
+Key points captured:
+- **Committed:** key store (`b7af058`) and per-merchant scoping decision (`157434f`).
+- **Uncommitted:** `src/lib/keyscope.ts` (staged) and `src/routes/charge.ts` (unstaged) — the replay wiring.
+- **Flagged, not asserted as fact:** the session notes' claims of "tests all green" and "opened PR #14" — no test files exist in the repo and no git remote is configured, so both are marked Needs Validation rather than carried forward as true.
+- **Next action:** get Marta's answer on webhook re-emission on replay — that's what's blocking the rest of the work.
+
+Nothing was committed or pushed; that uncommitted work is still sitting in your working tree exactly as you left it.

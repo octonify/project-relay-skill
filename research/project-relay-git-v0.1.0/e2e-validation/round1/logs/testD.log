@@ -1,0 +1,9 @@
+This is thorough, accurate, and internally consistent now — every claim traces to something I verified (git diffs, file reads, `package.json`), and the `SESSION-NOTES.md`/commit-message discrepancy is flagged prominently rather than carried forward as fact. Both documents are done.
+
+**Written:**
+- `docs/handoffs/2026-07-30_001_webhook-verify-handoff.md` — Daily Handoff
+- `docs/handoffs/_master-handoff.md` — Master Handoff (v1.0)
+
+**Key finding baked into both:** the branch `feat/webhook-verify` claims (via commit `a6269c1`'s message and untracked `SESSION-NOTES.md`) that HMAC webhook signature verification was implemented. It wasn't — `src/lib/webhook.ts` is an 8-line stub with a `TODO` comment, and no route in `src/server.ts` even calls it. This is recorded as a resolved contradiction (Master §14) rather than repeated as fact.
+
+**Immediate next action (Master §18):** build the actual `/webhook` route in `src/server.ts` with `express.raw()` scoped to that route only, and implement the HMAC check in `src/lib/webhook.ts` — this can proceed now, independent of the still-unverified claim that Dana is chasing the provider's signing secret (needed only for end-to-end testing).

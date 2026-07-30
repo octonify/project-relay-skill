@@ -1,0 +1,65 @@
+{
+  "daily": {
+    "expect": { "dailies": 1, "master": false },
+    "hedge": {
+      "PR #14 claimed in session notes but no remote exists": "PR\\s*#?\\s*14\\b",
+      "session notes claim the test suite is green": "\\b(?:test suite|tests?)\\b[^.\\n]{0,60}\\b(?:green|passing|passed|all pass)\\b|\\ball green\\b"
+    },
+    "forbid": {
+      "a PR number other than the one in the session notes": "\\bPR\\s*#\\s*(?!14\\b)\\d+",
+      "an issue number (none exist in this fixture)": "\\bissues?\\s*#\\s*\\d+",
+      "a deployment claim": "\\b(?:deployed|deployment) to (?:staging|production|prod)\\b",
+      "a merge or approval that never happened": "\\b(?:merged into|approved by)\\b"
+    },
+    "require": {
+      "the per-merchant key scoping decision": "per[- ]merchant",
+      "the abandoned middleware approach": "middleware",
+      "Marta as the blocker owner": "Marta",
+      "webhook re-emission as the open question": "webhook"
+    }
+  },
+
+  "master": {
+    "expect": { "dailies": 2, "master": true },
+    "hedge": {
+      "feat/legacy-cart, which was deleted": "feat/legacy-cart",
+      "the inherited 48-tests claim": "48 tests",
+      "the inherited staging deployment claim": "deployed to staging|staging (?:is )?up to date|deployment status",
+      "inherited PR #31": "PR\\s*#?\\s*31\\b",
+      "the stale HEAD 9f2c1ab": "9f2c1ab"
+    },
+    "forbid": {
+      "a second Master under another name": "_master-handoff[-_.]?(?:v?\\d|old|bak|new|copy)",
+      "an invented precedence rule": "takes precedence over|precedence order is",
+      "an approval that never happened": "\\bapproved by\\b"
+    },
+    "require": {
+      "Version incremented past 3.0": "Version:\\s*(?:3\\.[1-9]|[4-9]\\.|\\d\\d)",
+      "the async 202 refund decision from the 2026-06-28 Daily": "202\\b",
+      "the observed 5/second rate ceiling from the 2026-07-02 Daily": "5\\s*/\\s*second|5 per second|five per second",
+      "production refund credentials as the blocker": "credential",
+      "both Dailies marked incorporated": "2026-06-28[\\s\\S]{0,400}2026-07-02",
+      "the do-not-repeat synchronous refund approach": "synchronous"
+    }
+  },
+
+  "full": {
+    "expect": { "dailies": 1, "master": true },
+    "hedge": {},
+    "forbid": {
+      "signature verification presented as working": "signature verification (?:works|is working|is verified|passes|passing|is complete|is done|functions)",
+      "a PR that does not exist": "\\bPR\\s*#\\s*\\d+",
+      "a deployment that did not happen": "\\b(?:deployed|deployment) to (?:staging|production|prod)\\b",
+      "a test result that was never produced": "\\btests? (?:pass|passed|passing|green)\\b"
+    },
+    "require": {
+      "Master is Version 1.0": "Version:\\s*1\\.0",
+      "the raw-body-before-JSON-parser constraint": "raw body|raw request body|express\\.raw",
+      "Dana as the person chasing the signing secret": "Dana",
+      "the signing secret as the blocker": "signing secret",
+      "do not rewrite webhook.ts": "(?:not|don't|do not|avoid)[^.\\n]{0,60}rewrit",
+      "nothing deployed and no PR": "no (?:PR|pull request)|nothing is deployed|not deployed",
+      "signature verification explicitly recorded as not working/untested": "signature[- ]?(?:checking |verification )?[^.\\n]{0,140}(?:not implemented|no implementation|is a stub|still a stub|untested|not tested|cannot be tested|unverified|not verified)|(?:not implemented|untested|is a stub)[^.\\n]{0,140}signature"
+    }
+  }
+}

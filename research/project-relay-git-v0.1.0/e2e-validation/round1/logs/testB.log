@@ -1,0 +1,9 @@
+All cross-references are consistent now. The Daily Handoff is complete.
+
+**Wrote:** `docs/handoffs/2026-07-30_001_idempotency-keys-handoff.md`
+
+Per your argument (none given), this was Daily Handoff only — no Master was created or touched.
+
+Key points captured: the in-memory key store and per-merchant scoping are committed; `src/lib/keyscope.ts` is staged and `src/routes/charge.ts` is edited but unstaged (neither survives a branch switch); and two claims from `SESSION-NOTES.md` — "tests all green" and "PR #14 opened" — couldn't be verified from this checkout (no test script in `package.json`, no git remote configured) and are flagged as unverified rather than stated as fact.
+
+**Next action:** get Marta's answer on whether a replayed charge should re-emit the payment webhook — that decision determines whether the `Entry` type needs a webhook-payload field before the replay path can be finished.
