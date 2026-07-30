@@ -256,7 +256,7 @@ Branch `feat/project-relay-git`, pushed to `origin`. Three commits:
 
 1. `18272c8` — restructure as a variant repository, add `project-relay-git`
 2. `3312ac2` — attack re-narration, not just cross-document copying
-3. `f0a1e2b` — replace the re-narration gate with a calibrated redundancy measure
+3. `61d9408` — replace the re-narration gate with a calibrated redundancy measure
 
 Plus this report and the archived run evidence. The pull request is open for review and
 **has not been merged**.
