@@ -37,6 +37,12 @@ integrate a Daily, extract the consequence and leave the story: the Daily record
 was lost to a dead approach; the Master records only that the approach is closed and why, with a
 pointer to the Daily for anyone who wants the detail.
 
+Apply that as a filter, one Daily entry at a time, not as a general intention. For each entry ask
+what a reader who never opens the Daily must know — usually a single clause — write that, and add
+the Daily's filename beside it. If you catch yourself writing *how* something was discovered, who
+chased whom, or how long it took, you are copying. Those belong to the Daily, which is dated,
+preserved, and one click away.
+
 **This section list is a menu.** Drop sections the project genuinely has no use for. Adapt rather
 than delete the structural ones — a project with a single workstream folds section 8 into 17.
 

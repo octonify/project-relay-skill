@@ -69,8 +69,26 @@ true, they have to re-verify everything, and the document has cost more than it 
 | Storage | New dated file, kept forever | One file, `_master-handoff.md`, updated in place |
 | Reader need | Continue tomorrow | Take over the repository cold |
 
-Both must be independently understandable. That is not a licence to duplicate — it is satisfied
-by a sentence of context plus a pointer, not by a second copy of the same block.
+Both must be independently understandable — and that bar is lower than it sounds. A document is
+independently understandable when a reader opening it alone knows **what project this is, what
+branch and state it describes, and what to do next**. Nothing more. Every other fact it needs may
+live in the other document behind a pointer.
+
+This is the single hardest rule to follow, because "make each document complete" and "don't
+repeat yourself" pull against each other, and completeness feels safer. It isn't. Two copies of a
+fact become two facts the moment one is edited, and the reader has no way to tell which is
+current. When the two instincts conflict, the pointer wins.
+
+Concretely:
+
+> **Duplicated (wrong):** the Master repeats the blocker in full — who was asked, when, twice,
+> that Dana is chasing it, that no test vector exists, what happens when it arrives.
+>
+> **Single-homed (right):** Master — "Blocked: partner signing secret not received; verification
+> is untested until it is. Detail and chase history: `2026-07-30_001_signature-verify-handoff.md`."
+
+That second version is shorter, and a reader who needs the chase history knows exactly where it
+is. That is what a pointer buys.
 
 **Where each block lives:**
 
@@ -115,6 +133,12 @@ scaffolding, and scaffolding is what makes readers skim past the line that matte
 - **Record rationale once**, where the decision lives — not again under changes, risks, and state.
 - **Keep active risks; drop resolved ones.** A resolved risk belongs in project history only if
   it explains something about the present.
+
+Within a single document, each fact also gets one section. Sections are different *views* of the
+session, not different retellings of it: a blocker explained in Open Items is named in one clause
+under Next Action, not re-explained there. The give-away is a proper noun — a person, a branch, a
+filename, a constraint — that carries its full explanation in three or four places. Say it once,
+in the section that owns it, and elsewhere use the shortest phrase that identifies it.
 
 Never delete a decision, constraint, or blocker merely to make the document shorter. Cut
 repetition, scaffolding, and restated source material — not information. If the document is long
@@ -263,12 +287,18 @@ Read your own document as the stranger. It's ready when they could:
 - Execute the next action without asking a question
 - Avoid re-doing finished work and re-trying failed approaches
 
-Then three final passes:
+Then three final passes. The last two are the ones that actually get skipped, so do them by
+looking at the text rather than by recalling your intent:
 
 - **Evidence:** every confident sentence traces to something you saw. Anything else is labelled.
-- **Single home:** no block appears in both documents; where both need it, one holds it and the
-  other points.
-- **Proportion:** every section earns its space, nothing restates a source the reader can open,
-  and nothing was cut that a successor needs.
+- **Single home:** pick the three or four identifiers the work turns on — the blocked-on person,
+  the branch, the commit, the constraint. Find every place each appears. One place should explain
+  it; the rest should be a clause. If two places both explain it, delete the weaker one and point
+  at the stronger. If you wrote both documents, do this across them too: the same explanation in
+  a Daily and a Master is a copy, whichever you wrote first.
+- **Proportion:** compare the handoff against what it replaces. If it is several times the size
+  of the session notes, commits, and diffs it summarises, it is padding — not because long is
+  wrong, but because you have re-narrated rather than distilled. Cut restatement and repetition,
+  never a decision, constraint, or blocker.
 
 If any check fails, fix that section rather than adding prose elsewhere.
