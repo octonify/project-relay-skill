@@ -4,3 +4,9 @@ __pycache__/
 Thumbs.db
 .venv/
 node_modules/
+
+# Installing a variant into this repo to dogfood it copies the skill under .claude/.
+# Committing that would put a second, silently diverging copy of the skill in the repo,
+# where skills/ is the source of truth. Consumers of the skill may well want to commit
+# their own .claude/ — this rule is for this repository only.
+.claude/

@@ -172,6 +172,38 @@ explicitly marked stale, template residue, and phrase redundancy. The semantic a
 fake commit hash and fake test path appended to a passing document) confirms the checker is not
 vacuous: it fails, as it should.
 
+### 6a. Dogfood run — a repository with a real remote and a live pull request
+
+All three fixtures are local repositories with no remote, which meant the `gh`-populated path was
+never exercised: every run legitimately recorded PR and issue state as `Not verified`. That proved
+the labelled-gap behaviour and nothing else.
+
+This repository closed the gap. Once PR #1 was open, a clone of `feat/project-relay-git` was a
+project with a real origin, an upstream tracking branch, and a live pull request. The skill was
+installed into it from GitHub and `/handoff` run against a session with a staged placeholder file
+and no tests run.
+
+Result: **7/7 mechanical, 5/5 semantic, 0.0% phrase redundancy, 12,999 characters.** The helper
+reported origin, upstream divergence (`ahead 0, behind 0`), and PR #1 matched to the current
+branch; the document recorded the PR as verified fact — number, title, state, mergeability, commit
+and file counts — rather than falling back to `Not verified`. It also recorded `reviewDecision`
+as *no review submitted* rather than reading an empty value as approval, which is the distinction
+the evidence rule exists to protect.
+
+The run found two things worth acting on, both correct:
+
+1. **`.claude/` was untracked and not in `.gitignore`**, so a blanket `git add -A` after installing
+   the skill for testing would have committed a second, silently diverging copy of the skill into
+   the pull request. Verified not to have happened, and `.gitignore` now excludes it for this
+   repository. (Consumers may well want to commit their own `.claude/`; the rule is scoped here.)
+2. **The tag-pinning example in `docs/installation.md` points at a tag that does not exist**,
+   which the run flagged by checking `git tag -l` rather than assuming. Already listed in §10 as
+   needing approval.
+
+A skill catching a real defect in its own repository, on its first run against live remote state,
+is the most direct evidence available that the evidence rule works on something other than planted
+fixture traps.
+
 ## 7. Acceptance results
 
 | Criterion | Result |
@@ -245,8 +277,7 @@ catches the contradiction and records it as *not implemented* is more correct, a
 - **n=2 per scenario.** Given known variance, treat any single number here as indicative.
 - **Fixtures only.** No long-running repository, no multiple contributors, no handoff yet read by
   someone who wasn't there. That is roadmap item 2.
-- **`gh` paths are lightly tested.** Every fixture ran without a reachable repository, so the
-  labelled-gap behaviour is well covered but the populated PR/issue path is not.
+- ~~**`gh` paths are lightly tested.**~~ **Closed.** See the dogfood run in §6a.
 - **No non-Git variant**, no multi-agent coordination, no archive management. Out of scope by
   design, recorded as roadmap.
 
