@@ -15,6 +15,12 @@ with the repository if you commit it.
 
 Run from the root of the project you want handoffs for.
 
+> **Before the first release.** `project-relay-git` has not been merged to `main` yet — it lives
+> on the `feat/project-relay-git` branch (pull request #1). Until that merges, add
+> `--branch feat/project-relay-git` to the `git clone` below. Cloning `main` today gets you a
+> repository containing only `README.md`, and the `cp` step then fails with
+> `No such file or directory`. Delete this note when #1 merges.
+
 **macOS / Linux / Git Bash:**
 
 ```bash
@@ -101,6 +107,11 @@ To pin a specific release instead of tracking `main`, clone a tag:
 git clone --depth 1 --branch project-relay-git-v0.1.0 https://github.com/octonify/project-relay-skill.git /tmp/project-relay-skill
 ```
 
+No release tag exists yet, so that command fails today with
+`Remote branch project-relay-git-v0.1.0 not found in upstream origin`. Check the
+[tags page](https://github.com/octonify/project-relay-skill/tags) for what is actually
+available before pinning.
+
 ## Uninstall
 
 ```bash
@@ -118,4 +129,5 @@ them separately if you want them gone.
 | Claude writes a summary instead of a handoff | Skill not discovered | Confirm `.claude/skills/project-relay-git/SKILL.md` exists and its frontmatter is intact |
 | Helper reports `not a git repository` | Run from outside the repo root | `cd` to the repository root, or pass `--project-root <path>` |
 | PR and issue state comes back `Not verified` | `gh` missing or not authenticated | `gh auth login`, or accept the labelled gap — it is honest, not broken |
+| Scripted `claude -p "/handoff"` on Git Bash replies about a path like `C:/Program Files/Git/handoff` | MSYS rewrites a leading `/word` argument into a Windows path before Claude sees it | `export MSYS_NO_PATHCONV=1`, or run it from PowerShell. Typing `/handoff` inside an interactive session is unaffected |
 | Handoffs appear somewhere other than `docs/handoffs/` | The project already had `.handoffs/`, `handoffs/`, or `docs/handoff/` | Expected: an existing project convention wins over the default |

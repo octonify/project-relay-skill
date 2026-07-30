@@ -25,7 +25,14 @@ PLACEHOLDERS = [
     "None this session", "TBD", "<Project>", "<YYYY-MM-DD>", "STARTING SKELETON", "Lorem",
 ]
 # `N/A` is a real answer when something follows it explaining why. Bare `Field: N/A` is not.
-BARE_NA_RE = re.compile(r"^\s*[-*]?\s*[\w /]+:\s*n/?a\.?\s*$", re.I | re.M)
+BARE_NA_RE = re.compile(r"^\s*[-*]?\s*([\w /]+):\s*n/?a\.?\s*$", re.I | re.M)
+# ...except on fields where "nothing" is itself the verified finding. `Supersedes: N/A` on a
+# decision says the author checked and it replaces nothing, which is more useful to a reader
+# than an omitted line that leaves it ambiguous whether anyone looked.
+NA_IS_AN_ANSWER = {
+    "supersedes", "dependencies", "stop conditions", "do not change", "blocked",
+    "blocking conditions", "deadline or trigger", "scope changes during session",
+}
 # Words that look like hex but are ordinary English.
 HASH_FALSE_POSITIVES = {"added", "acceded", "effaced", "defaced", "decade", "facade"}
 # An identifier named as gone, stale, or superseded is being handled correctly, not invented.
@@ -47,6 +54,28 @@ COMMIT_CTX = re.compile(r"(?:commit|sha|hash|HEAD(?:\s+at)?|@)\s+`?([0-9a-f]{7,4
 def git(root: Path, *args: str) -> tuple[int, str]:
     p = subprocess.run(["git", *args], cwd=root, capture_output=True, text=True)
     return p.returncode, p.stdout.strip()
+
+
+def count_tracked_dailies(root: Path) -> int | None:
+    """How many Dailies existed before this run, read from Git rather than assumed.
+
+    Returns None when the handoff directory is untracked, in which case the caller has no
+    baseline to compare against and should skip the check rather than invent one.
+    """
+    code, out = git(root, "ls-files", "docs/handoffs", ".handoffs", "handoffs", "docs/handoff")
+    if code != 0 or not out.strip():
+        return None
+    return sum(1 for line in out.splitlines() if DAILY_RE.match(Path(line).name))
+
+
+def prior_master_version(root: Path, master: Path) -> str | None:
+    """The Version line as it stood at HEAD, so the increment check needs no hard-coded value."""
+    rel = master.relative_to(root).as_posix()
+    code, out = git(root, "show", f"HEAD:{rel}")
+    if code != 0:
+        return None
+    m = re.search(r"^Version:\s*(.+)$", out, re.M)
+    return m.group(1).strip() if m else None
 
 
 def find_docs(root: Path) -> dict:
@@ -242,6 +271,12 @@ def main() -> int:
     ap.add_argument("--tokens", default="",
                     help="comma-separated identifiers to check spread for; derived if omitted")
     ap.add_argument("--verbose", action="store_true", help="print per-identifier spread")
+    ap.add_argument("--baseline-dailies", type=int, default=None,
+                    help="how many Daily files existed before the run (--expect master). "
+                         "Defaults to counting the Dailies tracked in Git.")
+    ap.add_argument("--baseline-version", default=None,
+                    help="the Master's Version before the run (--expect master). "
+                         "Defaults to the Version at HEAD.")
     args = ap.parse_args()
 
     root = Path(args.project_root).resolve()
@@ -258,13 +293,28 @@ def main() -> int:
         check(master is None, "no Master file created")
     elif args.expect == "master":
         check(master is not None, "Master exists")
-        check(len(dailies) == 3, f"no new Daily created (expected the 3 fixture Dailies, found {len(dailies)})")
+        # These two were hard-coded to the g2 eval fixture (3 Dailies, Version 2.0), so the
+        # checker reported a spurious failure on any other repository. Both baselines are now
+        # supplied by the caller, and fall back to reading the pre-run state out of Git.
+        baseline_n = args.baseline_dailies
+        if baseline_n is None:
+            baseline_n = count_tracked_dailies(root)
+        if baseline_n is None:
+            check(True, f"no new Daily created (not checked: no baseline available, found {len(dailies)})")
+        else:
+            check(len(dailies) == baseline_n,
+                  f"no new Daily created (expected the {baseline_n} pre-existing, found {len(dailies)})")
         if master:
             code, out = git(root, "status", "--porcelain", str(master))
             check(bool(out.strip()), "Master was modified in place (shows as changed in git)")
             ver = re.search(r"^Version:\s*(.+)$", master.read_text(encoding="utf-8"), re.M)
-            check(bool(ver) and ver.group(1).strip() != "2.0",
-                  f"Version incremented above 2.0 (found {ver.group(1).strip() if ver else 'none'})")
+            now = ver.group(1).strip() if ver else None
+            prior = args.baseline_version or prior_master_version(root, master)
+            if prior:
+                check(bool(now) and now != prior,
+                      f"Version incremented above {prior} (found {now or 'none'})")
+            else:
+                check(bool(now), f"Version recorded (found {now or 'none'})")
     else:
         check(len(dailies) == 1, f"exactly one Daily created (found {len(dailies)})")
         check(master is not None, "Master created")
@@ -277,7 +327,8 @@ def main() -> int:
         for problem in check_identifiers(root, text):
             check(False, f"{doc.name}: {problem}")
         hits = [ph for ph in PLACEHOLDERS if ph in text]
-        hits += [m.strip() for m in BARE_NA_RE.findall(text)]
+        hits += [f"{m.strip()}: N/A" for m in BARE_NA_RE.findall(text)
+                 if m.strip().lower() not in NA_IS_AN_ANSWER]
         check(not hits, f"{doc.name}: no template placeholders left ({hits})")
         check(len(text.strip()) > 400, f"{doc.name}: not empty")
 
