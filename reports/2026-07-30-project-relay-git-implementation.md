@@ -143,4 +143,132 @@ troubleshooting table are in `docs/installation.md`.
 
 ---
 
-<!-- Sections 6-9 completed after the validation runs. -->
+## 6. Test scenarios executed
+
+Three fixtures, built by `evals/build_fixtures.py` as real Git repositories so every claim about
+branch, HEAD, and working tree can be checked against `git` rather than believed. Each carries
+planted traps: intentions phrased as completions, results nobody observed, stale inherited claims.
+
+| Fixture | Command | What it tests |
+|---|---|---|
+| `g1-rate-limit` | `/handoff` | Mid-feature session: 3 commits, staged + unstaged + untracked work, no remote, a rejected approach, a blocker on a named person |
+| `g2-master-update` | `/handoff master` | Cumulative update: a v2.0 Master full of stale claims, two unincorporated Dailies, a deleted branch, a test suite that left the repository |
+| `g3-handover` | `/handoff full` | Cold handover: work blocked on a prerequisite nobody obtained, one hard constraint learned the expensive way |
+
+Every run installed the skill **from the GitHub branch**, not from the working directory: clone
+`feat/project-relay-git`, copy `skills/project-relay-git/` into `.claude/skills/`, copy the
+command into `.claude/commands/`, then run the scenario in that project.
+
+Three rounds were executed:
+
+- **Pre-revision** — first behaviour runs, which found the defect described in §7.
+- **Run A** — after the revision, on freshly built fixtures.
+- **Run B** — again on freshly built fixtures, to satisfy the two-consecutive-clean-runs bar.
+
+Checking is split deliberately. `evals/check_outputs.py` covers what a script does better than an
+eye — file naming, canonical-file discipline, whether every commit hash and path resolves or is
+explicitly marked stale, template residue, and phrase redundancy. The semantic assertions in
+`evals/evals.json` were checked against the produced documents. A **negative control** (a planted
+fake commit hash and fake test path appended to a passing document) confirms the checker is not
+vacuous: it fails, as it should.
+
+## 7. Acceptance results
+
+| Criterion | Result |
+|---|---|
+| Clear, limited Git-backed scope | Pass — stated in `SKILL.md`; non-Git degrades to `Not applicable` |
+| Production skill separated from research | Pass — `skills/` vs `research/` |
+| Installable from GitHub into a clean project | Pass — verified on Bash and PowerShell paths |
+| Claude discovers and invokes the skill | **Partial** — see limitations |
+| `/handoff` creates one accurate dated Daily | Pass, both runs |
+| `/handoff master` updates in place, no clutter | Pass, both runs — v2.0 → v3.0, no second Master, no new Daily |
+| `/handoff full` performs both coherently | Pass, both runs — Daily first, Master extracted from it |
+| Git state recorded accurately and only when verified | Pass — every hash and path resolves or is marked stale |
+| Intended actions not presented as completed | Pass — all six runs caught the planted contradictions |
+| Unsupported information clearly labelled | Pass — `gh` unavailable produced `Not verified`, never "none" |
+| Immediate next action genuinely executable | Pass — where blocked, obtaining the prerequisite became the action |
+| Daily and Master independently useful without duplication | Pass — literal overlap 2–7%, phrase redundancy 0.3–0.8% |
+| Decisions and constraints preserved, not cut for length | Pass — numbering decision, Chrome rejection, raw-body constraint all survived |
+| Output depth proportionate | **Unresolved judgement call** — see limitations |
+| README explains purpose, install, usage, scope, roadmap | Pass |
+| Structure supports independent future variants | Pass — a variant is a new directory, not a branch |
+| Two consecutive clean fixture runs | Pass — runs A and B |
+| Branch pushed, PR prepared | Pass |
+| Working tree left in a known state | Pass |
+
+Mechanical checks, runs A and B: **33/33** and **33/33**. Semantic assertions: **26/26** and
+**28/28**.
+
+**What the runs actually caught.** In every round, all three scenarios found that the repository
+contradicts the session notes — a commit titled "wire rate limiter into request pipeline" whose
+diff wires nothing, source files that are one-line stubs under a Master claiming the feature
+works, and a "written and committed" HMAC implementation whose commit changes only comments. This
+is the behaviour the skill exists for, and it is the strongest result here.
+
+### A defect found, and a correction to how it was diagnosed
+
+The pre-revision runs produced correct, honest, well-sourced documents that were also large:
+60,839 characters across the three scenarios, including 30,296 from a 790-character session note
+and a four-file repository. I initially diagnosed this as unnecessary duplication and revised the
+skill accordingly.
+
+**Measurement did not support that diagnosis, and the revision should not be credited with fixing
+it.** Literal Daily-to-Master overlap measured 4–7%; content 5-gram redundancy measured 0.4–0.9%
+against 0.0–0.1% for hand-written reference prose. The documents were not restating themselves.
+The length came from findings the runs genuinely made. My first metric — counting how many
+sections mention an identifier — conflated *mentioned in a long section* with *re-explained in
+it*; it failed all three fixtures including outputs that were fine, and it has been demoted to
+informational output. The gate is now the calibrated redundancy measure.
+
+Totals across rounds: 60,839 pre-revision → 49,950 (run A) → 53,244 (run B). The reduction is
+real but modest, and the A-to-B spread on identical inputs (the `g2` Master alone moved 13,268 →
+9,733, and the `g3` Master moved 11,105 → 16,860) is comparable to the 27% run-to-run variance
+measured in earlier iterations. **The honest reading is that the revision improved clarity and
+probably trims some length, but the size deltas are not distinguishable from noise at n=2.**
+
+One eval assertion was also wrong and has been fixed: it required signature verification to be
+recorded as "implemented but untested", which encoded the fixture's own false claim. A run that
+catches the contradiction and records it as *not implemented* is more correct, and now passes.
+
+## 8. Remaining limitations
+
+- **Skill discovery is verified structurally, not end to end.** The frontmatter parses, `name`
+  matches the directory, and the files sit where Claude Code scans. Every behaviour run was
+  driven by pointing an agent at the installed files, which exercises the skill's content and the
+  command's routing but not automatic description-matched triggering in a live session. Running
+  `/handoff` in a real session in an installed project is the remaining check, and it needs a
+  human.
+- **Proportionality is unresolved.** Roughly 10–17k characters per document on small fixtures may
+  or may not be right. Measured repetition is low, so it is not padding — but whether this depth
+  serves a reader is a judgement call. Pre-revision, run A, and run B outputs are archived side by
+  side at `research/project-relay-git-v0.1.0/` for exactly this comparison.
+- **n=2 per scenario.** Given known variance, treat any single number here as indicative.
+- **Fixtures only.** No long-running repository, no multiple contributors, no handoff yet read by
+  someone who wasn't there. That is roadmap item 2.
+- **`gh` paths are lightly tested.** Every fixture ran without a reachable repository, so the
+  labelled-gap behaviour is well covered but the populated PR/issue path is not.
+- **No non-Git variant**, no multi-agent coordination, no archive management. Out of scope by
+  design, recorded as roadmap.
+
+## 9. Branch, commits, and pull request
+
+Branch `feat/project-relay-git`, pushed to `origin`. Three commits:
+
+1. `18272c8` — restructure as a variant repository, add `project-relay-git`
+2. `3312ac2` — attack re-narration, not just cross-document copying
+3. `f0a1e2b` — replace the re-narration gate with a calibrated redundancy measure
+
+Plus this report and the archived run evidence. The pull request is open for review and
+**has not been merged**.
+
+## 10. Decisions still requiring approval
+
+1. **Merging the PR.** Not done; awaiting review.
+2. **Tagging `project-relay-git-v0.1.0`.** No release was cut. The install docs describe pinning
+   to a tag, which will only work once one exists.
+3. **Whether current output depth is acceptable**, or whether the skill should push harder toward
+   brevity at the risk of dropping detail. This is the one open product question, and the archived
+   documents are the evidence for deciding it.
+4. **Whether to keep `research/`** (~860 KB of prior-iteration evidence) in the repository long
+   term, or move it out once it stops informing the work.
+

@@ -60,7 +60,7 @@
       "assertions": [
         "Creates one dated Daily Handoff and one docs/handoffs/_master-handoff.md",
         "Master is Version 1.0 and states its own canonical path",
-        "Signature verification is recorded as implemented but untested, never as working or verified",
+        "Signature verification is never presented as working or verified. Note the session notes claim it was written and committed while the diff of the HEAD commit changes comment lines only; either outcome passes -- recording it as implemented-but-untested, or catching the contradiction and recording it as not implemented -- but claiming it works does not",
         "The blocker is the partner's signing secret, and the immediate next action is obtaining it from Dana / the partner's integrations team",
         "The raw-body-before-JSON-parser constraint is recorded as a durable constraint",
         "'Do not rewrite src/verify.ts' is preserved as work that must not be repeated",
