@@ -49,7 +49,11 @@ def run(cmd: list[str], cwd: Path, timeout: int = 20) -> str | None:
         return None
     if out.returncode != 0:
         return None
-    return out.stdout.strip()
+    # rstrip, not strip: in `git status --porcelain` the first column is significant and is a
+    # space for a change that exists only in the working tree. Stripping it would shift the
+    # first line one character left, reporting an unstaged file as staged and losing the first
+    # character of its path.
+    return out.stdout.rstrip()
 
 
 def run_git(root: Path, *args: str) -> str | None:

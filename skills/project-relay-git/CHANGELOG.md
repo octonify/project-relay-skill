@@ -3,6 +3,16 @@
 All notable changes to this skill variant. Versions are independent of other variants in this
 repository.
 
+## [Unreleased]
+
+### Fixed
+- `scripts/handoff_context.py` misread the first line of `git status --porcelain` when that
+  line described a working-tree-only change. `run()` stripped the whole of stdout, removing the
+  significant leading space, so the first entry was reported as staged and lost the first
+  character of its path. The bug was invisible whenever a staged path happened to sort first.
+  Added `evals/test_handoff_context.py` covering the porcelain parser and one real-repository
+  case; the repository case fails without the fix.
+
 ## [0.1.0] — 2026-07-30
 
 First packaged, installable release. Pre-1.0: the document structure may still change between
