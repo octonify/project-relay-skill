@@ -1,0 +1,14 @@
+Wrote the Daily Handoff only, per the empty argument. The Master was not created or touched.
+
+**Path:** `docs/handoffs/2026-07-31_001_stock-reconcile-handoff.md`
+(directory `docs/handoffs/` created — no existing handoff convention was found)
+
+One thing you should know before reading it: three claims in `SESSION-NOTES.md` did not survive verification, so I recorded them as contradicted rather than carrying them forward as fact.
+
+- **"62 tests pass"** — this project has no test files at all. A tree-wide search for `test_*.py`, `*_test.py`, `conftest.py`, and `tests/` returns only `.claude/skills/project-relay-git/evals/test_handoff_context.py`, which belongs to the handoff skill. `pyproject.toml` declares no runner or test dependency.
+- **"reconcile path is 3x faster"** — it can't have been measured. `fetch_counts()` raises on every input: `ValueError` above 250 SKUs, `NotImplementedError` at or below it. `reconcile()` cannot return for any input.
+- **"deployed to staging, asked Priya to spot-check"** — unconfirmable from here. No remote, no CI, no deploy tooling in the tree. I marked it Not verified rather than denying it, since a deploy could have happened through something outside this repo.
+
+I also flagged that `reconcile()`'s signature changed to `reconcile(sku_batch, snapshot_path)` — breaking, though grep found no in-repo callers — and that with no remote configured, all three commits plus both modified files exist only on this machine.
+
+**Immediate next action from the handoff:** implement request paging in `inventory/adapters/warehouse.py:6`, which requires locating the warehouse API endpoint and credentials (not present in the repo). Queued just ahead of it as a two-minute, latency-bound item: one message to Priya covering both open questions — whether anything actually reached staging, and whether an overcount should emit a correction event or only shrinkage.

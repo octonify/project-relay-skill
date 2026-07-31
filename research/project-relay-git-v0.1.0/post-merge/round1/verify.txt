@@ -1,0 +1,4 @@
+
+checks passed: 34/34
+daily: C:\Users\ASUS\AppData\Local\Temp\claude\D--Projects-Skills\424434d9-aae1-44b2-8b00-c8a0c62932cf\scratchpad\postmerge\evidence\round2-fixture\inventory-sync\docs\handoffs\2026-07-31_001_stock-reconcile-handoff.md
+chars: 14864

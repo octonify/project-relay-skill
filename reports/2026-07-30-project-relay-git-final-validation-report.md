@@ -5,6 +5,12 @@ Branch: `feat/project-relay-git`
 Pull request: [#1](https://github.com/octonify/project-relay-skill/pull/1) — open, not merged
 Scope: end-to-end installation and behaviour validation of the first Project Relay variant
 
+> **Superseded in part.** PR #1 was merged on 2026-07-31 at `9cc328b`. What happened next — the
+> install verified from `main`, a shipped defect this report's fixtures did not reach, and the
+> docs cleanup — is in
+> [`2026-07-30-project-relay-git-post-merge-report.md`](2026-07-30-project-relay-git-post-merge-report.md).
+> Everything below describes the pre-merge state and is kept as the record of it.
+
 Evidence labels used throughout:
 
 | Label | Meaning |
