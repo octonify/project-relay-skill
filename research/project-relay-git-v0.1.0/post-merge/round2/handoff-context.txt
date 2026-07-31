@@ -1,0 +1,42 @@
+PROJECT      inventory-sync  (C:\Users\ASUS\AppData\Local\Temp\claude\D--Projects-Skills\424434d9-aae1-44b2-8b00-c8a0c62932cf\scratchpad\postmerge\fixture\inventory-sync)
+HANDOFF DIR  C:\Users\ASUS\AppData\Local\Temp\claude\D--Projects-Skills\424434d9-aae1-44b2-8b00-c8a0c62932cf\scratchpad\postmerge\fixture\inventory-sync\docs\handoffs
+             Use existing directory.
+
+NEXT DAILY   2026-07-31_002_check-handoff.md
+             -> C:\Users\ASUS\AppData\Local\Temp\claude\D--Projects-Skills\424434d9-aae1-44b2-8b00-c8a0c62932cf\scratchpad\postmerge\fixture\inventory-sync\docs\handoffs\2026-07-31_002_check-handoff.md
+             Replace the scope slug with a short kebab-case hint at this session's subject.
+
+MASTER       none yet - would be created at C:\Users\ASUS\AppData\Local\Temp\claude\D--Projects-Skills\424434d9-aae1-44b2-8b00-c8a0c62932cf\scratchpad\postmerge\fixture\inventory-sync\docs\handoffs\_master-handoff.md
+             start from assets/master-handoff-template.md, Version: 1.0
+
+EXISTING DAILIES (1), newest last:
+  2026-07-31_001_stock-reconcile-handoff.md
+
+GIT          branch=feat/stock-reconcile  head=725969f 'feat: classify count drift as shrinkage or overcount'
+             no origin remote configured
+             no upstream tracking branch - local work is not pushed anywhere
+             uncommitted: 8 entries  (staged 1, unstaged 1, untracked 6)
+               [staged] M inventory/reconcile.py
+               [unstaged] M inventory/adapters/warehouse.py
+               [untracked] .claude/
+               [untracked] SESSION-NOTES.md
+               [untracked] docs/
+               [untracked] inventory/__pycache__/
+               [untracked] inventory/adapters/__pycache__/
+               [untracked] scratch/
+             diff vs HEAD:  2 files changed, 14 insertions(+), 2 deletions(-)
+             commits since midnight: 3
+               725969f feat: classify count drift as shrinkage or overcount
+               b268d09 feat: load the order ledger snapshot from disk
+               f5e3cbb chore: initial inventory-sync skeleton
+             recent commits:
+               725969f 2026-07-31 feat: classify count drift as shrinkage or overcount
+               b268d09 2026-07-31 feat: load the order ledger snapshot from disk
+               f5e3cbb 2026-07-31 chore: initial inventory-sync skeleton
+
+GITHUB       unavailable (gh could not reach the repository)
+             Do not state PR or issue status you did not observe.
+
+This output is repository evidence only. Session decisions, rejected options, user
+corrections, build/test results you did not run, and anything changed outside the repo
+are not here: recover them from the session, and label what you could not verify.

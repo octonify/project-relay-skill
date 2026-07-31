@@ -1,0 +1,16 @@
+Wrote one Daily Handoff. The Master was not touched (none exists yet).
+
+**Path:** `docs/handoffs/2026-07-31_001_stock-reconcile-handoff.md`
+(directory `docs/handoffs/` created — no existing handoff convention in the repo)
+
+**What I verified rather than inherited.** `SESSION-NOTES.md` carries three claims that the repository contradicts, so I labelled them instead of promoting them:
+
+- *"62 tests pass"* — there is no test suite in the working tree; `pytest --collect-only` returns `no tests collected`, and `pyproject.toml` declares no test dependency.
+- *"reconcile path is 3x faster"* — `reconcile(['A1'], 'nope.json')` raises `NotImplementedError` from the warehouse stub before the ledger is read, so the path can't be timed.
+- *"deployed to staging"* — no remote is configured and the branch was never pushed; the `reconcile()` change is staged-only. Unverifiable here, and it can't have reached staging through this repo.
+
+The Validated section is therefore empty, which I stated explicitly since the notes imply otherwise.
+
+**Immediate next action:** message Priya to establish what is actually on staging and that the reconcile spot-check can't pass yet — the staging owner is recorded nowhere in the repo, so obtaining that name is part of the action. If she's unreachable, it isn't blocking: implement paging in `inventory/adapters/warehouse.py:8` and proceed.
+
+One thing worth flagging separately: there's no `.gitignore`, and `SESSION-NOTES.md`, `scratch/`, and `.claude/` all sit untracked at the root — a `git add -A` would commit them.

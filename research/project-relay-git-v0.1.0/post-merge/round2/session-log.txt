@@ -1,0 +1,13 @@
+Wrote the Daily Handoff. Empty argument → Daily only; I did not create or touch a Master.
+
+**Path:** `docs/handoffs/2026-07-31_001_stock-reconcile-handoff.md`
+(full: `C:\Users\ASUS\AppData\Local\Temp\claude\D--Projects-Skills\424434d9-aae1-44b2-8b00-c8a0c62932cf\scratchpad\postmerge\fixture\inventory-sync\docs\handoffs\`) — the `docs/handoffs/` directory did not exist and was created.
+
+Two claims in `SESSION-NOTES.md` did not survive the evidence rule, so the handoff records them as contradicted rather than carrying them forward:
+
+- **"62 tests pass, reconcile path 3x faster"** — `pytest --collect-only` collects zero tests, `git ls-files` lists no test file, and `reconcile(['SKU-1'], 'missing.json')` raises `NotImplementedError: warehouse adapter not wired up` on the first call. Nothing in this tree could have been benchmarked.
+- **"Deployed to staging, asked Priya to spot-check"** — no origin remote is configured and nothing is pushed, so this branch has no route to staging. Marked Needs Validation, not false, since a deploy from elsewhere is possible.
+
+Also worth knowing: the session's in-flight work (1 staged, 1 unstaged file) exists on exactly one machine — no remote, no upstream, no stashes.
+
+**Immediate next action** recorded in the handoff: commit the already-staged `inventory/reconcile.py` alone on `feat/stock-reconcile`, leaving the mid-refactor `warehouse.py` unstaged, so the rewiring survives a branch switch. Then paging in `fetch_counts` — nothing in the project executes until that lands.

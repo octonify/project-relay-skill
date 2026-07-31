@@ -1,0 +1,15 @@
+Wrote the Daily Handoff. The Master was not touched (no argument given), and none exists yet for this project.
+
+**Path:** `docs/handoffs/2026-07-31_001_stock-reconcile-handoff.md`
+
+Two things worth flagging, since they shaped the document:
+
+**`SESSION-NOTES.md` makes four claims the repository contradicts.** I recorded them as unverified rather than carrying them forward:
+- "62 tests pass" — there is no test file, no `tests/` directory, and no runner configured in `pyproject.toml`.
+- "reconcile path is 3x faster" — `fetch_counts()` raises `NotImplementedError` unconditionally, so `reconcile()` cannot complete a single call.
+- "deployed to staging" — no remote is configured, and the reconcile change is still only staged.
+- "asked Priya" — Priya appears only in that file and `scratch/todo.txt`; nothing evidences the ask was sent.
+
+**The helper script's staged/unstaged counts were wrong.** It reported "staged 2, unstaged 0" and labelled both files `[staged]`; `git status --porcelain` shows `inventory/reconcile.py` staged and `inventory/adapters/warehouse.py` unstaged. I used the `git status` reading and noted the discrepancy in the handoff.
+
+**Immediate next action** (per §10): finish `inventory/adapters/warehouse.py:6-11` — remove the unconditional `NotImplementedError` and implement paging over `BATCH_LIMIT`. Nothing in this project has executed end-to-end yet, so that unblocks everything else. The overcount event policy blocks the emitter but not this.
