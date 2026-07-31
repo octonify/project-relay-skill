@@ -15,12 +15,6 @@ with the repository if you commit it.
 
 Run from the root of the project you want handoffs for.
 
-> **Before the first release.** `project-relay-git` has not been merged to `main` yet — it lives
-> on the `feat/project-relay-git` branch (pull request #1). Until that merges, add
-> `--branch feat/project-relay-git` to the `git clone` below. Cloning `main` today gets you a
-> repository containing only `README.md`, and the `cp` step then fails with
-> `No such file or directory`. Delete this note when #1 merges.
-
 **macOS / Linux / Git Bash:**
 
 ```bash
