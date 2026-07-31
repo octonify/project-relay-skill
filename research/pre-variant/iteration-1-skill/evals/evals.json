@@ -1,0 +1,74 @@
+{
+  "skill_name": "project-relay",
+  "evals": [
+    {
+      "id": 0,
+      "name": "daily-from-transcript",
+      "fixture": "a-webapp-session",
+      "prompt": "/handoff\n\nproject root is at PROJECT_PATH. today's session is written up in SESSION-TRANSCRIPT.md at the root of that repo - that's the whole session, i'm not retyping it. wrap it up so i can pick this straight back up tomorrow morning without rereading any of it.",
+      "expected_output": "A dated Daily Handoff markdown file under docs/handoffs/ that separates completed work from planned work (login form validated, tests NOT written), records the httpOnly cookie decision with rationale and the rejected localStorage option, records the refresh-token approach as a failed path with the 10 req/s rate limit reason, records src/legacy/ as do-not-change, marks staging DB state as unknown and local migration as applied, marks session TTL as waiting on Sam, and gives an executable next action with exact paths.",
+      "assertions": [
+        "Creates exactly one dated Daily Handoff file under docs/handoffs/ matching YYYY-MM-DD_NNN_<scope>-handoff.md",
+        "Login form is listed as validated, citing Priya's manual browser check as the evidence",
+        "Session tests are NOT listed as done or validated; they appear as not written / open",
+        "httpOnly cookie decision recorded with its rationale (third-party analytics scripts / XSS exposure)",
+        "localStorage named explicitly as the rejected option for session storage",
+        "Refresh-token work recorded as a failed or parked approach, with the 10 requests/second introspection rate limit as the stated reason",
+        "Ticket AUTH-214 referenced as the follow-up owner of the refresh-token blocker",
+        "src/legacy/ recorded as frozen / must not be changed",
+        "migrations/002_add_sessions.sql recorded as applied to local dev only",
+        "Staging database state recorded as unknown or not applied rather than guessed",
+        "Session TTL recorded as open and owned by Sam, unblocking Monday",
+        "docs/SPEC-v1.md superseded by docs/SPEC.md is recorded",
+        "Next action is executable: names specific file paths or commands, not 'continue development'",
+        "Uncommitted working-tree state recorded (nothing was committed this session)"
+      ]
+    },
+    {
+      "id": 1,
+      "name": "master-cumulative-update",
+      "fixture": "b-master-update",
+      "prompt": "/handoff master\n\nrepo is PROJECT_PATH. the master handoff in docs/handoffs hasn't been touched since the 24th and we've done a fair bit since. bring it up to date.",
+      "expected_output": "docs/handoffs/_master-handoff.md updated in place (same filename, no new versioned file), version bumped above 2.0, the localStorage 'Final' decision marked superseded by the httpOnly cookie decision with the contradiction recorded/resolved, docs/SPEC-v1.md marked superseded by docs/SPEC.md in sources of truth and the superseded table, section 19 table updated to show 2026-07-28 handoff incorporated, stale Immediate Next Action replaced, executive summary rewritten, and unrelated valid content (design tokens decision, legacy freeze, staging access constraint) preserved.",
+      "assertions": [
+        "docs/handoffs/_master-handoff.md is updated in place and no new versioned master file (e.g. _master-handoff-v3.md, -final.md) is created",
+        "Version field incremented above 2.0",
+        "Last Updated field changed from 2026-07-24",
+        "The localStorage session-storage decision is no longer presented as a current Final/locked decision",
+        "The httpOnly cookie decision is recorded as the current approach, with rationale",
+        "The conflict between the Master's localStorage decision and the 2026-07-28 Daily is explicitly recorded or resolved, not silently overwritten",
+        "Sources of Truth lists docs/SPEC.md instead of docs/SPEC-v1.md",
+        "Superseded/Replaced table gains an entry for docs/SPEC-v1.md -> docs/SPEC.md",
+        "Incorporated Daily Handoffs table lists the 2026-07-28 handoff",
+        "Stale Immediate Next Action (signup email verification) is replaced with a current one",
+        "The design tokens locked decision from v2.0 is preserved",
+        "The src/legacy/ freeze decision from v2.0 is preserved",
+        "The constraint that only Priya has staging/production database access is preserved",
+        "CSRF protection appears as an open item introduced by the cookie decision"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "full-nontechnical-handover",
+      "fixture": "c-nontechnical-full",
+      "prompt": "/handoff full\n\nproject folder is PROJECT_PATH. i'm on leave all next week and Dan is picking up the Northwind account - he has never worked on it. my rough notes from today are in session-notes.md. it's a content project, there's no repo or build or anything like that. i need both docs so he can just run with it on Monday.",
+      "expected_output": "Both a dated Daily Handoff and a new Master Handoff (Version 1.0) under docs/handoffs/. Technical-state section replaced with operational state rather than fabricated git/build/deploy values. Records Marcus's mandatory written sign-off gate, the 2009-vs-2011 founding-year contradiction as unresolved, the sourcing-page farm names as the critical-path blocker with two chase dates, the unconfirmed 20% offer, and the 2024 loyalty terms as a failed path not to rebuild on. Exactly one immediate next action, plus a new-session start guide aimed at Dan.",
+      "assertions": [
+        "Both a dated Daily Handoff and a Master Handoff are created under docs/handoffs/",
+        "Master Handoff Version is 1.0 (new canonical document)",
+        "No fabricated git, branch, commit, build, test, or CI values appear; technical state is replaced with operational state or marked not applicable",
+        "Marcus's mandatory written sign-off before anything is published is recorded as an approval gate",
+        "The 2009 vs 2011 founding-year conflict is recorded as unresolved rather than silently decided",
+        "Sourcing page recorded as blocked on farm names from Northwind ops, including both chase dates (24 Jul and 29 Jul)",
+        "Sourcing page identified as the critical path item, with its 7 Aug due date",
+        "The 20% first-order offer is recorded as unconfirmed/verbal, not as agreed",
+        "The 2024 loyalty terms are recorded as a dead end not to build on, with the reason (scheme replaced in September)",
+        "Menu page recorded as in review with Marcus, not as complete",
+        "Store card 2's banned-word ('curated') tone violation recorded as open with Tom",
+        "Budget recorded as roughly 26 of 40 hours and flagged as not formally verified",
+        "Exactly one immediate next action is designated in the Master Handoff",
+        "New-session start guide present, telling Dan what to read first, what is final, and what not to repeat"
+      ]
+    }
+  ]
+}

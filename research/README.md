@@ -12,13 +12,18 @@ scenario, and a non-technical project). `skills/project-relay-git/` is the Git-s
 ```
 research/
 ├── build_fixtures.py           # builds the three fixture projects, traps included
+├── pre-variant/                # the generic skill these iterations actually ran
+│   ├── iteration-1-skill/
+│   └── iteration-2-skill/
 ├── iteration-1/
 │   ├── benchmark.json / .md    # pass rates, timing, tokens
 │   ├── feedback.json           # human review that drove iteration 2
 │   └── eval-*/<config>/        # outputs/, grading.json, timing.json
-└── iteration-2/
-    ├── benchmark.json / .md
-    └── eval-*/<config>/
+├── iteration-2/
+│   ├── benchmark.json / .md
+│   └── eval-*/<config>/
+└── project-relay-git-v0.1.0/   # variant-era evidence: pre-revision, run-A/B,
+                                # dogfood, e2e-validation, post-merge
 ```
 
 Per-run copies of the fixture projects were dropped; only the generated documents, grades, and
