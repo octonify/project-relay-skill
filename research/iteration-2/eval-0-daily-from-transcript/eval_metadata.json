@@ -1,0 +1,25 @@
+{
+  "eval_id": 0,
+  "eval_name": "daily-from-transcript",
+  "prompt": "/handoff\n\nproject root is at PROJECT_PATH. today's session is written up in SESSION-TRANSCRIPT.md at the root of that repo - that's the whole session, i'm not retyping it. wrap it up so i can pick this straight back up tomorrow morning without rereading any of it.",
+  "assertions": [
+    "Creates exactly one dated Daily Handoff file under docs/handoffs/ matching YYYY-MM-DD_NNN_<scope>-handoff.md",
+    "Login form is listed as validated, citing Priya's manual browser check as the evidence",
+    "Session tests are NOT listed as done or validated; they appear as not written / open",
+    "httpOnly cookie decision recorded with its rationale (third-party analytics scripts / XSS exposure)",
+    "localStorage named explicitly as the rejected option for session storage",
+    "Refresh-token work recorded as a failed or parked approach, with the 10 requests/second introspection rate limit as the stated reason",
+    "Ticket AUTH-214 referenced as the follow-up owner of the refresh-token blocker",
+    "src/legacy/ recorded as frozen / must not be changed",
+    "migrations/002_add_sessions.sql recorded as applied to local dev only",
+    "Staging database state recorded as unknown or not applied rather than guessed",
+    "Session TTL recorded as open and owned by Sam, unblocking Monday",
+    "docs/SPEC-v1.md superseded by docs/SPEC.md is recorded",
+    "Next action is executable: names specific file paths or commands, not 'continue development'",
+    "Uncommitted working-tree state recorded (nothing was committed this session)",
+    "Daily Handoff is at most 12,000 characters (the SESSION-TRANSCRIPT.md it replaces is 3,605 characters; iteration-1 produced 28,896)",
+    "No section consists solely of 'N/A', 'None', or placeholder filler - unfilled sections are deleted outright",
+    "Project background and purpose are not restated; the Daily covers the session delta only",
+    "No factual claim is stated confidently without support - anything not observed is labelled Unknown, Not verified, or Pending validation"
+  ]
+}

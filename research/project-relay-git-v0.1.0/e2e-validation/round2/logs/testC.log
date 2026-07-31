@@ -1,0 +1,13 @@
+I updated the Master Handoff in place (no new Daily created, per the `master` scope).
+
+**Written:** `docs/handoffs/_master-handoff.md` (v3.0 → v4.0, Last Updated 2026-07-30)
+
+Key changes, all traced to repo evidence:
+- Superseded the stale "legacy cart rewrite" narrative — that branch was deleted 2026-06-28 (cart work cancelled); confirmed it no longer exists locally or on origin.
+- Folded in both un-incorporated Dailies (`2026-06-28_001_refund-flow-handoff.md`, `2026-07-02_001_refund-provider-handoff.md`): the async/202 decision, the abandoned synchronous-refund attempt, the real sandbox rate-limit ceiling (~5/sec vs. published 10/sec), and the credentials blocker.
+- Corrected repository state to `feat/refund-flow` @ `c62caba`, and flagged that local is behind origin by 1 commit (`1bf1477`, adds `docs/refunds.md`, not yet pulled).
+- Verified against actual code: `src/server.ts` wires the refund route in, `src/routes/refund.ts` returns `refund_pending` without calling the provider — matches the scaffolding claim in the 07-02 Daily.
+- Marked build/test/PR/deployment status as **not verified this session** rather than carrying forward the old "passing" claims, which described the now-defunct cart branch.
+- Single immediate next action: get production refund credentials from Ops.
+
+**Next action:** get production refund credentials from Ops (nobody can exercise the real refund path without them).

@@ -1,0 +1,21 @@
+{
+  "eval_id": 1,
+  "eval_name": "master-cumulative-update",
+  "prompt": "/handoff master\n\nrepo is PROJECT_PATH. the master handoff in docs/handoffs hasn't been touched since the 24th and we've done a fair bit since. bring it up to date.",
+  "assertions": [
+    "docs/handoffs/_master-handoff.md is updated in place and no new versioned master file (e.g. _master-handoff-v3.md, -final.md) is created",
+    "Version field incremented above 2.0",
+    "Last Updated field changed from 2026-07-24",
+    "The localStorage session-storage decision is no longer presented as a current Final/locked decision",
+    "The httpOnly cookie decision is recorded as the current approach, with rationale",
+    "The conflict between the Master's localStorage decision and the 2026-07-28 Daily is explicitly recorded or resolved, not silently overwritten",
+    "Sources of Truth lists docs/SPEC.md instead of docs/SPEC-v1.md",
+    "Superseded/Replaced table gains an entry for docs/SPEC-v1.md -> docs/SPEC.md",
+    "Incorporated Daily Handoffs table lists the 2026-07-28 handoff",
+    "Stale Immediate Next Action (signup email verification) is replaced with a current one",
+    "The design tokens locked decision from v2.0 is preserved",
+    "The src/legacy/ freeze decision from v2.0 is preserved",
+    "The constraint that only Priya has staging/production database access is preserved",
+    "CSRF protection appears as an open item introduced by the cookie decision"
+  ]
+}

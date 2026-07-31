@@ -1,0 +1,78 @@
+{
+  "skill_name": "project-relay-git",
+  "notes": "Fixtures are real Git repositories built by build_fixtures.py, so state assertions are checkable against git. Assertions avoid length caps deliberately: proportionality is judged by repetition and restated source material, not character count. Each block should appear in exactly one document.",
+  "evals": [
+    {
+      "id": 0,
+      "name": "daily-midfeature",
+      "fixture": "g1-rate-limit",
+      "command": "/handoff",
+      "prompt": "/handoff\n\nProject root is PROJECT_PATH. Today's session is written up in SESSION-NOTES.md at the repo root — that's the whole session, I'm not retyping it. Wrap it up so I can pick this straight back up tomorrow without rereading any of it.",
+      "expected_output": "One dated Daily Handoff under docs/handoffs/ recording the two commits on feat/rate-limit, the staged/unstaged/untracked split, no upstream, the middleware-over-gateway decision with rationale, nginx as a closed approach with its reason, the burst allowance as blocked on Priya, tests as not run, and an executable next action. No Master file created.",
+      "assertions": [
+        "Creates exactly one file matching docs/handoffs/YYYY-MM-DD_NNN_<scope>-handoff.md",
+        "Does not create or modify docs/handoffs/_master-handoff.md",
+        "Names branch feat/rate-limit and the correct HEAD commit hash",
+        "Reports uncommitted work, distinguishing staged (src/config/limits.ts) from unstaged (src/server.ts) from untracked (notes/scratch.txt)",
+        "States that the branch has no upstream, or that the work is unpushed",
+        "Records the decision to implement rate limiting as application middleware, with the per-API-key rationale",
+        "Records the gateway/nginx approach as rejected, with the reason (nginx cannot see the API key)",
+        "Does not claim the test suite was run or passed; test status appears as not run",
+        "Burst allowance is recorded as unimplemented and blocked on Priya's answer about pricing tiers",
+        "The immediate next action is executable from the described state and names a file, command, or person",
+        "Every commit hash, file path, and branch name in the document exists in the fixture repository",
+        "No claim of a PR, issue, deployment, build, or approval that does not exist in the fixture",
+        "src/config/limits.ts values are described as provisional or unconfirmed, not as final",
+        "No section headings left with placeholder or 'N/A' content"
+      ]
+    },
+    {
+      "id": 1,
+      "name": "master-update-stale-claims",
+      "fixture": "g2-master-update",
+      "command": "/handoff master",
+      "prompt": "/handoff master\n\nProject root is PROJECT_PATH. The Master handoff hasn't been touched since June and a couple of sessions happened after it. Bring it up to date.",
+      "expected_output": "The existing docs/handoffs/_master-handoff.md updated in place: stale claims corrected (feat/pdf-render deleted, tests moved out of the repo so the 24-passing claim is superseded, HEAD is feat/invoice-totals), both unincorporated Dailies folded in, the numbering decision preserved, headless Chrome recorded as do-not-repeat, and the incorporated table updated. No second Master file.",
+      "assertions": [
+        "docs/handoffs/_master-handoff.md is modified in place; no second Master file is created under any name",
+        "Version is incremented above 2.0 and Last Updated is changed",
+        "The claim 'Test status: passing (tests/invoice.spec.ts, 24 tests)' is corrected or superseded rather than carried forward",
+        "Records that the test suite moved to the QA repository and that two tests were failing at the move",
+        "The deleted feat/pdf-render branch is no longer presented as active work",
+        "Current technical state names the actual current branch (feat/invoice-totals) and its HEAD",
+        "The per-tenant invoice numbering decision from the 2026-05-30 Daily is preserved, not dropped",
+        "Headless Chrome appears as a rejected approach with its measured reason (image size / cold start)",
+        "Both 2026-06-20 and 2026-06-24 Dailies are listed as incorporated in the Master's table",
+        "Claims that could not be verified this session are labelled (for example staging deployment status), not restated as fact",
+        "Open PR #38 is either verified, marked unverified, or corrected — not silently repeated as current",
+        "No invented facts: no owner, approval, precedence rule, test result, issue, or deployment that appears in no input",
+        "The immediate next action is executable from the current branch state",
+        "Full session narrative from the Dailies is not copied into the Master; the Master states consequences and points at the Daily files"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "full-handover-blocked",
+      "fixture": "g3-handover",
+      "command": "/handoff full",
+      "prompt": "/handoff full\n\nProject root is PROJECT_PATH. I'm handing this off — I'm out for two weeks and someone else is taking it over cold. Session notes are in SESSION-NOTES.md.",
+      "expected_output": "A dated Daily plus a new Master (v1.0). Daily holds the session narrative, the afternoon lost to the raw-body constraint, and repo state; Master holds the durable constraint, the blocker, sources, and the next action. The next action is obtaining the signing secret from Dana. Signature verification is labelled untested. No block appears in full in both documents.",
+      "assertions": [
+        "Creates one dated Daily Handoff and one docs/handoffs/_master-handoff.md",
+        "Master is Version 1.0 and states its own canonical path",
+        "Signature verification is never presented as working or verified. Note the session notes claim it was written and committed while the diff of the HEAD commit changes comment lines only; either outcome passes -- recording it as implemented-but-untested, or catching the contradiction and recording it as not implemented -- but claiming it works does not",
+        "The blocker is the partner's signing secret, and the immediate next action is obtaining it from Dana / the partner's integrations team",
+        "The raw-body-before-JSON-parser constraint is recorded as a durable constraint",
+        "'Do not rewrite src/verify.ts' is preserved as work that must not be repeated",
+        "States that nothing is deployed and no PR exists, or marks those as not verified",
+        "Names branch feat/signature-verify and the correct HEAD commit",
+        "No invented facts: no test result, approval, owner, issue, deployment, or precedence rule absent from the inputs",
+        "The risk/constraint register appears in the Master; the Daily does not repeat it in full",
+        "Work-that-must-not-be-repeated, sources of truth, and the next-action block each appear in full in only one of the two documents",
+        "The Daily's session narrative (the afternoon lost to the raw-body issue) is not copied into the Master; the Master keeps only the constraint",
+        "Both documents are independently understandable: the Daily identifies the project and branch, the Master states current state without requiring the Daily",
+        "Neither document restates SESSION-NOTES.md wholesale"
+      ]
+    }
+  ]
+}

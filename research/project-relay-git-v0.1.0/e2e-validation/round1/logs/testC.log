@@ -1,0 +1,10 @@
+The Master Handoff at `docs/handoffs/_master-handoff.md` was already updated to v4.0 (timestamp 20:42, after my read at 20:36) with content that matches my independent verification against the repo — same evidence on the branch divergence (`feat/refund-flow` vs `origin/feat/refund-flow`, ahead 2/behind 1, common ancestor `8f75289`), the same superseded legacy-cart/PR #31 status, the same downgraded test/build status (no test script or files found), and both Dailies (`2026-06-28_001_refund-flow-handoff.md`, `2026-07-02_001_refund-provider-handoff.md`) marked incorporated. I re-read it and found nothing inaccurate or missing, so I left it as-is rather than overwrite a version that already reflects verified current state.
+
+No new Daily file was created, per the `master`-only scope.
+
+**Immediate next action per the Master:** reconcile the diverged `feat/refund-flow` branches (rebase local commits `3791ea2`/`85e4c75` onto `origin/feat/refund-flow`'s `6e38064`) before the next push — the two sides touch disjoint files so it should be clean, but this hasn't been attempted yet.
+orward.
+- Rate-limit risk corrected (5/second real ceiling vs. 10/second published, per the 2026-07-02 Daily).
+- Blocked-on-Ops credentials item carried forward as still unresolved, corroborated by the untracked `notes/todo.txt` reminder.
+
+**Next action for whoever picks this up:** reconcile the diverged `feat/refund-flow` branches before pushing further refund work (details and acceptance criteria in section 18 of the Master).

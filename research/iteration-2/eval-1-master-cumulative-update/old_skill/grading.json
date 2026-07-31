@@ -1,0 +1,193 @@
+{
+  "expectations": [
+    {
+      "text": "docs/handoffs/_master-handoff.md is updated in place and no new versioned master file (e.g. _master-handoff-v3.md, -final.md) is created",
+      "passed": true,
+      "evidence": "`git status --porcelain` in the project dir returns exactly ` M docs/handoffs/_master-handoff.md` (modified, not added). `ls docs/handoffs/` shows only the three original files: _master-handoff.md, 2026-07-22_001_signup-handoff.md, 2026-07-28_001_spec-move-handoff.md. No -v3/-final/-updated variant anywhere."
+    },
+    {
+      "text": "Version field incremented above 2.0",
+      "passed": true,
+      "evidence": "Line 5 of the updated Master: `Version: 3.0` (pristine v2.0 had `Version: 2.0`)."
+    },
+    {
+      "text": "Last Updated field changed from 2026-07-24",
+      "passed": true,
+      "evidence": "Line 6: `Last Updated: 2026-07-30` (pristine had `Last Updated: 2026-07-24`)."
+    },
+    {
+      "text": "The localStorage session-storage decision is no longer presented as a current Final/locked decision",
+      "passed": true,
+      "evidence": "The v2.0 bullet 'Decision: Session tokens are stored in browser localStorage ... Status: Final' is gone. Section 3 now carries it only as: '- Decision (SUPERSEDED, retained for the record): Session tokens are stored in browser localStorage and attached as a bearer header. ... Status: Superseded on 2026-07-28 by the httpOnly-cookie decision above. Do not re-propose.' Section 18 item 6 also warns 'do not re-propose localStorage or a bearer header'."
+    },
+    {
+      "text": "The httpOnly cookie decision is recorded as the current approach, with rationale",
+      "passed": true,
+      "evidence": "Section 3: 'Decision: The session JWT is stored in an httpOnly, secure, sameSite=lax cookie. The SPA must not use localStorage ... Rationale: third-party analytics scripts run on marketing pages; a token in localStorage is readable by any injected script, which makes any XSS equivalent to account takeover. ... Status: Final. Approval source: Sam (security, written sign-off in AUTH-201) + Priya'. Also carried in section 9 Final Decisions and section 5 Architecture (cookie name relay_session, HS256, jose)."
+    },
+    {
+      "text": "The conflict between the Master's localStorage decision and the 2026-07-28 Daily is explicitly recorded or resolved, not silently overwritten",
+      "passed": true,
+      "evidence": "Three explicit records: section 3 retains the 2026-07-20 decision flagged 'SUPERSEDED, retained for the record ... Superseded on 2026-07-28'; section 12 gains the row 'localStorage session token + bearer header (2026-07-20 decision) | httpOnly/secure/sameSite=lax cookie relay_session | XSS via third-party analytics equals account takeover; rejected by security review | 2026-07-28'; section 11 states 'Reversed: session storage. localStorage + bearer header (v2.0 section 3, \"Final\") is superseded by an httpOnly/secure/sameSite=lax cookie'."
+    },
+    {
+      "text": "Sources of Truth lists docs/SPEC.md instead of docs/SPEC-v1.md",
+      "passed": true,
+      "evidence": "Section 6 row: '| API spec | docs/SPEC.md | Endpoint and auth contract, session cookie contract, error envelope | Diego's team | Current (since 2026-07-28) |'. The old path survives only as an explicitly retired row: '| API spec (old) | docs/SPEC-v1.md | Former API contract | ... | Deleted 2026-07-28 - do not cite; wiki path 404s |'. Section 18 start guide now says 'Read this document, then docs/SPEC.md'. Verified against the repo: docs/SPEC.md exists and states 'Supersedes docs/SPEC-v1.md, which was deleted on 2026-07-28.'"
+    },
+    {
+      "text": "Superseded/Replaced table gains an entry for docs/SPEC-v1.md -> docs/SPEC.md",
+      "passed": true,
+      "evidence": "Section 12 row: '| docs/SPEC-v1.md | docs/SPEC.md | Diego's team restructured the spec, version suffix dropped; old path 404s | 2026-07-28 |'."
+    },
+    {
+      "text": "Incorporated Daily Handoffs table lists the 2026-07-28 handoff",
+      "passed": true,
+      "evidence": "Section 19 gains: '| 2026-07-28 | 2026-07-28_001_spec-move-handoff.md | API spec relocation, session storage decision reversal | Yes (v3.0, 2026-07-30) |'."
+    },
+    {
+      "text": "Stale Immediate Next Action (signup email verification) is replaced with a current one",
+      "passed": true,
+      "evidence": "Section 17: 'Immediate Next Action: implement CSRF protection for the cookie-based session, and record the chosen strategy as a decision in this document. ... Start From: src/auth/session.ts'. Signup email verification is demoted to item 3 of the prioritised queue, and section 12 records the swap as a superseded item."
+    },
+    {
+      "text": "The design tokens locked decision from v2.0 is preserved",
+      "passed": true,
+      "evidence": "Section 3 first bullet is carried verbatim: 'Design tokens live in packages/tokens and are the only source of colour and spacing values. No hard-coded hex in components. - Rationale: three surfaces drifted apart in 2025 ... Status: Final', with an added caveat note that packages/tokens is absent from this checkout."
+    },
+    {
+      "text": "The src/legacy/ freeze decision from v2.0 is preserved",
+      "passed": true,
+      "evidence": "Section 3: 'Decision: src/legacy/ is frozen. No refactors, no renames, no \"tidying\". - Rationale: a cleanup in March 2026 broke billing for two days. - Status: Final'. Reinforced in section 17 ('Do Not Change: src/legacy/') and section 13 ('The \"src/legacy/ is frozen\" rule stays in force regardless - treat it as binding wherever the directory exists')."
+    },
+    {
+      "text": "The constraint that only Priya has staging/production database access is preserved",
+      "passed": true,
+      "evidence": "Section 5: 'Access restriction: only Priya has staging and production database access.' Section 14: 'Constraint: only Priya can touch staging/production databases.' Section 18 item 7: 'Staging/production database access is Priya's only.'"
+    },
+    {
+      "text": "CSRF protection appears as an open item introduced by the cookie decision",
+      "passed": true,
+      "evidence": "Section 10 open decision: 'Decision Needed: CSRF strategy for the cookie-based session - Why It Matters: sameSite=lax alone does not cover all cross-origin state-changing requests, and the cookie decision explicitly made CSRF protection a requirement. Nothing is implemented'. Also section 14: 'Risk (new, high): no CSRF protection exists for the cookie session', section 3 'Consequence: ... CSRF protection is now required (open)', and section 17 as the immediate next action. Verified against the repo: grep for 'csrf' outside docs/handoffs returns nothing, so the 'nothing implemented' claim is accurate."
+    },
+    {
+      "text": "Updated Master is at most 14,000 characters (the v2.0 it updates is 6,601; iteration-1 produced 25,349)",
+      "passed": false,
+      "evidence": "Measured: 21,693 characters (21,745 bytes UTF-8) via [System.IO.File]::ReadAllText(...).Length. That is 155% over the 14,000 cap and 3.3x the 6,601-char v2.0 it updates. Better than iteration-1's 25,349 but still a clear FAIL. Bulk comes from added sections that did not exist in v2.0: a 3-item section 13 contradictions block (~1,900 chars), a 14-line section 11 changelog, an expanded section 15 with per-field verification notes, and a section 17 with a 4-item prioritised queue."
+    },
+    {
+      "text": "Master contains no session-narrative detail that belongs in a Daily - it records durable consequence, not how the session went",
+      "passed": false,
+      "evidence": "The Master repeatedly narrates what this particular update session did and could not do, rather than durable state. Section 15: 'Verified 2026-07-30 unless marked otherwise', 'Build status: Unknown - not verified this session. Dependencies are not installed.', 'Test status: Unknown - not verified this session. `npm test` fails immediately with \"vitest is not recognized\"; there is no node_modules directory and no test file in the tree.', 'Open PRs: none known - not verified this session (no remote configured to check).', 'Database status: ... not re-verified this session'. Section 13: 'Most likely explanation, but not verified this session.' Section 11: 'Neither was verified this session and neither can be run in this checkout (no node_modules...)'. The phrase 'this session' appears 7 times. Missing node_modules and an un-runnable `npm test` are transient local-environment observations of the updating session, not durable project consequence; the durable form is 'Test status: Unknown (unverified since 2026-07-24)'. Section 13 also promotes checkout artifacts (single squashed commit 'baseline', absent packages/tokens and src/legacy/) into standing project contradictions."
+    },
+    {
+      "text": "Every inherited v2.0 claim that could not be verified against the repo is labelled unverified, stale, or superseded rather than restated as fact",
+      "passed": true,
+      "evidence": "Systematic labelling throughout. Signup/argon2: section 7 'reported approved by Priya on 2026-07-22; not verifiable in this checkout - see section 13', with a full contradiction entry in section 13. Build/test: 'Unknown - not verified this session' (v2.0 asserted 'passing'). Commit: 'Commit: a3549a9 \"baseline\" (2026-07-30). Was 7c21ab4 in v2.0 - that commit is not in this history' (verified: `git log --all` shows only a3549a9). packages/tokens: 'Referenced but not present in this checkout'. CI/CD: 'GitHub Actions per v2.0 - not verified this session; no workflow file exists in this checkout'. Backup/DB/migrations: 'per v2.0; not re-verified'. Missing 2026-07-24 daily: flagged in sections 13 and 19. Spot-checked every repo-checkable claim (package.json react 18.3.1 / jose 5.9.6 / version 0.3.1, no argon2, no signup.ts, TTL_SECONDS = 60*60*12 marked provisional, dev-only-secret fallback, COOKIE_NAME relay_session, HS256) - all accurate, no fabrications."
+    },
+    {
+      "text": "Rationale for any given decision appears once, not repeated across decisions, risks, history, and state sections",
+      "passed": false,
+      "evidence": "The cookie rationale is restated four times in near-identical wording: section 3 'third-party analytics scripts run on marketing pages; a token in localStorage is readable by any injected script, which makes any XSS equivalent to account takeover'; section 8 'because analytics scripts on marketing pages make XSS an account-takeover path'; section 9 'XSS via third-party analytics on marketing pages would otherwise equal account takeover'; section 12 'XSS via third-party analytics equals account takeover'. The spec-move rationale appears three times: section 8, section 9 ('Diego's team restructured the spec and dropped the version suffix'), section 12 ('Diego's team restructured the spec, version suffix dropped'). The whole cookie decision block is duplicated between section 3 (Locked Decisions) and section 9 (Final Decisions), including options-considered and impact. The TTL placeholder rationale is repeated in sections 1, 10, 14 and 15. This duplication is a direct driver of the 21,693-char overrun."
+    }
+  ],
+  "summary": {
+    "passed": 15,
+    "failed": 3,
+    "total": 18,
+    "pass_rate": 0.83
+  },
+  "execution_metrics": {
+    "tool_calls": {},
+    "total_tool_calls": 15,
+    "total_steps": null,
+    "errors_encountered": 0,
+    "output_chars": 21693,
+    "transcript_chars": 0,
+    "total_tokens": 52285,
+    "note": "No metrics.json in outputs_dir; tool_uses and total_tokens taken from timing.json. No transcript was provided - graded from output files and the repo alone."
+  },
+  "timing": {
+    "executor_duration_seconds": 192.4,
+    "total_duration_seconds": 192.4,
+    "duration_ms": 192417
+  },
+  "claims": [
+    {
+      "claim": "src/auth/session.ts exists and implements JWT issue/verify with jose plus cookie name and options",
+      "type": "factual",
+      "verified": true,
+      "evidence": "File confirmed: exports issueSession, readSession, COOKIE_NAME = \"relay_session\", COOKIE_OPTS = { httpOnly: true, sameSite: \"lax\", secure: true, path: \"/\" }, imports { jwtVerify, SignJWT } from \"jose\"."
+    },
+    {
+      "claim": "No CSRF token, check, or middleware exists anywhere in this repo",
+      "type": "factual",
+      "verified": true,
+      "evidence": "Case-insensitive grep for 'csrf' across the project (excluding .git) matches only files under docs/handoffs/."
+    },
+    {
+      "claim": "session.ts falls back to the literal \"dev-only-secret\" when SESSION_SECRET is unset, making tokens forgeable if deployed",
+      "type": "factual",
+      "verified": true,
+      "evidence": "Line 3: `const SECRET = new TextEncoder().encode(process.env.SESSION_SECRET ?? \"dev-only-secret\");`. This is a genuine new risk the Master surfaced that neither v2.0 nor either Daily mentions."
+    },
+    {
+      "claim": "TTL_SECONDS is a hardcoded 12h placeholder marked provisional in a code comment",
+      "type": "factual",
+      "verified": true,
+      "evidence": "Lines 5-6: `// TTL is provisional - waiting on product decision.` / `const TTL_SECONDS = 60 * 60 * 12;`"
+    },
+    {
+      "claim": "HEAD is a3549a9 on branch feat/auth-rebuild with a clean tree; 7c21ab4 is not in this history; package.json has react 18.3.1, jose 5.9.6, version 0.3.1 and no argon2; no src/auth/signup.ts",
+      "type": "factual",
+      "verified": true,
+      "evidence": "`git log --oneline --all` -> single commit 'a3549a9 baseline'; `git branch -a` -> feat/auth-rebuild (current), master; package.json matches exactly; file listing shows only docs/, src/auth/session.ts, package.json."
+    },
+    {
+      "claim": "2026-07-24_001_tokens-handoff.md does not exist in docs/handoffs/",
+      "type": "factual",
+      "verified": true,
+      "evidence": "Directory contains only _master-handoff.md and the 07-22 and 07-28 dailies. The Master correctly flags the stale v2.0 table row instead of deleting it."
+    },
+    {
+      "claim": "The Master was updated in place without touching the Daily Handoffs",
+      "type": "process",
+      "verified": true,
+      "evidence": "git status shows a single modified path; both dailies are byte-identical to the fixtures (456 and 2,622 bytes)."
+    },
+    {
+      "claim": "The updated Master is an appropriately sized cumulative document",
+      "type": "quality",
+      "verified": false,
+      "evidence": "21,693 chars against a 14,000 cap and a 6,601-char predecessor. Content is accurate and well-sourced but heavily duplicated across sections 3/9/11/12/14 and padded with session-verification narrative."
+    }
+  ],
+  "user_notes_summary": {
+    "uncertainties": [],
+    "needs_review": [],
+    "workarounds": [],
+    "note": "No user_notes.md or metrics.json in outputs_dir - only _master-handoff.md was produced."
+  },
+  "eval_feedback": {
+    "suggestions": [
+      {
+        "assertion": "Master contains no session-narrative detail that belongs in a Daily - it records durable consequence, not how the session went",
+        "reason": "This assertion and #17 pull in opposite directions and the tension is where the skill lost points. #17 rewards annotating unverified claims; the natural way to do that is 'not verified this session', which #16 penalises. Consider making #16 mechanically checkable ('the Master does not contain the phrase \"this session\" or environment-local observations such as missing node_modules / failing npm invocations') and rewording #17 to demand a durable label form ('Unknown, unverified since <date>') so the two can be satisfied simultaneously."
+      },
+      {
+        "assertion": "Rationale for any given decision appears once, not repeated across decisions, risks, history, and state sections",
+        "reason": "Currently a judgement call that different graders will score differently. A discriminating version would name the specific rationale and cap occurrences, e.g. 'the XSS/analytics justification for the cookie decision appears at most twice in the document' - here it appears four times, which is unambiguous."
+      },
+      {
+        "reason": "No assertion checks that the source Daily Handoffs are left unmodified. A skill that 'incorporates' dailies by consuming, rewriting, or deleting them would pass all 18 assertions today. Cheap to add and it protects the actual input artifacts."
+      },
+      {
+        "reason": "No assertion penalises promoting checkout artifacts into standing project state. The fixture repo is a single squashed commit with packages/tokens and src/legacy/ absent; the skill turned those into two of the three entries in the Master's 'Contradictions and Resolution' section, which would be noise in a real repo. An assertion like 'the Master does not record the absence of packages/tokens or src/legacy/ as a project contradiction' would catch over-eager repo-diffing."
+      },
+      {
+        "reason": "Nothing rewards the genuinely valuable new finding the skill surfaced - the dev-only-secret fallback in src/auth/session.ts, which is a real deployable risk present in neither v2.0 nor either Daily and can only be found by reading the code. An assertion for it would separate skills that actually inspect the repo from ones that merely merge the two handoff documents."
+      }
+    ],
+    "overall": "The assertion set is strong on the mechanical merge (versioning, supersession, sources of truth, preservation) and correctly catches the two real failure modes here - bloat and duplication. The soft assertions (#16, #18) need objective phrasing, and three uncovered outcomes are worth adding: daily-handoff integrity, fixture-artifact noise, and the repo-only security finding."
+  }
+}

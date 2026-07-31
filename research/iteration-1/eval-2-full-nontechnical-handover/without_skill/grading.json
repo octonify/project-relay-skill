@@ -1,0 +1,170 @@
+{
+  "expectations": [
+    {
+      "text": "Both a dated Daily Handoff and a Master Handoff are created under docs/handoffs/",
+      "passed": false,
+      "evidence": "No docs/ directory exists. `ls -laR project` shows only the 4 input fixtures plus two new files written at the project root: HANDOVER.md and NEXT-STEPS.md (byte-identical copies in outputs/). Neither filename is dated, neither is labelled 'Daily Handoff' or 'Master Handoff', and grep for 'master handoff|daily handoff' across both outputs returns nothing. NEXT-STEPS.md is a week-by-week running order, not a canonical master document. The two-document requirement is met only loosely in spirit; the required location, dated naming, and document identities are all absent."
+    },
+    {
+      "text": "Master Handoff Version is 1.0 (new canonical document)",
+      "passed": false,
+      "evidence": "No version field of any kind appears in either output. grep -inE 'version' over outputs/*.md matches only incidental prose ('Tom has not returned a fixed version yet', 'No fixed version back yet'). The header of HANDOVER.md is From/To/Written/Covers only, with no Version line."
+    },
+    {
+      "text": "No fabricated git, branch, commit, build, test, or CI values appear; technical state is replaced with operational state or marked not applicable",
+      "passed": true,
+      "evidence": "grep -inE 'git|branch|commit|build|test|CI' over both outputs returns zero genuine hits (only substring noise such as 'specific', 'Manchester', 'customer-facing'). Where a technical handoff would carry repo state, the docs carry operational state instead: 'Where every deliverable stands' driven off content-calendar.csv, a People table, an approval-gate section, and a budget section. Section 8 'Files in this folder' correctly lists only the real fixture files and explicitly notes the tracker sheet 'is referenced in the brief but there is no link to it in this folder' rather than inventing one."
+    },
+    {
+      "text": "Marcus's mandatory written sign-off before anything is published is recorded as an approval gate",
+      "passed": true,
+      "evidence": "HANDOVER.md section 3, rule 1: 'Nothing goes live without Marcus's written sign-off. No exceptions. This is a contract condition, added after an incident in 2025 where a price was published incorrectly. Verbal approval on a call does not count. If it is not in an email or a written comment, it is not approved.' Reinforced in NEXT-STEPS.md 'Do not do these': 'Do not publish anything without Marcus's written sign-off. Contract condition, added after the 2025 incident where a price was published wrong. No exceptions.' Also enforced per-asset: 'Do not mark it approved until his written reply is in hand.' Matches brief.md."
+    },
+    {
+      "text": "The 2009 vs 2011 founding-year conflict is recorded as unresolved rather than silently decided",
+      "passed": true,
+      "evidence": "HANDOVER.md section 5: 'The founding year is wrong somewhere and nobody has confirmed which... Their website says 2011 / The deck Marcus sent says 2009. I used 2011 in the about-page founder story, on the grounds that it is what is currently published, and I flagged it. Nobody has confirmed which is correct. Do not let the about page go to sign-off with this still open... Get a written answer.' NEXT-STEPS.md carries a scripted question to Marcus and the quick-reference table lists about-page as blocked on 'Founding year: 2009 or 2011?'. Accurately mirrors session-notes.md lines 6-9 including the 2011-for-now working choice."
+    },
+    {
+      "text": "Sourcing page recorded as blocked on farm names from Northwind ops, including both chase dates (24 Jul and 29 Jul)",
+      "passed": true,
+      "evidence": "HANDOVER.md: 'it cannot be started because we need the actual farm names from Northwind ops. I asked them on 24 Jul and again on 29 Jul. No reply either time.' NEXT-STEPS.md repeats both dates twice: 'Ops were asked on 24 Jul and 29 Jul and did not reply' and inside the draft escalation email 'Aisha asked your ops team on 24 and 29 July and hasn't had a reply.'"
+    },
+    {
+      "text": "Sourcing page identified as the critical path item, with its 7 Aug due date",
+      "passed": true,
+      "evidence": "HANDOVER.md: '**sourcing-page - due Fri 7 Aug - NOT STARTED, BLOCKED** / **This is the critical path item.** It is the longest page of the set, it is due at the end of your week...'. NEXT-STEPS.md first action: '1. Escalate the farm names (do this first, it is the critical path)' with 'The sourcing page is due **Fri 7 Aug**'. Due date matches content-calendar.csv (2026-08-07)."
+    },
+    {
+      "text": "The 20% first-order offer is recorded as unconfirmed/verbal, not as agreed",
+      "passed": true,
+      "evidence": "HANDOVER.md: 'Cannot be written until someone agrees the offer. Marcus said \"probably 20% off first order\" verbally on a call. Nothing in writing. **Treat 20% as unconfirmed** - do not draft against it, and do not let it drift into a draft as though it were settled.' Section 5: '\"Probably 20%\" is not a decision.' NEXT-STEPS.md 'Do not do these': 'Do not draft email 2. The offer is not agreed... do not write the email against an unconfirmed number.'"
+    },
+    {
+      "text": "The 2024 loyalty terms are recorded as a dead end not to build on, with the reason (scheme replaced in September)",
+      "passed": true,
+      "evidence": "HANDOVER.md rule 3: 'Do not build anything on the 2024 loyalty terms. The loyalty scheme is being replaced in September and the new terms are not drafted yet. I lost about an hour on Thursday writing email 3 against the old 2024 terms before Marcus mentioned this... Do not repeat my mistake.' NEXT-STEPS.md: 'The loyalty scheme is being replaced in September and the new terms are not drafted. The 2024 terms are dead. Aisha lost an hour learning this. If you find yourself reading the 2024 loyalty terms, stop.'"
+    },
+    {
+      "text": "Menu page recorded as in review with Marcus, not as complete",
+      "passed": true,
+      "evidence": "HANDOVER.md: '**menu-page - due Thu 31 Jul - IN REVIEW** ... sent it to Marcus on 29 Jul. He has not responded... It is not done until Marcus replies in writing. Chase him.' Placed under 'Live in your week', explicitly not under 'Done and signed off - leave alone'. NEXT-STEPS.md Monday action 2 is a chase for sign-off with 'Do not mark it approved until his written reply is in hand.' Matches csv status 'in review / with Marcus since 29 Jul' and session-notes 'Can't call it done.'"
+    },
+    {
+      "text": "Store card 2's banned-word ('curated') tone violation recorded as open with Tom",
+      "passed": true,
+      "evidence": "HANDOVER.md: '**store-card-2 - due Wed 5 Aug - DRAFT, with Tom** ... I reviewed it and sent it back the same day because it uses **\"curated\" twice**, which the tone doc bans. Tom has not returned a fixed version yet.' NEXT-STEPS.md action 3 chases Tom for the fixed draft by Tue 4 Aug and instructs 'confirm both instances of \"curated\" are gone'. 'curated' is a banned word in tone-of-voice.md."
+    },
+    {
+      "text": "Budget recorded as roughly 26 of 40 hours and flagged as not formally verified",
+      "passed": true,
+      "evidence": "HANDOVER.md section 6: 'Roughly **26 of the 40 hours are used**. That is my own estimate from memory, **not formally reconciled against the shared sheet**, so verify it before you rely on it.' NEXT-STEPS.md adds a Monday task: 'Aisha's estimate is **~26 of 40 used**, from memory, not formally checked.' Matches session-notes line 21."
+    },
+    {
+      "text": "Exactly one immediate next action is designated in the Master Handoff",
+      "passed": false,
+      "evidence": "There is no Master Handoff document, so the assertion has no home. In the nearest equivalent, NEXT-STEPS.md presents a three-item block: 'Monday morning, first hour ... Do these in this order. All three are chases, and all three are blocking something later in the week' (escalate farm names / chase menu sign-off / chase Tom). It is additionally preceded by a 'Before you start: three things to collect' block. Item 1 is flagged '(do this first, it is the critical path)', which gives a start-here signal, but three co-equal immediate actions plus a pre-block is not 'exactly one designated immediate next action'."
+    },
+    {
+      "text": "New-session start guide present, telling Dan what to read first, what is final, and what not to repeat",
+      "passed": true,
+      "evidence": "Read-first: HANDOVER.md line 8, 'Read this doc first for context. Then read `NEXT-STEPS.md` for what to actually do Monday morning', plus the section 8 file-by-file guide. What is final: 'Done and signed off - leave alone' table (homepage, store-card-1, tone-of-voice) and rule 2 'The tone of voice doc is LOCKED (as of 18 July 2026)... Do not reopen it'. What not to repeat: rule 3 'Do not repeat my mistake' on the 2024 loyalty terms, and the NEXT-STEPS.md 'Do not do these' list (no email 2, no email 3, no publishing without sign-off, do not reopen the tone doc). Functionally complete, though not packaged as a labelled start-here section."
+    }
+  ],
+  "summary": {
+    "passed": 11,
+    "failed": 3,
+    "total": 14,
+    "pass_rate": 0.79
+  },
+  "execution_metrics": {
+    "tool_calls": {},
+    "total_tool_calls": 9,
+    "total_steps": null,
+    "errors_encountered": 0,
+    "output_chars": 16551,
+    "transcript_chars": 0,
+    "notes": "No metrics.json in outputs_dir and no transcript was saved; tool_uses (9) and token count taken from timing.json. Output files: HANDOVER.md (8833 chars), NEXT-STEPS.md (7718 chars), written to the project root and copied verbatim into outputs/."
+  },
+  "timing": {
+    "executor_duration_seconds": 143.0,
+    "grader_duration_seconds": null,
+    "total_duration_seconds": 143.0,
+    "total_tokens": 35653
+  },
+  "claims": [
+    {
+      "claim": "The content of both handover docs is drawn from the fixtures rather than invented",
+      "type": "factual",
+      "verified": true,
+      "evidence": "Every substantive fact checks out against brief.md, content-calendar.csv, tone-of-voice.md and session-notes.md: launch 1 Sep 2026, 12 cafes Manchester/Leeds, 40-hour budget, 8 pages / 6 cards / 3 emails / tone one-pager, all 10 asset statuses and due dates, the 2025 wrong-price incident behind the sign-off condition, the three banned words and the 'GBP 3.20' price format, and the ~26/40 hours estimate."
+    },
+    {
+      "claim": "The menu page is 'due Thu 31 Jul' (stated twice, incl. the quick-reference table)",
+      "type": "factual",
+      "verified": false,
+      "evidence": "The date 31 Jul is correct per content-calendar.csv, but 31 July 2026 is a Friday, not a Thursday. This is the only date error found; all other weekday labels the run derived are right (3 Aug Mon, 4 Aug Tue, 5 Aug Wed, 7 Aug Fri, 10 Aug Mon, 12 Aug Wed, 14 Aug Fri, and 'Thursday' for the 30 July loyalty-terms hour, which is correct)."
+    },
+    {
+      "claim": "Scope in the brief (8 website pages, 6 store cards) does not match the content calendar (4 pages, 2 cards) and this is unreconciled",
+      "type": "factual",
+      "verified": true,
+      "evidence": "brief.md lists 8 pages and 6 cards; content-calendar.csv contains only homepage, about-page, menu-page, sourcing-page and store-card-1, store-card-2. This gap is not mentioned anywhere in session-notes.md — the run derived it independently and correctly, and correctly flagged it as unreconciled rather than resolving it ('I have not reconciled this... Worth raising with the account team early in the week')."
+    },
+    {
+      "claim": "Contact details for Marcus, Northwind ops and Tom are not in the project folder",
+      "type": "factual",
+      "verified": true,
+      "evidence": "Confirmed: no fixture contains an email address or phone number. The run surfaced this as a blocking prerequisite ('Get these from the account team before Monday') rather than fabricating addresses — a notable correct restraint."
+    },
+    {
+      "claim": "Aisha returns Monday 10 August and is unreachable 3-7 Aug",
+      "type": "factual",
+      "verified": false,
+      "evidence": "Unverifiable from the fixtures. The prompt says only 'on leave all next week'; 3-7 Aug 2026 is indeed the following Mon-Fri, so the inference is sound, but 'Assume I am not reachable' is the run's own addition, not sourced."
+    },
+    {
+      "claim": "The menu page rewrite was finished 30 July morning yet sent to Marcus 29 July",
+      "type": "factual",
+      "verified": true,
+      "evidence": "Faithfully reproduced from session-notes.md lines 5-6, which contain that same internal inconsistency. The run copied it forward without flagging the contradiction — accurate to the source, but a missed chance to surface an ambiguity Dan will hit."
+    },
+    {
+      "claim": "Both required documents were produced and are ready for Dan to use Monday",
+      "type": "quality",
+      "verified": true,
+      "evidence": "Two coherent, cross-referencing documents totalling ~16.5k chars: HANDOVER.md (context, people, non-negotiables, per-asset status, open questions, budget risk, escalation rules) and NEXT-STEPS.md (ordered Monday actions with draft chase emails, day-by-day plan, do-not list, date table). Substantively strong content; the failures are structural (no docs/handoffs/ location, no dated/Master naming, no version, no single next action)."
+    }
+  ],
+  "user_notes_summary": {
+    "uncertainties": [],
+    "needs_review": [],
+    "workarounds": [],
+    "notes": "No user_notes.md was written to outputs_dir, and no transcript was saved, so nothing the executor self-flagged is available."
+  },
+  "eval_feedback": {
+    "suggestions": [
+      {
+        "assertion": "Both a dated Daily Handoff and a Master Handoff are created under docs/handoffs/",
+        "reason": "This assertion bundles four separable things (two documents, correct directory, dated filename, Master/Daily identity) into one pass/fail. The baseline produced two genuinely useful handover documents but failed on location and naming, so the single FAIL hides that the content half was largely right. Splitting into 'two distinct documents exist with distinguishable daily vs canonical scopes' and 'they live at docs/handoffs/ with the daily one date-stamped' would make the with-skill vs without-skill delta far more legible."
+      },
+      {
+        "assertion": "Exactly one immediate next action is designated in the Master Handoff",
+        "reason": "Unverifiable as written when no Master Handoff exists, which forces the grader to fail it on a technicality rather than on the underlying behaviour. Consider phrasing it as an outcome ('the handoff names a single unambiguous start-here action, and it is the sourcing-page escalation') so it discriminates on whether the run correctly picked the critical-path item as the one thing to do first — which this run arguably did."
+      },
+      {
+        "reason": "No assertion checks whether the run avoided fabricating contact details, links, or file inventories. This run showed real restraint (explicitly saying Marcus's/ops'/Tom's contacts and the tracker-sheet link are absent from the folder rather than inventing them) and that is a valuable, discriminating behaviour for a no-repo content handoff. It is currently uncredited."
+      },
+      {
+        "reason": "No assertion covers derived-fact accuracy, e.g. weekday labels attached to the csv due dates. The run mislabelled 31 July 2026 as a Thursday (it is a Friday) in two places — exactly the kind of quiet error that misleads a fresh owner, and nothing in the current 14 would catch it."
+      },
+      {
+        "reason": "Assertion 3 (no fabricated git/build/CI state) is close to trivially satisfied for a content project — a model would have to go out of its way to invent branch names here. Consider strengthening it to require that a technical-state section is present but explicitly marked not applicable / replaced with operational state, which tests that the template was consciously adapted rather than that the words simply never appeared."
+      },
+      {
+        "reason": "No assertion covers the brief-vs-calendar scope mismatch (8 pages / 6 cards vs 4 / 2). It appears in no fixture note, so catching it requires actually cross-reading brief.md against content-calendar.csv — a strong discriminator of genuine synthesis rather than session-notes paraphrase. This run caught it and gets no credit."
+      }
+    ],
+    "overall": "The 14 assertions cover the fact-fidelity dimension well and the baseline scored 11/14 on content substance. The three failures are all structural (document location, naming/version, single-next-action), which is the right place for the skill to show its value — but two of those assertions are bundled or unverifiable enough that they fail for partly formal reasons. The bigger gap is on the other side: nothing rewards fabrication-restraint (contacts, links) or penalises derived-fact errors (a wrong weekday slipped through), and one uncaught cross-fixture insight (the scope mismatch) is a better discriminator than several of the existing checks."
+  }
+}

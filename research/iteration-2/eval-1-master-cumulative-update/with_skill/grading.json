@@ -1,0 +1,216 @@
+{
+  "expectations": [
+    {
+      "text": "docs/handoffs/_master-handoff.md is updated in place and no new versioned master file (e.g. _master-handoff-v3.md, -final.md) is created",
+      "passed": true,
+      "evidence": "`git status --short` in the project reports exactly one change: ' M docs/handoffs/_master-handoff.md'. A full file listing of the project shows docs/handoffs/ contains only _master-handoff.md, 2026-07-22_001_signup-handoff.md and 2026-07-28_001_spec-move-handoff.md - no -v3/-final/-updated variant anywhere in the tree. The 2026-07-28 Daily is byte-identical to the pristine fixture, so no source file was rewritten either."
+    },
+    {
+      "text": "Version field incremented above 2.0",
+      "passed": true,
+      "evidence": "Header line 5: 'Version: 3.0' (pristine was 'Version: 2.0')."
+    },
+    {
+      "text": "Last Updated field changed from 2026-07-24",
+      "passed": true,
+      "evidence": "Header line 6: 'Last Updated: 2026-07-30' - matches the run date, changed from the pristine '2026-07-24'."
+    },
+    {
+      "text": "The localStorage session-storage decision is no longer presented as a current Final/locked decision",
+      "passed": true,
+      "evidence": "The v2.0 section 3 bullet 'Session tokens are stored in browser localStorage and attached as a bearer header ... Status: Final' is gone. localStorage now appears only as (a) a superseded row in section 12: 'localStorage + bearer header session storage (Master v2.0 §3) | httpOnly sameSite=lax cookie', (b) a negative instruction in section 3 ('Do **not** use localStorage'), and (c) section 18.6 '**do not re-propose localStorage for session storage**'. No Final/locked framing survives."
+    },
+    {
+      "text": "The httpOnly cookie decision is recorded as the current approach, with rationale",
+      "passed": true,
+      "evidence": "Section 3, third bullet: 'The session JWT is stored in an httpOnly, secure, sameSite=lax cookie... Rationale: third-party analytics scripts run on marketing pages, so a token readable from localStorage makes any XSS equivalent to account takeover. Date: 2026-07-28. Status: Final. Approval source: Sam (security, written sign-off in AUTH-201) + Priya. Supersedes: the 2026-07-20 localStorage/bearer-header decision recorded in Master v2.0.' Also reflected in section 5 (transport) and section 16."
+    },
+    {
+      "text": "The conflict between the Master's localStorage decision and the 2026-07-28 Daily is explicitly recorded or resolved, not silently overwritten",
+      "passed": true,
+      "evidence": "Recorded in three places rather than overwritten: section 12 supersession row citing 'Master v2.0 §3' with reason and date 2026-07-28; section 8 history entry '2026-07-28 - security review rejected localStorage session storage; httpOnly cookie adopted. This reversed a decision that was Final in Master v2.0 and invalidated the planned SPA bearer header work.'; section 11 'Session storage reversed from localStorage/bearer to httpOnly cookie; v2.0's section 3 entry is superseded, not merely edited.' The reversal's provenance (Sam's sign-off in AUTH-201) is carried through."
+    },
+    {
+      "text": "Sources of Truth lists docs/SPEC.md instead of docs/SPEC-v1.md",
+      "passed": true,
+      "evidence": "Section 6 table row: '| API spec | `docs/SPEC.md` | Endpoint, session cookie contract, error envelope | Diego's team | Current (verified present at `a3549a9`) |'. SPEC-v1.md appears nowhere as a live source; the note below the table reads '`docs/SPEC-v1.md` is deleted - any link to it is dead'. Section 7 Relevant Sources and section 18.1 also updated to docs/SPEC.md. Verified: docs/SPEC.md exists in the repo, docs/SPEC-v1.md does not."
+    },
+    {
+      "text": "Superseded/Replaced table gains an entry for docs/SPEC-v1.md -> docs/SPEC.md",
+      "passed": true,
+      "evidence": "Section 12 row: '| `docs/SPEC-v1.md` (deleted) | `docs/SPEC.md` | Diego's team restructured the spec and dropped the version suffix | 2026-07-28 |'. The pre-existing SCSS-variables row is retained, so the table grew rather than being replaced."
+    },
+    {
+      "text": "Incorporated Daily Handoffs table lists the 2026-07-28 handoff",
+      "passed": true,
+      "evidence": "Section 19 gains: '| 2026-07-28 | `2026-07-28_001_spec-move-handoff.md` | API spec relocation, session storage reversal | Yes (v3.0) |'. The two prior rows are kept and annotated 'Yes (v2.0)', and the missing 2026-07-24 file is cross-referenced to section 13."
+    },
+    {
+      "text": "Stale Immediate Next Action (signup email verification) is replaced with a current one",
+      "passed": true,
+      "evidence": "Section 17 now reads 'Immediate Next Action: complete cookie-based session issuance in `src/auth/session.ts` - add the helpers that set and clear the session cookie using the existing `COOKIE_NAME` and `COOKIE_OPTS`, and cover them with tests', with matching Start From, Acceptance Criteria and Stop Conditions. The replacement is also logged in section 12 and section 11 ('\"implement signup email verification\" is superseded'). The new action is grounded in the repo: src/auth/session.ts does export COOKIE_NAME/COOKIE_OPTS and issueSession/readSession, and contains no cookie-setting code."
+    },
+    {
+      "text": "The design tokens locked decision from v2.0 is preserved",
+      "passed": true,
+      "evidence": "Section 3 first bullet retains the full decision, rationale ('three surfaces drifted apart in 2025'), date 2026-05-12, Status: Final, approval source and 'Supersedes: per-app SCSS variables'. It adds an honest caveat that the `packages/tokens` path is absent from this checkout, but the decision itself remains Final and is echoed in sections 6, 8 and 12."
+    },
+    {
+      "text": "The src/legacy/ freeze decision from v2.0 is preserved",
+      "passed": true,
+      "evidence": "Section 3 second bullet: '`src/legacy/` is frozen. No refactors, no renames, no \"tidying\". Rationale: a cleanup in March 2026 broke billing for two days. Date: 2026-03-30. Status: Final... the freeze still governs wherever that code lives.' Reinforced in section 2 (out of scope, Q4 2026 removal), section 8 history, section 17 'Do Not Change: `src/legacy/`' and section 18.6."
+    },
+    {
+      "text": "The constraint that only Priya has staging/production database access is preserved",
+      "passed": true,
+      "evidence": "Section 5: 'Access restriction: only Priya has staging and production database access.' Section 14: 'Constraint: only Priya can touch staging/production databases.' Section 18.7: 'Staging/production database access is Priya's only.'"
+    },
+    {
+      "text": "CSRF protection appears as an open item introduced by the cookie decision",
+      "passed": true,
+      "evidence": "Section 10 second open decision: 'Decision Needed: CSRF protection strategy for the cookie approach... sameSite=lax alone does not cover all state-changing requests; this is the blocker on finishing the auth rebuild', with owner Sam + Diego and trigger 'before any cookie-authenticated write endpoint ships'. Causally linked to the cookie decision in section 3 ('CSRF protection is now mandatory (section 10)'), listed as section 7 'Blocked: CSRF protection', as a new active risk in section 14, and as a stop condition in section 17. Confirmed against the repo: no CSRF handling exists in any source file."
+    },
+    {
+      "text": "Updated Master is at most 14,000 characters (the v2.0 it updates is 6,601; iteration-1 produced 25,349)",
+      "passed": false,
+      "evidence": "FAIL. Measured length of the updated docs/handoffs/_master-handoff.md is 16,172 characters (16,225 bytes UTF-8; identical in outputs/ and project/). That is 2,172 characters over the 14,000 cap - about 15.5% over, and 2.45x the 6,601-char v2.0 it updates. It is a large improvement on iteration-1's 25,349 chars (-36%) but still exceeds the cap, which is a strict fail. Main sources of overrun: section 13 Contradictions (~1,050 chars of investigative prose), section 15 (~1,300 chars with per-line withdrawal notes), section 11 (~1,000 chars), and the section 1 summary having grown from 6 lines to 19."
+    },
+    {
+      "text": "Master contains no session-narrative detail that belongs in a Daily - it records durable consequence, not how the session went",
+      "passed": true,
+      "evidence": "No 'Session Objective' / 'intended vs actually completed' / 'scope change' content leaked in. The Daily's narrative lines - 'Intended: start the login flow', 'Sam joined the session and re-opened the storage decision', 'Prepared By: Claude (with Priya and Sam)' - appear nowhere in the Master; only their durable consequences (decision reversed, spec moved, CSRF now required) do. The nearest borderline items are framed as document state rather than session recap: section 1's 'treat the previous build/test passing and commit 7c21ab4 lines as withdrawn', and section 15's 'npm test fails with vitest is not recognized' which is legitimate current technical state for that section. Section 13's contradiction entries record what would settle each conflict rather than narrating the investigation."
+    },
+    {
+      "text": "Every inherited v2.0 claim that could not be verified against the repo is labelled unverified, stale, or superseded rather than restated as fact",
+      "passed": true,
+      "evidence": "Systematically applied to every repo-checkable inherited claim: packages/tokens ('**Unverified inherited claim**' in §3 and 'Unverified - path not present in this repo' in §6); src/legacy/ ('not present in this working tree at `a3549a9`'); signup flow ('inherited claim - no `src/auth/signup.ts` exists in this working tree... so the code's location is unverified'); commit 7c21ab4 (corrected to a3549a9 with the discrepancy logged in §13); build status ('Unknown. Not run'); test status and CI/CD ('withdrawn as unverifiable here'); deployment/database/backup all tagged '(inherited...)'; the missing 2026-07-24 tokens Daily logged in §13. Section 15 carries a blanket header 'Verified 2026-07-30 against the working tree unless marked otherwise', and the one claim that did verify (jose) is marked 'Verified in repo at `a3549a9`'. I independently confirmed each of these against the repo: git log has exactly one commit a3549a9; branches are feat/auth-rebuild and master; no node_modules, no .github, no test files, no packages/tokens, no src/legacy/, no src/auth/signup.ts; package.json pins jose 5.9.6. Organisational claims that are not repo-checkable by nature (Priya's DB access, Sam's approval gate, stakeholders) are restated without labels, which is the correct reading of the assertion - assertion 13 requires that constraint be preserved as-is."
+    },
+    {
+      "text": "Rationale for any given decision appears once, not repeated across decisions, risks, history, and state sections",
+      "passed": true,
+      "evidence": "The XSS rationale for the cookie decision appears in full exactly once (§3); §1, §8 and §18 state the outcome ('security review rejected localStorage... httpOnly cookie adopted') without restating the why, and §12's compressed 'XSS makes a readable token equivalent to account takeover' is the table's mandatory Reason column, a structure inherited from v2.0. Section 9 avoids duplication explicitly: '(The session-storage decision is locked and lives in section 3.)' Cross-references are used instead of repetition throughout ('see section 17', 'section 10', 'see section 13'). CSRF is mentioned in five sections but each carries distinct content - status (§7), the decision and its criteria (§10), the unmitigated exposure (§14), the stop condition (§17) - which is role separation, not repeated rationale. Minor overlap only: the design-token rationale sits in both §3 and §12's Reason cell, exactly as it did in the pristine v2.0."
+    }
+  ],
+  "summary": {
+    "passed": 17,
+    "failed": 1,
+    "total": 18,
+    "pass_rate": 0.94
+  },
+  "execution_metrics": {
+    "tool_calls": {},
+    "total_tool_calls": 16,
+    "total_steps": null,
+    "errors_encountered": 0,
+    "output_chars": 16172,
+    "transcript_chars": 0,
+    "note": "No metrics.json or user_notes.md in outputs_dir; tool_uses taken from timing.json. No transcript was provided - grading is from output files plus direct verification against the project repo and the pristine fixtures."
+  },
+  "timing": {
+    "executor_duration_seconds": 185.3,
+    "total_duration_seconds": 185.3,
+    "total_tokens": 56976
+  },
+  "claims": [
+    {
+      "claim": "Commit is `a3549a9` \"baseline\" - the only commit in this repo's history; v2.0's `7c21ab4` is not reachable",
+      "type": "factual",
+      "verified": true,
+      "evidence": "`git log --oneline --all` returns exactly one line: 'a3549a9 baseline'. No object matching 7c21ab4 exists."
+    },
+    {
+      "claim": "Branch is `feat/auth-rebuild` (also present locally: `master`); no upstream tracking branch",
+      "type": "factual",
+      "verified": true,
+      "evidence": "`git branch -a` lists '* feat/auth-rebuild' and 'master' only, with no remotes/ entries."
+    },
+    {
+      "claim": "`jose@5.9.6` in package.json; in use at src/auth/session.ts",
+      "type": "factual",
+      "verified": true,
+      "evidence": "package.json dependencies: {\"react\": \"18.3.1\", \"jose\": \"5.9.6\"}; session.ts line 1 imports jwtVerify and SignJWT from \"jose\"."
+    },
+    {
+      "claim": "session.ts has JWT sign/verify and COOKIE_NAME/COOKIE_OPTS constants, but no code sets the cookie on a response",
+      "type": "factual",
+      "verified": true,
+      "evidence": "session.ts exports issueSession, readSession, COOKIE_NAME = \"relay_session\" and COOKIE_OPTS = {httpOnly, sameSite: lax, secure, path}. Nothing in the 27-line file writes a Set-Cookie header, and it is the only source file in the tree."
+    },
+    {
+      "claim": "TTL is hard-coded to 12h at src/auth/session.ts line 6, marked provisional in a code comment",
+      "type": "factual",
+      "verified": true,
+      "evidence": "Line 5-6: '// TTL is provisional - waiting on product decision.' / 'const TTL_SECONDS = 60 * 60 * 12;'. Line number cited is exact."
+    },
+    {
+      "claim": "session.ts line 3 falls back to the literal \"dev-only-secret\" when SESSION_SECRET is unset - forgeable tokens if it reaches staging/production",
+      "type": "quality",
+      "verified": true,
+      "evidence": "Line 3: 'const SECRET = new TextEncoder().encode(process.env.SESSION_SECRET ?? \"dev-only-secret\");'. This is a genuine new risk found by inspecting the repo, not present in either the v2.0 Master or the Dailies - a real value-add of the run."
+    },
+    {
+      "claim": "No CSRF protection exists anywhere in the repo",
+      "type": "factual",
+      "verified": true,
+      "evidence": "Case-insensitive search for 'csrf' across .ts/.json/.md outside docs/handoffs returns no matches."
+    },
+    {
+      "claim": "Dependencies not installed (no node_modules); no CI configuration; no test files",
+      "type": "factual",
+      "verified": true,
+      "evidence": "node_modules and .github both absent; the only .ts file in the tree is src/auth/session.ts, no *.test.* or *.spec.* files."
+    },
+    {
+      "claim": "`packages/tokens`, `src/legacy/`, and `src/auth/signup.ts` are referenced by inherited claims but absent at a3549a9",
+      "type": "factual",
+      "verified": true,
+      "evidence": "Full file listing of the project confirms the tracked tree is package.json, src/auth/session.ts, docs/SPEC.md and docs/handoffs/*. None of the three paths exist."
+    },
+    {
+      "claim": "The 2026-07-24 tokens Daily listed in v2.0's incorporated table does not exist in docs/handoffs/",
+      "type": "factual",
+      "verified": true,
+      "evidence": "docs/handoffs/ contains only the 07-22 Daily, the 07-28 Daily and the Master. The fixtures directory likewise has no 2026-07-24 file, so this is a deliberate eval trap that the run caught and logged in section 13 rather than silently dropping."
+    },
+    {
+      "claim": "The two Daily handoffs were left untouched by the update",
+      "type": "process",
+      "verified": true,
+      "evidence": "Byte comparison of 2026-07-28_001_spec-move-handoff.md against the pristine fixture returns identical; git status shows only _master-handoff.md modified."
+    },
+    {
+      "claim": "The updated Master is an appropriate size for a Master Handoff",
+      "type": "quality",
+      "verified": false,
+      "evidence": "16,172 chars - over the 14,000 cap and 2.45x the document it updates. Content quality is high and little of it is filler, but sections 13 and 15 in particular carry more prose than a Master needs; several contradiction entries could be one line each."
+    }
+  ],
+  "user_notes_summary": {
+    "uncertainties": [],
+    "needs_review": [],
+    "workarounds": [],
+    "note": "No user_notes.md was produced in outputs_dir."
+  },
+  "eval_feedback": {
+    "suggestions": [
+      {
+        "assertion": "The design tokens locked decision from v2.0 is preserved / The src/legacy/ freeze decision from v2.0 is preserved / The constraint that only Priya has staging/production database access is preserved",
+        "reason": "These three pass on the presence of a recognisable string. A rewrite that demoted the freeze to a suggestion, dropped 'Status: Final', or lost the rationale/date/approval-source would still pass. Consider tightening to require the decision retain its Final status plus at least its date and approval source - that is what actually makes a locked decision survive a cumulative merge."
+      },
+      {
+        "assertion": "Updated Master is at most 14,000 characters",
+        "reason": "This is the most discriminating assertion in the set and it correctly caught the one real regression (16,172 chars). Worth keeping, but consider pairing it with a lower soft target reported as a metric (e.g. chars-per-section, or ratio to the previous version) so iteration-3 can see whether it is trending toward the cap or away from it - a binary pass/fail hides a 25,349 -> 16,172 improvement entirely."
+      },
+      {
+        "reason": "No assertion checks that the source Daily handoffs are left unmodified. A skill that 'incorporates' Dailies by rewriting or deleting them would pass all 18 assertions. The run did the right thing here (both Dailies byte-identical to the fixtures) but nothing tests for it."
+      },
+      {
+        "reason": "No assertion rewards or checks the accuracy of newly-added repo-derived facts. The output makes many precise, checkable claims (commit a3549a9, jose 5.9.6, TTL at session.ts line 6, the 'dev-only-secret' fallback) and every one is correct - genuinely the strongest evidence that the skill verified rather than confabulated. An assertion like 'technical state matches the actual repo (commit hash, branch, dependency versions) and any new risk cited points to a real line of code' would discriminate hard against a run that just paraphrased the Dailies."
+      },
+      {
+        "reason": "Assertion 17 ('every inherited claim that could not be verified is labelled') is nearly impossible to grade exhaustively and forces the grader to draw the line between repo-checkable and organisational claims. Consider naming the specific traps - the 7c21ab4 commit, 'build/test passing', the missing 2026-07-24 Daily, and the three absent paths - so the verdict is mechanical."
+      }
+    ],
+    "overall": "Assertions 1-14 are largely mechanical string/structure checks that a careful run passes easily; 15-18 carry the real discriminating power, and 15 is the only one that failed. The set has a blind spot around source-file integrity and around the accuracy (as opposed to the presence) of newly-added facts."
+  }
+}

@@ -1,0 +1,216 @@
+{
+  "expectations": [
+    {
+      "text": "Creates exactly one dated Daily Handoff file under docs/handoffs/ matching YYYY-MM-DD_NNN_<scope>-handoff.md",
+      "passed": true,
+      "evidence": "Exactly one file exists: project/docs/handoffs/2026-07-30_001_auth-login-session-handoff.md (byte-identical to the copy in outputs/, verified with diff). Name matches YYYY-MM-DD_NNN_<scope>-handoff.md with date 2026-07-30 (matches session date and today's date) and sequence 001. No other handoff files, and no stray files were created elsewhere in the repo (git status --short shows only ?? docs/handoffs/, ?? migrations/, ?? src/auth/). Content is substantive (28,896 chars, 11 sections), not a stub."
+    },
+    {
+      "text": "Login form is listed as validated, citing Priya's manual browser check as the evidence",
+      "passed": true,
+      "evidence": "Section 5 'Validated or Approved Items': 'Item: Login form behaviour (validation error path and successful submit). Validation Method: Manual test by Priya against the running dev server. Evidence: Bad email produced the error message; a valid email posted the form. Priya: \"I'm happy with the form.\" Result: Accepted'. Also section 4: 'Validation: Manually exercised by Priya on the dev server (invalid then valid email); accepted by her.' Matches transcript lines 36-37. Notably it does not overclaim: section 6 adds that the cookie round trip was never exercised, only the form post."
+    },
+    {
+      "text": "Session tests are NOT listed as done or validated; they appear as not written / open",
+      "passed": true,
+      "evidence": "Section 1 'Not completed': 'Vitest coverage for src/auth/session.ts and src/auth/login-form.tsx — deliberately deferred mid-session.' Section 6: 'No automated tests for the new auth code — Status: Needs Validation ... was planned and deliberately not written.' Section 8 'Incomplete': 'Vitest coverage ... — not started.' Section 5 closes with 'Nothing else was validated. In particular there is no test run, no build, no typecheck...'. session.ts status is explicitly 'Complete as written, untested'. No claim anywhere that tests were written or passed."
+    },
+    {
+      "text": "httpOnly cookie decision recorded with its rationale (third-party analytics scripts / XSS exposure)",
+      "passed": true,
+      "evidence": "Section 3: 'Decision: Store the session JWT in an httpOnly cookie, not in localStorage. Rationale: The marketing pages carry third-party analytics scripts. A token in localStorage is readable by any injected script, so an XSS anywhere in the app becomes full account takeover.' Status marked 'Final — explicitly locked in by Priya (\"Lock that in\")'. Matches transcript lines 12-18. Also carries the consequence forward: 'CSRF handling becomes mandatory (not yet built)'."
+    },
+    {
+      "text": "localStorage named explicitly as the rejected option for session storage",
+      "passed": true,
+      "evidence": "Section 3: 'Options considered: JWT in localStorage (simpler to wire from the SPA) vs JWT in an httpOnly cookie. Rejected: localStorage — rejected on the XSS/account-takeover exposure, not on effort.' Reinforced in section 9 Do Not Change ('do not reintroduce localStorage') and section 11 ('The session-storage comparison (localStorage vs httpOnly cookie) — Settled ... Do not reopen this to save CSRF work')."
+    },
+    {
+      "text": "Refresh-token work recorded as a failed or parked approach, with the 10 requests/second introspection rate limit as the stated reason",
+      "passed": true,
+      "evidence": "Section 2: 'requires a token-introspection call per request; api.relay.example rate-limits the introspection endpoint at 10 requests/second, which the SPA alone would exceed on page load at current traffic. Batching the introspection calls was tried and only moved the spike... Status: Abandoned this session'. Section 3 'Park the refresh-token work; do not retry the introspection-per-request approach'. Section 11 lists both per-request introspection and the batching attempt as work not to repeat. Section 7 Constraints: 'hard 10 requests/second limit'."
+    },
+    {
+      "text": "Ticket AUTH-214 referenced as the follow-up owner of the refresh-token blocker",
+      "passed": true,
+      "evidence": "AUTH-214 appears in the header status line, section 1, section 2 ('escalated to ticket AUTH-214'), section 3 ('Tracked as AUTH-214 (opened by Priya)'), section 4, section 6 ('Refresh tokens — Status: Blocked. Detail: Tracked as AUTH-214. Needs Diego's team to raise the 10 req/s introspection limit or expose a bulk introspection endpoint'), section 7, and section 10. It also correctly flags that the ticket URL was never stated and was not captured, rather than inventing one."
+    },
+    {
+      "text": "src/legacy/ recorded as frozen / must not be changed",
+      "passed": true,
+      "evidence": "Section 3: 'Decision: src/legacy/ is frozen — do not touch it at all, ever. Rationale: It is being removed in Q4, and the last person who \"tidied\" it broke billing for two days ... Rejected: the refactor, unconditionally. Status: Final — standing constraint beyond this session.' Repeated in section 7 (risk: 'Someone \"helpfully\" refactors src/legacy/'), section 9 Do Not Change ('src/legacy/** — frozen'), section 10 ('Do not modify — reference only'), and section 11. It also records the accepted consequence: admin.js keeps its own cookie parsing and that duplication is accepted, not an oversight. Verified src/legacy/admin.js is unmodified in git."
+    },
+    {
+      "text": "migrations/002_add_sessions.sql recorded as applied to local dev only",
+      "passed": true,
+      "evidence": "Section 1: 'migrations/002_add_sessions.sql written and applied to Priya's **local dev** database.' Section 2 'Status: Applied to local dev database only.' Section 5 'Result: Applied — local dev only. No other environment.' Section 10 'Applied to local dev only; not staging'. Section 11 warns against re-running it locally and against applying it to staging on Priya's behalf. Migration contents described in the handoff (sessions table columns + sessions_user_id_idx) match the actual file."
+    },
+    {
+      "text": "Staging database state recorded as unknown or not applied rather than guessed",
+      "passed": true,
+      "evidence": "Section 6: 'Staging database state — Status: Unknown / Needs Validation. Detail: Claude had no staging access this session, so it is genuinely unknown whether 002_add_sessions.sql — or anything else — has been applied to staging. Do not assume it is unapplied either.' Section 4: 'Staging: unknown — no access.' Section 7 Constraints: 'No staging access from this session — staging schema state cannot be read or changed here.' Resolution path named: someone with staging access inspecting the schema."
+    },
+    {
+      "text": "Session TTL recorded as open and owned by Sam, unblocking Monday",
+      "passed": true,
+      "evidence": "Section 3: 'Session TTL is not ours to set; the 12-hour value stays as a flagged placeholder ... owned by Sam ... Status: Pending Approval — Sam, who is out until Monday.' Section 6: 'Session TTL final value — Status: Waiting for Approval ... Owner is Sam; he is out until Monday ... also gates the staging migration. What would resolve it: Sam's decision on the TTL.' Section 9 queue item 5: 'Monday: get Sam's TTL decision, then update src/auth/session.ts:6 and the sessions column defaults.' The dependency chain from the transcript (column defaults depend on the TTL, hence staging waits) is preserved."
+    },
+    {
+      "text": "docs/SPEC-v1.md superseded by docs/SPEC.md is recorded",
+      "passed": true,
+      "evidence": "Section 3: 'docs/SPEC.md is the canonical API spec; docs/SPEC-v1.md is dead ... Anything still pointing at docs/SPEC-v1.md is wrong and should be repointed. Status: Final (superseded document).' Section 4 records the change with previous/new state and notes Priya already informed the team. Section 10 table lists 'Canonical API spec | docs/SPEC.md ... docs/SPEC-v1.md is dead'. Section 11 forbids repointing anything at SPEC-v1.md. It also honestly notes neither file exists in this repo (verified: docs/ contains only ARCHITECTURE.md and handoffs/), so the location was not verified."
+    },
+    {
+      "text": "Next action is executable: names specific file paths or commands, not 'continue development'",
+      "passed": true,
+      "evidence": "Section 9 gives a single concrete first action with commands and paths: 'Run git status --short and confirm it still shows ?? migrations/ and ?? src/auth/ before staging anything'; Required Inputs lists the three exact files; Acceptance Criteria: 'git log -1 --stat lists the three files and nothing else'; Do Not Change enumerates src/legacy/**, TTL_SECONDS at src/auth/session.ts:6, the httpOnly approach, refresh-token code, and staging migration; 'Blocking Conditions: None.' Followed by a 7-item prioritized queue naming specific files (src/auth/session.ts, src/auth/login-form.tsx, docs/ARCHITECTURE.md line 4) and specific test cases. Starting state (branch feat/auth-rebuild at 7991fb7) verified correct against the repo."
+    },
+    {
+      "text": "Uncommitted working-tree state recorded (nothing was committed this session)",
+      "passed": true,
+      "evidence": "Header: 'Nothing committed — all new work is untracked in the working tree on feat/auth-rebuild.' Section 4: 'Repository working state — three new untracked paths, zero commits ... Validation: git status --short at handoff time: ?? migrations/, ?? src/auth/.' Section 7 top risk: 'Today's entire output is uncommitted and untracked ... there is no upstream copy at all', mitigation = commit first thing. Section 8: 'Nothing was committed, staged, stashed, or pushed today.' All verified against the repo: HEAD is 7991fb7 'chore: baseline without session work' on feat/auth-rebuild, no remote/upstream, and git status shows only untracked paths."
+    }
+  ],
+  "summary": {
+    "passed": 14,
+    "failed": 0,
+    "total": 14,
+    "pass_rate": 1.0
+  },
+  "execution_metrics": {
+    "tool_calls": {},
+    "total_tool_calls": 16,
+    "total_steps": null,
+    "errors_encountered": null,
+    "output_chars": 28896,
+    "transcript_chars": 0,
+    "notes": "No transcript and no metrics.json were saved for this run; tool_uses (16) and total_tokens (54956) taken from timing.json. Grading was done from the output file plus direct inspection of the project repo."
+  },
+  "timing": {
+    "executor_duration_seconds": 238.2,
+    "total_duration_seconds": 238.2,
+    "total_tokens": 54956,
+    "tool_uses": 16
+  },
+  "claims": [
+    {
+      "claim": "Branch is feat/auth-rebuild at 7991fb7 'chore: baseline without session work' with no upstream tracking branch; prior baseline commit fd5eced",
+      "type": "factual",
+      "verified": true,
+      "evidence": "git log --oneline --all: '7991fb7 chore: baseline without session work' and 'fd5eced baseline'; git branch --show-current: feat/auth-rebuild; no remotes configured, so no upstream."
+    },
+    {
+      "claim": "git status shows untracked src/auth/ and migrations/ only; nothing committed today",
+      "type": "factual",
+      "verified": true,
+      "evidence": "git status --short: '?? docs/handoffs/', '?? migrations/', '?? src/auth/'. The handoff itself anticipates the extra docs/handoffs/ entry in its acceptance criteria, so this is not a mismatch."
+    },
+    {
+      "claim": "TTL placeholder is at src/auth/session.ts:6 as 'const TTL_SECONDS = 60 * 60 * 12;' with the comment 'TTL is provisional - waiting on product decision.'",
+      "type": "factual",
+      "verified": true,
+      "evidence": "src/auth/session.ts line 5 is the comment, line 6 is 'const TTL_SECONDS = 60 * 60 * 12;'. Exact quote and line number correct."
+    },
+    {
+      "claim": "src/auth/session.ts:3 falls back to a hardcoded 'dev-only-secret'",
+      "type": "factual",
+      "verified": true,
+      "evidence": "Line 3: 'const SECRET = new TextEncoder().encode(process.env.SESSION_SECRET ?? \"dev-only-secret\");'. This risk is not in the transcript at all — it was found by reading the repo, and is correctly flagged as open."
+    },
+    {
+      "claim": "package.json defines \"test\": \"vitest run\" but vitest is not declared in dependencies or devDependencies, and node_modules/ is absent, so npm test will not currently run",
+      "type": "factual",
+      "verified": true,
+      "evidence": "package.json declares only react@18.3.1 and jose@5.9.6 under dependencies, no devDependencies block, and scripts.test = 'vitest run'. No node_modules directory in the project. Accurate, and a genuine carry-forward the transcript never mentions."
+    },
+    {
+      "claim": "docs/ARCHITECTURE.md line 4 still says 'Session storage approach is under active decision' and is now stale",
+      "type": "factual",
+      "verified": true,
+      "evidence": "docs/ARCHITECTURE.md line 4: 'Auth: see src/auth/. Session storage approach is under active decision.' Line number and quote correct; the file was not modified this session."
+    },
+    {
+      "claim": "Neither docs/SPEC.md nor docs/SPEC-v1.md is present in this repository",
+      "type": "factual",
+      "verified": true,
+      "evidence": "docs/ contains only ARCHITECTURE.md and handoffs/. The handoff states this limitation explicitly instead of implying the rename was verified."
+    },
+    {
+      "claim": "migrations/002_add_sessions.sql creates a sessions table (id uuid PK, user_id uuid NOT NULL REFERENCES users(id), issued_at timestamptz DEFAULT now(), expires_at timestamptz NOT NULL) plus sessions_user_id_idx on (user_id)",
+      "type": "factual",
+      "verified": true,
+      "evidence": "Migration file contents match exactly, including the index name."
+    },
+    {
+      "claim": "login-form.tsx blocks submit with 'Enter a valid email' when the email lacks '@' and renders the error in a <p role=\"alert\">",
+      "type": "factual",
+      "verified": true,
+      "evidence": "src/auth/login-form.tsx: 'if (!email.includes(\"@\")) return setError(\"Enter a valid email\");' and '{error && <p role=\"alert\">{error}</p>}'. Accurate."
+    },
+    {
+      "claim": "No refresh-token code was kept; nothing from that attempt is in the working tree",
+      "type": "factual",
+      "verified": true,
+      "evidence": "src/auth/ contains only session.ts and login-form.tsx; no refresh/introspection code anywhere in the tree. Consistent with the transcript, which records the approach as parked with no surviving artifact."
+    },
+    {
+      "claim": "COOKIE_OPTS sameSite: \"lax\" is inferred as string and may not satisfy stricter cookie-option types without 'as const' (unconfirmed, no call site yet)",
+      "type": "quality",
+      "verified": true,
+      "evidence": "COOKIE_OPTS is a plain exported object literal with no 'as const' and no type annotation, so sameSite widens to string. The handoff correctly labels this 'Unconfirmed' and notes no typecheck was run, rather than asserting a bug."
+    },
+    {
+      "claim": "This handoff supersedes the need to read SESSION-TRANSCRIPT.md",
+      "type": "quality",
+      "verified": true,
+      "evidence": "Every load-bearing item in the transcript is present: cookie-vs-localStorage decision and rationale, TTL placeholder and Sam's ownership, form acceptance, tests deliberately skipped, the 10 req/s blocker plus the failed batching attempt, AUTH-214, the legacy freeze, local-dev-only migration and unknown staging, the SPEC-v1 -> SPEC move, and the uncommitted tree. No transcript fact was dropped or contradicted. Caveat: at ~29k chars over 11 sections it is long for a 'pick this up tomorrow morning' read, though the executable next action is isolated in section 9."
+    },
+    {
+      "claim": "Priya quotes attributed in the handoff ('I'm happy with the form', 'Lock that in', 'I'm not putting a bearer token where they can reach it', 'hold off — I'd rather get refresh tokens in first while we've got the context')",
+      "type": "factual",
+      "verified": true,
+      "evidence": "All four appear verbatim (modulo dash style) in SESSION-TRANSCRIPT.md lines 17-18, 37, 41. No fabricated quotes found."
+    },
+    {
+      "claim": "CSRF handling is required by the cookie decision and was not built",
+      "type": "factual",
+      "verified": true,
+      "evidence": "Transcript line 15: httpOnly cookie 'needs the API to set the header and needs CSRF handling'. No CSRF code exists in the repo. Correctly carried forward as an open risk with 'Owner: Unassigned' rather than silently assigned."
+    }
+  ],
+  "user_notes_summary": {
+    "uncertainties": [
+      "No user_notes.md was produced by the run; outputs/ contains only the handoff file.",
+      "The handoff itself self-reports its uncertainties: staging DB state unknown, SPEC.md/SPEC-v1.md not present in repo, AUTH-214 URL not captured, vitest toolchain unverified, no typecheck/build run, cookie round trip never exercised."
+    ],
+    "needs_review": [
+      "AUTH-214 tracker URL is missing and flagged as an item for Priya to supply."
+    ],
+    "workarounds": []
+  },
+  "eval_feedback": {
+    "suggestions": [
+      {
+        "assertion": "Creates exactly one dated Daily Handoff file under docs/handoffs/ matching YYYY-MM-DD_NNN_<scope>-handoff.md",
+        "reason": "This passes on filename shape alone — an empty or one-paragraph file with the right name would also pass. The content assertions carry the real weight here, but consider adding a minimum-substance check (e.g. the file must contain the numbered sections the skill prescribes) so filename compliance can't stand in for a real handoff."
+      },
+      {
+        "assertion": "Uncommitted working-tree state recorded (nothing was committed this session)",
+        "reason": "A vague sentence like 'nothing was committed today' satisfies this, which is weak because the transcript already hands that fact over verbatim. The discriminating version requires repo-derived specifics — branch name, HEAD sha, and the actual untracked paths from git status — which is what this run produced (feat/auth-rebuild @ 7991fb7, ?? src/auth/, ?? migrations/) and which a skill that merely paraphrases the transcript could not produce."
+      },
+      {
+        "reason": "No assertion rewards grounding the handoff in the repo rather than only in the transcript, yet that was the most valuable thing this run did: it caught that vitest is referenced by package.json's test script but never declared as a dependency, that SESSION_SECRET falls back to a hardcoded 'dev-only-secret', that docs/ARCHITECTURE.md line 4 still says the session-storage decision is open, and that neither docs/SPEC.md nor docs/SPEC-v1.md actually exists in the repo. Consider an assertion like 'handoff cites at least one file/line-level fact verifiable in the repo but absent from the transcript'."
+      },
+      {
+        "reason": "CSRF handling is stated in the transcript as the explicit, accepted cost of choosing the cookie (line 15) and nothing was built for it. That is a real unblocked carry-forward with no assertion covering it. A skill could pass all 14 current assertions while dropping it entirely."
+      },
+      {
+        "reason": "Nothing tests the anti-fabrication edge that this fixture is built to probe from the other direction — e.g. an assertion that the handoff does NOT claim tests passed, a build/typecheck ran, or the staging migration was applied. Assertions 3 and 10 approach this but are phrased as presence-of-open-item rather than absence-of-false-claim, so a handoff that both lists the tests as open and elsewhere says 'verified working' would still pass."
+      },
+      {
+        "reason": "The prompt's stated goal is 'pick this straight back up tomorrow morning without rereading any of it', but no assertion covers usability. The output is ~29k chars across 11 sections — complete and accurate, yet arguably longer than the raw 78-line transcript it replaces. If concision or a scannable top-of-file summary matters to this skill, it needs its own assertion; if it deliberately does not, that's worth noting so length is never read as a defect."
+      }
+    ],
+    "overall": "Strong, well-targeted assertion set — each of the 14 maps to a specific fidelity trap in the fixture (validated vs unvalidated, parked vs done, local vs staging, rejected option named, blocker owner). All 14 pass on genuine substance, and independent repo inspection confirmed every factual claim I could check with zero fabrications. The main gaps are structural rather than substantive: assertions 1 and 14 are satisfiable too cheaply, and three real outcomes (CSRF debt, repo-grounded discoveries, absence-of-false-claims) go unchecked."
+  }
+}

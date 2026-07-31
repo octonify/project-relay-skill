@@ -1,0 +1,8 @@
+Wrote both handoffs:
+
+- **Daily:** `docs/handoffs/2026-07-30_001_webhook-verify-handoff.md`
+- **Master:** `docs/handoffs/_master-handoff.md` (new, v1.0)
+
+**Important correction caught while verifying:** commit `0e8f943` ("feat(webhook): implement HMAC signature verification") and `SESSION-NOTES.md` ("Wrote the HMAC verification and committed it") both overstate progress. The actual diff only adds two comment lines — `src/lib/webhook.ts` is still a stub with its original `TODO: signature verification` intact, no HMAC/crypto code exists anywhere in `src/`, and no webhook route or `express.raw()` middleware is wired into `src/server.ts`. Both handoffs record the verified code state and flag this discrepancy (Master §13) instead of repeating the commit message.
+
+**Immediate next action:** get the provider's signing secret from the partner's integrations team (Dana is chasing it) — nothing else can be validated until it arrives.

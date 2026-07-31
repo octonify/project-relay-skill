@@ -1,0 +1,5 @@
+Wrote the Daily Handoff to `docs/handoffs/2026-07-30_001_idempotency-keys-handoff.md`. No Master exists yet, and per scope (empty argument) it wasn't touched.
+
+Key things worth flagging: while verifying the session notes against the repo, I found two claims that don't hold up — the "test suite, all green" note has no corresponding test script or test files anywhere, and the store's `remember()` function is never called, so the replay path can't actually work yet even for a first charge. Both are documented as open items in the handoff rather than carried forward as fact.
+
+**Immediate next action:** get Marta's decision on webhook re-emission on replay (blocks finishing the `Entry` shape); separately and unblocked, add the missing `remember()` call in `src/routes/charge.ts`.

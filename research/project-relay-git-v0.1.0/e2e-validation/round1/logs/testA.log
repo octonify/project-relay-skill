@@ -1,0 +1,15 @@
+Daily Handoff written to:
+
+**`docs/handoffs/2026-07-30_001_idempotency-keys-handoff.md`**
+
+Key points captured, all traced to observed evidence:
+- What's done: in-memory key store (`f0f39fb`) and per-merchant scoping decision (`6e45468`), both committed
+- What's in flight: `keyscope.ts` (staged) and `charge.ts` (unstaged) wire the *read* side (`recall`) into the charge route
+- A gap I verified in code but wasn't in the session notes: `remember()` is defined but never called anywhere — so no replay actually works yet. This lines up with (not contradicts) the documented blocker: the `Entry` shape can't be finalized until Marta answers whether replays should re-emit the webhook
+- Flagged a contradiction: `SESSION-NOTES.md` claims "ran the test suite, all green," but there's no `test` script in `package.json` and no test files anywhere in the tree — recorded as unverified, not repeated as fact
+- PR #14 status: unverified (`gh` couldn't reach the repo, and there's no remote configured locally)
+- Rejected approach recorded so it isn't retried: middleware-based replay check, abandoned due to body-parser ordering
+
+Next action per the handoff: get Marta's answer on webhook re-emission — that's what unblocks wiring `remember()` into the charge route.
+
+No Master handoff was touched (argument was empty → Daily only).
